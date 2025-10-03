@@ -358,31 +358,31 @@ let platforms: [SupportedPlatform] = [
 ]
 
 let package = Package(
-    name: "RealmDatabase",
+    name: "RealmDatabaseFork",
     platforms: platforms,
     products: [
         .library(
-            name: "RealmCore",
-            targets: ["RealmCore"]),
+            name: "RealmCoreFork",
+            targets: ["RealmCoreFork"]),
         .library(
-            name: "RealmQueryParser",
-            targets: ["RealmQueryParser"]),
+            name: "RealmQueryParserFork",
+            targets: ["RealmQueryParserFork"]),
         .library(
-            name: "RealmCapi",
-            targets: ["Capi"]),
+            name: "RealmCapiFork",
+            targets: ["CapiFork"]),
         .library(
-            name: "RealmFFI",
-            targets: ["RealmFFI"]),
+            name: "RealmFFIFork",
+            targets: ["RealmFFIFork"]),
     ],
     targets: [
         .target(
-            name: "Bid",
+            name: "BidFork",
             path: "src/external/IntelRDFPMathLib20U2/LIBRARY/src",
             exclude: bidExcludes,
             publicHeadersPath: "."
         ),
         .target(
-            name: "s2geometry",
+            name: "s2geometryFork",
             path: "src/external/s2",
             exclude: [
                 "s2cellunion.cc",
@@ -396,8 +396,8 @@ let package = Package(
                 .headerSearchPath("../.."),
             ] + cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmCore",
-            dependencies: ["Bid", "s2geometry"],
+            name: "RealmCoreFork",
+            dependencies: ["BidFork", "s2geometryFork"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
@@ -430,8 +430,8 @@ let package = Package(
                 .linkedFramework("Security", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .macCatalyst])),
             ]),
         .target(
-            name: "RealmQueryParser",
-            dependencies: ["RealmCore"],
+            name: "RealmQueryParserFork",
+            dependencies: ["RealmCoreFork"],
             path: "src/realm/parser",
             exclude: [
                 "CMakeLists.txt",
@@ -443,8 +443,8 @@ let package = Package(
                 .headerSearchPath("realm/parser/generated")
             ] + cxxSettings),
         .target(
-            name: "SyncServer",
-            dependencies: ["RealmCore"],
+            name: "SyncServerFork",
+            dependencies: ["RealmCoreFork"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
@@ -465,8 +465,8 @@ let package = Package(
             publicHeadersPath: "realm/sync/impl", // hack
             cxxSettings: cxxSettings),
         .target(
-            name: "Capi",
-            dependencies: ["RealmCore", "RealmQueryParser"],
+            name: "CapiFork",
+            dependencies: ["RealmCoreFork", "RealmQueryParserFork"],
             path: "src/realm/object-store/c_api",
             exclude: [
                 "CMakeLists.txt",
@@ -475,19 +475,19 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmFFI",
-            dependencies: ["Capi"],
+            name: "RealmFFIFork",
+            dependencies: ["CapiFork"],
             path: "src/swift"),
         .target(
-            name: "Catch2Generated",
+            name: "Catch2GeneratedFork",
             path: "external/generated",
             // this file was manually generated with catch v3.0.1
             // and should be regenerated when catch is upgraded
             resources: [.copy("catch2/catch_user_config.hpp")],
             publicHeadersPath: "."),
         .target(
-            name: "Catch2",
-            dependencies: ["Catch2Generated"],
+            name: "Catch2Fork",
+            dependencies: ["Catch2GeneratedFork"],
             path: "external/catch/src",
             exclude: [
                 "CMakeLists.txt",
@@ -500,8 +500,8 @@ let package = Package(
                 .define("CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS")
             ] + cxxSettings) as [CXXSetting]),
         .target(
-            name: "CoreTestUtils",
-            dependencies: ["RealmCore"],
+            name: "CoreTestUtilsFork",
+            dependencies: ["RealmCoreFork"],
             path: "test/util",
             exclude: [
                 "CMakeLists.txt"
@@ -509,8 +509,8 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
-            name: "ObjectStoreTestUtils",
-            dependencies: ["RealmCore", "SyncServer", "Catch2", "CoreTestUtils"],
+            name: "ObjectStoreTestUtilsFork",
+            dependencies: ["RealmCoreFork", "SyncServerFork", "Catch2Fork", "CoreTestUtilsFork"],
             path: "test/object-store/util",
             publicHeadersPath: ".",
             cxxSettings: ([
@@ -518,8 +518,8 @@ let package = Package(
                 .define("_LIBCPP_DISABLE_AVAILABILITY")
             ] + cxxSettings) as [CXXSetting]),
         .executableTarget(
-            name: "ObjectStoreTests",
-            dependencies: ["RealmQueryParser", "ObjectStoreTestUtils"],
+            name: "ObjectStoreTestsFork",
+            dependencies: ["RealmQueryParserFork", "ObjectStoreTestUtilsFork"],
             path: "test/object-store",
             exclude: [
                 "CMakeLists.txt",
@@ -540,8 +540,8 @@ let package = Package(
                 .define("_LIBCPP_DISABLE_AVAILABILITY")
             ] + cxxSettings) as [CXXSetting]),
         .executableTarget(
-            name: "CapiTests",
-            dependencies: ["Capi", "ObjectStoreTestUtils"],
+            name: "CapiTestsFork",
+            dependencies: ["CapiFork", "ObjectStoreTestUtilsFork"],
             path: "test/object-store/c_api",
             cxxSettings: ([
                 .headerSearchPath("../"),
