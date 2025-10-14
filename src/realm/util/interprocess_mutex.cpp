@@ -18,7 +18,7 @@
 
 #include <realm/util/interprocess_mutex.hpp>
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 #if REALM_ROBUST_MUTEX_EMULATION
 

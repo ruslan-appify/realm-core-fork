@@ -21,8 +21,8 @@
 #include <realm/object-store/shared_realm.hpp>
 #include <realm/object-store/util/scheduler.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 
 WeakRealmNotifier::WeakRealmNotifier(const std::shared_ptr<Realm>& realm, bool cache)

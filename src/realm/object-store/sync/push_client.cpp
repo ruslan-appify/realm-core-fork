@@ -23,7 +23,7 @@
 #include <realm/object-store/sync/generic_network_transport.hpp>
 #include <realm/util/bson/bson.hpp>
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 PushClient::~PushClient() = default;
 
@@ -59,4 +59,4 @@ void PushClient::deregister_device(const std::shared_ptr<SyncUser>& sync_user,
         wrap_completion(std::move(completion)));
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app

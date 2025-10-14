@@ -33,9 +33,9 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety
@@ -755,7 +755,7 @@ TEST(Xjson_Mixed)
     CHECK(json_test(ss.str(), "expected_json_mixed1", generate_all));
 
     ss.str("");
-    foos->to_json(ss, realm::npos, no_renames);
+    foos->to_json(ss, realm_legacy::npos, no_renames);
     CHECK(json_test(ss.str(), "expected_json_mixed2", generate_all));
 
     ss.str("");

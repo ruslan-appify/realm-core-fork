@@ -27,7 +27,7 @@
 #include <mutex>
 #include <string>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 class MigrationStore;
 using MigrationStoreRef = std::shared_ptr<MigrationStore>;
@@ -52,9 +52,9 @@ public:
 
     // Converts the configuration from PBS to FLX if a migration or rollback is in progress or completed, otherwise
     // returns the passed in config object.
-    std::shared_ptr<realm::SyncConfig> convert_sync_config(std::shared_ptr<realm::SyncConfig> config);
+    std::shared_ptr<realm_legacy::SyncConfig> convert_sync_config(std::shared_ptr<realm_legacy::SyncConfig> config);
     // Convert a configuration from PBS to FLX. No-op if already an FLX configuration.
-    static std::shared_ptr<realm::SyncConfig> convert_sync_config_to_flx(std::shared_ptr<realm::SyncConfig> config);
+    static std::shared_ptr<realm_legacy::SyncConfig> convert_sync_config_to_flx(std::shared_ptr<realm_legacy::SyncConfig> config);
 
     // Called when the server responds with migrate to FLX and stores the FLX subscription RQL query string.
     void migrate_to_flx(std::string_view rql_query_string, std::string_view partition_value);
@@ -127,4 +127,4 @@ private:
     std::optional<int64_t> m_sentinel_subscription_set_version;
 };
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "util/test_path.hpp"
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 TEST(Sync_PendingBootstrapStoreBatching)
 {
@@ -148,4 +148,4 @@ TEST(Sync_PendingBootstrapStoreClear)
     CHECK_NOT(pending_batch.progress);
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

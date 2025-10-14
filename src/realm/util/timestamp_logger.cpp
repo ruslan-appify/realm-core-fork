@@ -3,7 +3,7 @@
 
 #include <realm/util/timestamp_logger.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::TimestampStderrLogger;
 
 

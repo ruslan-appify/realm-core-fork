@@ -40,7 +40,7 @@
 #define TEST_TIMEOUT_EXTRA 0
 #endif
 
-namespace realm {
+namespace realm_legacy {
 struct AppSession;
 class Schema;
 enum class SyncSessionStopPolicy;
@@ -70,7 +70,7 @@ private:
 };
 
 
-struct TestFile : realm::Realm::Config {
+struct TestFile : realm_legacy::Realm::Config {
     TestFile();
     ~TestFile();
 
@@ -83,20 +83,20 @@ struct TestFile : realm::Realm::Config {
         m_persist = true;
     }
 
-    realm::DBOptions options() const;
+    realm_legacy::DBOptions options() const;
 
 private:
     bool m_persist = false;
     std::string m_temp_dir;
 };
 
-struct InMemoryTestFile : realm::Realm::Config {
+struct InMemoryTestFile : realm_legacy::Realm::Config {
     InMemoryTestFile();
-    realm::DBOptions options() const;
+    realm_legacy::DBOptions options() const;
 };
 
-void advance_and_notify(realm::Realm& realm);
-void on_change_but_no_notify(realm::Realm& realm);
+void advance_and_notify(realm_legacy::Realm& realm);
+void on_change_but_no_notify(realm_legacy::Realm& realm);
 
 #ifndef TEST_ENABLE_LOGGING
 #define TEST_ENABLE_LOGGING 0 // change to 1 to enable trace-level logging
@@ -112,10 +112,10 @@ void on_change_but_no_notify(realm::Realm& realm);
 
 #if REALM_ENABLE_SYNC
 
-using StartImmediately = realm::util::TaggedBool<class StartImmediatelyTag>;
-using EnableSSL = realm::util::TaggedBool<class EnableSSLTag>;
+using StartImmediately = realm_legacy::util::TaggedBool<class StartImmediatelyTag>;
+using EnableSSL = realm_legacy::util::TaggedBool<class EnableSSLTag>;
 
-class SyncServer : private realm::sync::Clock {
+class SyncServer : private realm_legacy::sync::Clock {
 public:
     struct Config {
         StartImmediately start_immediately = true;
@@ -128,7 +128,7 @@ public:
     void start();
     void stop();
 
-    std::string url_for_realm(realm::StringData realm_name) const;
+    std::string url_for_realm(realm_legacy::StringData realm_name) const;
     std::string base_url() const
     {
         return m_url;
@@ -148,8 +148,8 @@ private:
     friend class TestSyncManager;
     SyncServer(const Config& config);
     std::string m_local_root_dir;
-    std::shared_ptr<realm::util::Logger> m_logger;
-    realm::sync::Server m_server;
+    std::shared_ptr<realm_legacy::util::Logger> m_logger;
+    realm_legacy::sync::Server m_server;
     std::thread m_thread;
     std::string m_url;
     std::atomic<time_point::rep> m_now{0};
@@ -163,24 +163,24 @@ private:
 class OfflineAppSession;
 struct SyncTestFile : TestFile {
     template <typename ErrorHandler>
-    SyncTestFile(const realm::SyncConfig& sync_config, realm::SyncSessionStopPolicy stop_policy,
+    SyncTestFile(const realm_legacy::SyncConfig& sync_config, realm_legacy::SyncSessionStopPolicy stop_policy,
                  ErrorHandler&& error_handler)
     {
-        this->sync_config = std::make_shared<realm::SyncConfig>(sync_config);
+        this->sync_config = std::make_shared<realm_legacy::SyncConfig>(sync_config);
         this->sync_config->stop_policy = stop_policy;
         this->sync_config->error_handler = std::forward<ErrorHandler>(error_handler);
-        schema_mode = realm::SchemaMode::AdditiveExplicit;
+        schema_mode = realm_legacy::SchemaMode::AdditiveExplicit;
     }
 
     SyncTestFile(TestSyncManager&, std::string name = "", std::string user_name = "test");
     SyncTestFile(OfflineAppSession&, std::string name = "");
-    SyncTestFile(std::shared_ptr<realm::SyncUser> user, realm::bson::Bson partition,
-                 realm::util::Optional<realm::Schema> schema = realm::util::none);
-    SyncTestFile(std::shared_ptr<realm::SyncUser> user, realm::bson::Bson partition,
-                 realm::util::Optional<realm::Schema> schema,
-                 std::function<realm::SyncSessionErrorHandler>&& error_handler);
-    SyncTestFile(std::shared_ptr<realm::app::App> app, realm::bson::Bson partition, realm::Schema schema);
-    SyncTestFile(std::shared_ptr<realm::SyncUser> user, realm::Schema schema, realm::SyncConfig::FLXSyncEnabled);
+    SyncTestFile(std::shared_ptr<realm_legacy::SyncUser> user, realm_legacy::bson::Bson partition,
+                 realm_legacy::util::Optional<realm_legacy::Schema> schema = realm_legacy::util::none);
+    SyncTestFile(std::shared_ptr<realm_legacy::SyncUser> user, realm_legacy::bson::Bson partition,
+                 realm_legacy::util::Optional<realm_legacy::Schema> schema,
+                 std::function<realm_legacy::SyncSessionErrorHandler>&& error_handler);
+    SyncTestFile(std::shared_ptr<realm_legacy::app::App> app, realm_legacy::bson::Bson partition, realm_legacy::Schema schema);
+    SyncTestFile(std::shared_ptr<realm_legacy::SyncUser> user, realm_legacy::Schema schema, realm_legacy::SyncConfig::FLXSyncEnabled);
 };
 
 class TestSyncManager {
@@ -188,9 +188,9 @@ public:
     struct Config {
         Config() {}
         std::string base_path;
-        realm::SyncManager::MetadataMode metadata_mode = realm::SyncManager::MetadataMode::NoMetadata;
+        realm_legacy::SyncManager::MetadataMode metadata_mode = realm_legacy::SyncManager::MetadataMode::NoMetadata;
         bool should_teardown_test_directory = true;
-        realm::util::Logger::Level log_level = realm::util::Logger::Level::TEST_LOGGING_LEVEL;
+        realm_legacy::util::Logger::Level log_level = realm_legacy::util::Logger::Level::TEST_LOGGING_LEVEL;
         bool start_sync_client = true;
     };
 
@@ -205,15 +205,15 @@ public:
     {
         return m_sync_server;
     }
-    const std::shared_ptr<realm::SyncManager>& sync_manager()
+    const std::shared_ptr<realm_legacy::SyncManager>& sync_manager()
     {
         return m_sync_manager;
     }
 
-    std::shared_ptr<realm::SyncUser> fake_user(const std::string& name = "test");
+    std::shared_ptr<realm_legacy::SyncUser> fake_user(const std::string& name = "test");
 
 private:
-    std::shared_ptr<realm::SyncManager> m_sync_manager;
+    std::shared_ptr<realm_legacy::SyncManager> m_sync_manager;
     SyncServer m_sync_server;
     std::string m_base_file_path;
     bool m_should_teardown_test_directory = true;
@@ -222,24 +222,24 @@ private:
 class OfflineAppSession {
 public:
     struct Config {
-        Config(std::shared_ptr<realm::app::GenericNetworkTransport> = std::make_shared<UnitTestTransport>());
-        std::shared_ptr<realm::app::GenericNetworkTransport> transport;
+        Config(std::shared_ptr<realm_legacy::app::GenericNetworkTransport> = std::make_shared<UnitTestTransport>());
+        std::shared_ptr<realm_legacy::app::GenericNetworkTransport> transport;
         bool delete_storage = true;
         std::optional<std::string> storage_path;
-        realm::SyncManager::MetadataMode metadata_mode = realm::SyncManager::MetadataMode::NoMetadata;
+        realm_legacy::SyncManager::MetadataMode metadata_mode = realm_legacy::SyncManager::MetadataMode::NoMetadata;
         std::optional<std::string> base_url;
-        std::shared_ptr<realm::sync::SyncSocketProvider> socket_provider;
+        std::shared_ptr<realm_legacy::sync::SyncSocketProvider> socket_provider;
         std::optional<std::string> app_id;
     };
     OfflineAppSession(Config = {});
     ~OfflineAppSession();
 
-    std::shared_ptr<realm::app::App> app() const noexcept
+    std::shared_ptr<realm_legacy::app::App> app() const noexcept
     {
         return m_app;
     }
-    std::shared_ptr<realm::SyncUser> make_user() const;
-    realm::app::GenericNetworkTransport* transport()
+    std::shared_ptr<realm_legacy::SyncUser> make_user() const;
+    realm_legacy::app::GenericNetworkTransport* transport()
     {
         return m_transport.get();
     }
@@ -247,62 +247,62 @@ public:
     {
         return m_base_file_path;
     }
-    const std::shared_ptr<realm::SyncManager>& sync_manager()
+    const std::shared_ptr<realm_legacy::SyncManager>& sync_manager()
     {
         return m_app->sync_manager();
     }
 
 private:
-    std::shared_ptr<realm::app::App> m_app;
+    std::shared_ptr<realm_legacy::app::App> m_app;
     std::string m_base_file_path;
-    std::shared_ptr<realm::app::GenericNetworkTransport> m_transport;
+    std::shared_ptr<realm_legacy::app::GenericNetworkTransport> m_transport;
     bool m_delete_storage = true;
 };
 
 #if REALM_ENABLE_AUTH_TESTS
-using DeleteApp = realm::util::TaggedBool<struct DeleteAppTag>;
+using DeleteApp = realm_legacy::util::TaggedBool<struct DeleteAppTag>;
 class TestAppSession {
 public:
     TestAppSession();
-    TestAppSession(realm::AppSession, std::shared_ptr<realm::app::GenericNetworkTransport> = nullptr,
-                   DeleteApp = true, realm::ReconnectMode reconnect_mode = realm::ReconnectMode::normal,
-                   std::shared_ptr<realm::sync::SyncSocketProvider> custom_socket_provider = nullptr);
+    TestAppSession(realm_legacy::AppSession, std::shared_ptr<realm_legacy::app::GenericNetworkTransport> = nullptr,
+                   DeleteApp = true, realm_legacy::ReconnectMode reconnect_mode = realm_legacy::ReconnectMode::normal,
+                   std::shared_ptr<realm_legacy::sync::SyncSocketProvider> custom_socket_provider = nullptr);
     ~TestAppSession();
 
-    std::shared_ptr<realm::app::App> app() const noexcept
+    std::shared_ptr<realm_legacy::app::App> app() const noexcept
     {
         return m_app;
     }
-    const realm::AppSession& app_session() const noexcept
+    const realm_legacy::AppSession& app_session() const noexcept
     {
         return *m_app_session;
     }
-    realm::app::GenericNetworkTransport* transport()
+    realm_legacy::app::GenericNetworkTransport* transport()
     {
         return m_transport.get();
     }
-    const std::shared_ptr<realm::SyncManager>& sync_manager() const
+    const std::shared_ptr<realm_legacy::SyncManager>& sync_manager() const
     {
         return m_app->sync_manager();
     }
 
-    std::vector<realm::bson::BsonDocument> get_documents(realm::SyncUser& user, const std::string& object_type,
+    std::vector<realm_legacy::bson::BsonDocument> get_documents(realm_legacy::SyncUser& user, const std::string& object_type,
                                                          size_t expected_count) const;
 
 private:
-    std::shared_ptr<realm::app::App> m_app;
-    std::unique_ptr<realm::AppSession> m_app_session;
+    std::shared_ptr<realm_legacy::app::App> m_app;
+    std::unique_ptr<realm_legacy::AppSession> m_app_session;
     std::string m_base_file_path;
     bool m_delete_app = true;
-    std::shared_ptr<realm::app::GenericNetworkTransport> m_transport;
+    std::shared_ptr<realm_legacy::app::GenericNetworkTransport> m_transport;
 };
 #endif
 
-bool wait_for_upload(realm::Realm& realm, std::chrono::seconds timeout = std::chrono::seconds(60));
-bool wait_for_download(realm::Realm& realm, std::chrono::seconds timeout = std::chrono::seconds(60));
+bool wait_for_upload(realm_legacy::Realm& realm, std::chrono::seconds timeout = std::chrono::seconds(60));
+bool wait_for_download(realm_legacy::Realm& realm, std::chrono::seconds timeout = std::chrono::seconds(60));
 
-void set_app_config_defaults(realm::app::App::Config& app_config,
-                             const std::shared_ptr<realm::app::GenericNetworkTransport>& transport);
+void set_app_config_defaults(realm_legacy::app::App::Config& app_config,
+                             const std::shared_ptr<realm_legacy::app::GenericNetworkTransport>& transport);
 
 #endif // REALM_ENABLE_SYNC
 

@@ -36,9 +36,9 @@
 #include "test.hpp"
 #include "test_table_helper.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using realm::test_util::crypt_key;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using realm_legacy::test_util::crypt_key;
 using test_util::unit_test::TestContext;
 
 
@@ -235,11 +235,11 @@ TEST(Transactions_StateChanges)
     list.add(7);
     CHECK(!writer->is_frozen());
     // verify that we cannot freeze a write transaction
-    CHECK_THROW(writer->freeze(), realm::LogicError);
+    CHECK_THROW(writer->freeze(), realm_legacy::LogicError);
     writer->commit_and_continue_as_read();
     // verify that we cannot modify data in a read transaction
-    CHECK_THROW(writer->add_table("gylle"), realm::LogicError);
-    CHECK_THROW(obj.set(col, 100), realm::LogicError);
+    CHECK_THROW(writer->add_table("gylle"), realm_legacy::LogicError);
+    CHECK_THROW(obj.set(col, 100), realm_legacy::LogicError);
     // verify that we can freeze a read transaction
     TransactionRef frozen = writer->freeze();
     CHECK(frozen->is_frozen());
@@ -253,7 +253,7 @@ TEST(Transactions_StateChanges)
     CHECK_EQUAL(list2.get(0), 5);
     CHECK_EQUAL(list2.get(1), 7);
     // verify that we can't change it
-    CHECK_THROW(frozen_obj.set<int64_t>(col, 47), realm::LogicError);
+    CHECK_THROW(frozen_obj.set<int64_t>(col, 47), realm_legacy::LogicError);
     // verify handover of a list
     // FIXME: no change should be needed here
     auto frozen_list = frozen->import_copy_of(list);
@@ -265,13 +265,13 @@ TEST(Transactions_StateChanges)
     // verify that a fresh read transaction is read only
     TransactionRef reader = db->start_read();
     tr = reader->get_table("hygge");
-    CHECK_THROW(tr->create_object(), realm::LogicError);
+    CHECK_THROW(tr->create_object(), realm_legacy::LogicError);
     // ..but if promoted, becomes writable
     reader->promote_to_write();
     tr->create_object();
     // ..and if rolled back, becomes read-only again
     reader->rollback_and_continue_as_read();
-    CHECK_THROW(tr->create_object(), realm::LogicError);
+    CHECK_THROW(tr->create_object(), realm_legacy::LogicError);
 }
 
 namespace {
@@ -295,7 +295,7 @@ void writer_thread(TestContext& test_context, int runs, DBRef db, TableKey tk)
     catch (std::runtime_error& e) {
         std::cout << "gylle: " << e.what() << std::endl;
     }
-    catch (realm::LogicError& e) {
+    catch (realm_legacy::LogicError& e) {
         std::cout << "gylle2: " << e.what() << std::endl;
     }
     catch (...) {
@@ -729,7 +729,7 @@ ExampleGovernor example_governor;
 
 ONLY(LangBindHelper_EncryptionGiga)
 {
-    //realm::util::set_page_reclaim_governor(&example_governor);
+    //realm_legacy::util::set_page_reclaim_governor(&example_governor);
     std::string path1 = "dont_try_this_at_home1.realm";
     std::unique_ptr<Replication> hist_w1(make_in_realm_history());
 

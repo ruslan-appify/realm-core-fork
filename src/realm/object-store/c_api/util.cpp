@@ -1,7 +1,7 @@
 #include <realm/object-store/c_api/util.hpp>
 #include <realm/object-store/c_api/types.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 inline WrapC* cast_ptr(void* ptr)
 {
@@ -64,4 +64,4 @@ RLM_API realm_thread_safe_reference_t* realm_create_thread_safe_reference(const 
     });
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

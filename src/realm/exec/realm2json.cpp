@@ -43,13 +43,13 @@ int main(int argc, char const* argv[])
     std::map<std::string, std::string> renames;
     size_t link_depth = 0;
     bool output_schema = false;
-    realm::JSONOutputMode output_mode = realm::output_mode_json;
+    realm_legacy::JSONOutputMode output_mode = realm_legacy::output_mode_json;
 
     abort_if(argc <= 1, legend);
     std::string table_filter, query_filter;
     // Parse from 1'st argument until before source args
     for (int idx = 1; idx < argc - 1; ++idx) {
-        realm::StringData arg(argv[idx]);
+        realm_legacy::StringData arg(argv[idx]);
         if (arg == "--schema") {
             output_schema = true;
         }
@@ -62,15 +62,15 @@ int main(int argc, char const* argv[])
 
             switch (output_mode_val) {
                 case 0: {
-                    output_mode = realm::output_mode_json;
+                    output_mode = realm_legacy::output_mode_json;
                     break;
                 }
                 case 1: {
-                    output_mode = realm::output_mode_xjson;
+                    output_mode = realm_legacy::output_mode_xjson;
                     break;
                 }
                 case 2: {
-                    output_mode = realm::output_mode_xjson_plus;
+                    output_mode = realm_legacy::output_mode_xjson_plus;
                     break;
                 }
             }
@@ -90,16 +90,16 @@ int main(int argc, char const* argv[])
 
     std::string path = argv[argc - 1];
 
-    auto print = [&](realm::TransactionRef tr) {
+    auto print = [&](realm_legacy::TransactionRef tr) {
         if (output_schema) {
             tr->schema_to_json(std::cout, &renames);
         }
         else if (table_filter.size()) {
-            realm::TableRef target = tr->get_table(table_filter);
+            realm_legacy::TableRef target = tr->get_table(table_filter);
             abort_if(!target, "table not found: '%s'", table_filter.c_str());
-            realm::Query q = target->query(query_filter);
-            realm::TableView results = q.find_all();
-            std::cout << realm::util::format("filter '%1' found %2 results", query_filter, results.size())
+            realm_legacy::Query q = target->query(query_filter);
+            realm_legacy::TableView results = q.find_all();
+            std::cout << realm_legacy::util::format("filter '%1' found %2 results", query_filter, results.size())
                       << std::endl;
             results.to_json(std::cout, link_depth, renames, output_mode);
         }
@@ -108,27 +108,27 @@ int main(int argc, char const* argv[])
         }
     };
 
-    auto hist = realm::make_in_realm_history();
-    realm::DBOptions options;
+    auto hist = realm_legacy::make_in_realm_history();
+    realm_legacy::DBOptions options;
     // First we try to open in read_only mode.
     options.allow_file_format_upgrade = false;
     options.is_immutable = true;
 
     for (;;) {
         try {
-            auto db = realm::DB::create(*hist, path, options);
+            auto db = realm_legacy::DB::create(*hist, path, options);
             if (options.allow_file_format_upgrade) {
                 std::cerr << "File upgraded to latest version: " << path << std::endl;
             }
             print(db->start_read());
             return 0;
         }
-        catch (const realm::FileFormatUpgradeRequired&) {
+        catch (const realm_legacy::FileFormatUpgradeRequired&) {
             options.allow_file_format_upgrade = true;
             options.is_immutable = false;
         }
-        catch (const realm::IncompatibleHistories&) {
-            hist = realm::sync::make_client_replication();
+        catch (const realm_legacy::IncompatibleHistories&) {
+            hist = realm_legacy::sync::make_client_replication();
             options.allow_file_format_upgrade = false;
             options.is_immutable = true;
         }

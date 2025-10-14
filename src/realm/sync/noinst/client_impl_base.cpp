@@ -28,11 +28,11 @@
 
 // NOTE: The protocol specification is in `/doc/protocol.md`
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace _impl;
-using namespace realm::util;
-using namespace realm::sync;
-using namespace realm::sync::websocket;
+using namespace realm_legacy::util;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::sync::websocket;
 
 // clang-format off
 using Connection      = ClientImpl::Connection;

@@ -23,7 +23,7 @@
 #include <realm/util/flat_map.hpp>
 #include <stdexcept>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace {
 
 constexpr static std::string_view c_flx_metadata_table("flx_metadata");
@@ -269,4 +269,4 @@ void SyncMetadataSchemaVersions::set_version_for(const TransactionRef& tr, std::
     metadata_obj.set(m_version_field, version);
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

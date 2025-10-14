@@ -36,7 +36,7 @@
 #include <iostream>
 #include <random>
 
-using namespace realm;
+using namespace realm_legacy;
 
 class CaptureHelper {
 public:
@@ -1583,7 +1583,7 @@ TEST_CASE("Transaction log parsing: changeset calcuation") {
     }
 }
 
-namespace cf = realm::collection_fixtures;
+namespace cf = realm_legacy::collection_fixtures;
 TEMPLATE_TEST_CASE("DeepChangeChecker collections", "[notifications]", cf::ListOfObjects, cf::ListOfMixedLinks,
                    cf::SetOfObjects, cf::SetOfMixedLinks, cf::DictionaryOfObjects, cf::DictionaryOfMixedLinks)
 {

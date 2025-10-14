@@ -24,9 +24,9 @@
 
 #include <fstream>
 
-using namespace realm;
-using namespace realm::test_util;
-using namespace realm::test_util::unit_test;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
+using namespace realm_legacy::test_util::unit_test;
 
 
 struct FileSource {
@@ -43,7 +43,7 @@ struct FileSource {
     {
     }
 
-    // Emulate realm::test_util::Random interface
+    // Emulate realm_legacy::test_util::Random interface
 
     unsigned int get_byte()
     {
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
     g_argc = argc;
     g_argv = argv;
 
-    realm::disable_sync_to_disk();
+    realm_legacy::disable_sync_to_disk();
 
     TestList::Config config;
     config.logger = nullptr;

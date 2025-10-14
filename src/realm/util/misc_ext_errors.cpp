@@ -1,7 +1,7 @@
 #include <realm/util/assert.hpp>
 #include <realm/util/misc_ext_errors.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 util::MiscExtErrorCategory util::misc_ext_error_category;
 

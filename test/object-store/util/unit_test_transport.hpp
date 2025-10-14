@@ -23,7 +23,7 @@
 
 #include <external/json/json.hpp>
 
-class UnitTestTransport : public realm::app::GenericNetworkTransport {
+class UnitTestTransport : public realm_legacy::app::GenericNetworkTransport {
 public:
     UnitTestTransport(const std::string& provider_type, uint64_t request_timeout);
 
@@ -71,31 +71,31 @@ public:
         m_options = std::move(options);
     }
 
-    void send_request_to_server(const realm::app::Request& request,
-                                realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion) override;
+    void send_request_to_server(const realm_legacy::app::Request& request,
+                                realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion) override;
 
 private:
     std::string m_provider_type;
     uint64_t m_request_timeout = 60000;
-    realm::util::Optional<std::string> m_base_url = realm::util::none;
+    realm_legacy::util::Optional<std::string> m_base_url = realm_legacy::util::none;
     bool m_location_called = false;
     nlohmann::json m_user_profile = nlohmann::json::object();
     nlohmann::json m_options;
 
-    void handle_profile(const realm::app::Request& request,
-                        realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_login(const realm::app::Request& request,
-                      realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_location(const realm::app::Request& request,
-                         realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_create_api_key(const realm::app::Request& request,
-                               realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_fetch_api_key(const realm::app::Request& request,
-                              realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_fetch_api_keys(const realm::app::Request& request,
-                               realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
-    void handle_token_refresh(const realm::app::Request& request,
-                              realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion);
+    void handle_profile(const realm_legacy::app::Request& request,
+                        realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_login(const realm_legacy::app::Request& request,
+                      realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_location(const realm_legacy::app::Request& request,
+                         realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_create_api_key(const realm_legacy::app::Request& request,
+                               realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_fetch_api_key(const realm_legacy::app::Request& request,
+                              realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_fetch_api_keys(const realm_legacy::app::Request& request,
+                               realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
+    void handle_token_refresh(const realm_legacy::app::Request& request,
+                              realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion);
 };
 
 #endif // REALM_TEST_UTIL_TRANSPORT_HPP

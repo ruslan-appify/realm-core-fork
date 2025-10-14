@@ -20,7 +20,7 @@
 
 #include <vector>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -117,7 +117,7 @@ bool matchlike(const StringData& text, const StringData& pattern, const StringDa
 
 } // unnamed namespace
 
-bool StringData::matchlike(const realm::StringData& text, const realm::StringData& pattern) noexcept
+bool StringData::matchlike(const realm_legacy::StringData& text, const realm_legacy::StringData& pattern) noexcept
 {
     return ::matchlike<false>(text, pattern);
 }
@@ -166,12 +166,12 @@ inline uint_least64_t load8(const unsigned char* data)
 } // unnamed namespace
 
 
-size_t realm::murmur2_or_cityhash(const unsigned char* data, size_t len) noexcept
+size_t realm_legacy::murmur2_or_cityhash(const unsigned char* data, size_t len) noexcept
 {
     return size_t(Murmur2OrCityHash<>{}(data, len));
 }
 
-uint_least32_t realm::murmur2_32(const unsigned char* data, size_t len) noexcept
+uint_least32_t realm_legacy::murmur2_32(const unsigned char* data, size_t len) noexcept
 {
     // This implementation is copied from libc++.
     // See: https://github.com/llvm-mirror/libcxx/blob/master/include/utility
@@ -359,7 +359,7 @@ struct CityHash64 {
 };
 } // unnamed namespace
 
-uint_least64_t realm::cityhash_64(const unsigned char* data, size_t len) noexcept
+uint_least64_t realm_legacy::cityhash_64(const unsigned char* data, size_t len) noexcept
 {
     return CityHash64{}(data, len);
 }

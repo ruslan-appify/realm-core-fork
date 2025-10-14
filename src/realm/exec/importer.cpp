@@ -27,7 +27,7 @@
 #include <realm/util/assert.hpp>
 #include "importer.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 

@@ -24,7 +24,7 @@
 
 #include <external/json/json.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 struct ProtocolCodecException : public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
@@ -865,6 +865,6 @@ std::string make_authorization_header(const std::string& signed_user_token);
 // the signed_user_token. None is returned in case of syntax error.
 util::Optional<StringData> parse_authorization_header(const std::string& authorization_header);
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl
 
 #endif // REALM_NOINST_PROTOCOL_CODEC_HPP

@@ -36,11 +36,11 @@
 #include <chrono>
 #include <vector>
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace _impl;
 using namespace sync;
 
-namespace realm {
+namespace realm_legacy {
 
 std::ostream& operator<<(std::ostream& os, const ClientResyncMode& mode)
 {
@@ -61,9 +61,9 @@ std::ostream& operator<<(std::ostream& os, const ClientResyncMode& mode)
     return os;
 }
 
-} // namespace realm
+} // namespace realm_legacy
 
-namespace realm::_impl::client_reset {
+namespace realm_legacy::_impl::client_reset {
 
 static inline bool should_skip_table(const Transaction& group, TableKey key)
 {
@@ -633,4 +633,4 @@ bool perform_client_reset_diff(DB& db_local, DB& db_remote, sync::SaltedFileIden
     return recover_local_changes;
 }
 
-} // namespace realm::_impl::client_reset
+} // namespace realm_legacy::_impl::client_reset

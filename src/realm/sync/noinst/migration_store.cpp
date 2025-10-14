@@ -3,7 +3,7 @@
 #include <realm/transaction.hpp>
 #include <realm/sync/noinst/sync_metadata_schema.hpp>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace {
 constexpr static int c_schema_version = 1;
 constexpr static std::string_view c_flx_migration_table("flx_migration");
@@ -162,7 +162,7 @@ std::optional<std::string> MigrationStore::get_query_string()
     return m_query_string;
 }
 
-std::shared_ptr<realm::SyncConfig> MigrationStore::convert_sync_config(std::shared_ptr<realm::SyncConfig> config)
+std::shared_ptr<realm_legacy::SyncConfig> MigrationStore::convert_sync_config(std::shared_ptr<realm_legacy::SyncConfig> config)
 {
     REALM_ASSERT(config);
     // If load data failed in the constructor, m_state defaults to NotMigrated
@@ -185,14 +185,14 @@ std::shared_ptr<realm::SyncConfig> MigrationStore::convert_sync_config(std::shar
     return convert_sync_config_to_flx(std::move(config));
 }
 
-std::shared_ptr<realm::SyncConfig>
-MigrationStore::convert_sync_config_to_flx(std::shared_ptr<realm::SyncConfig> config)
+std::shared_ptr<realm_legacy::SyncConfig>
+MigrationStore::convert_sync_config_to_flx(std::shared_ptr<realm_legacy::SyncConfig> config)
 {
     if (config->flx_sync_requested) {
         return config;
     }
 
-    auto flx_config = std::make_shared<realm::SyncConfig>(*config); // deep copy
+    auto flx_config = std::make_shared<realm_legacy::SyncConfig>(*config); // deep copy
     flx_config->partition_value = "";
     flx_config->flx_sync_requested = true;
 
@@ -374,4 +374,4 @@ std::optional<int64_t> MigrationStore::get_sentinel_subscription_set_version()
     return m_sentinel_subscription_set_version;
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

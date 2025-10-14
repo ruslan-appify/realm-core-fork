@@ -3,7 +3,7 @@
 
 #include "load_tester.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace sync;
 
 static void print_usage(std::ostream& os, const char* prog)

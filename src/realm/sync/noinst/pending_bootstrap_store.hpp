@@ -31,7 +31,7 @@
 #include "realm/util/span.hpp"
 #include <stdexcept>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 class PendingBootstrapException : public std::runtime_error {
 public:
@@ -116,4 +116,4 @@ private:
     bool m_has_pending = false;
 };
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

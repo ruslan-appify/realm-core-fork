@@ -19,7 +19,7 @@
 #ifndef TEST_TEST_TABLE_HELPER_HPP_
 #define TEST_TEST_TABLE_HELPER_HPP_
 
-namespace realm {
+namespace realm_legacy {
 
 class ObjKeyVector : public std::vector<ObjKey> {
 public:

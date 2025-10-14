@@ -55,7 +55,7 @@ struct Algorithm {
     Algorithm(LPCWSTR alg_id)
     {
         if (BCryptOpenAlgorithmProvider(&hAlg, alg_id, NULL, 0) < 0) {
-            throw realm::util::runtime_error("BCryptOpenAlgorithmProvider() failed");
+            throw realm_legacy::util::runtime_error("BCryptOpenAlgorithmProvider() failed");
         }
     }
     ~Algorithm()
@@ -89,7 +89,7 @@ struct Hash {
         REALM_ASSERT(alg.obj_length() < 512);
         REALM_ASSERT(alg.hash_length() == hash_size);
         if (BCryptCreateHash(alg.hAlg, &hHash, hash_object_buffer, 515, NULL, 0, 0) < 0) {
-            throw realm::util::runtime_error("BCryptCreateHash() failed");
+            throw realm_legacy::util::runtime_error("BCryptCreateHash() failed");
         }
     }
     ~Hash()
@@ -101,7 +101,7 @@ struct Hash {
     void get_hash(PUCHAR in_buffer, DWORD in_buffer_size, PUCHAR out_buffer)
     {
         if (BCryptHashData(hHash, in_buffer, in_buffer_size, 0) < 0) {
-            throw realm::util::runtime_error("BCryptHashData() failed");
+            throw realm_legacy::util::runtime_error("BCryptHashData() failed");
         }
 
         BCryptFinishHash(hHash, out_buffer, hash_size, 0);
@@ -120,13 +120,13 @@ void message_digest(const EVP_MD* digest_type, const char* in_buffer, size_t in_
     int rc = EVP_DigestInit_ex(ctx, digest_type, nullptr);
     if (rc == 0) {
         EVP_MD_CTX_destroy(ctx);
-        throw realm::util::runtime_error("EVP_DigestInit() failed");
+        throw realm_legacy::util::runtime_error("EVP_DigestInit() failed");
     }
 
     rc = EVP_DigestUpdate(ctx, in_buffer, in_buffer_size);
     if (rc == 0) {
         EVP_MD_CTX_destroy(ctx);
-        throw realm::util::runtime_error("EVP_DigestUpdate() failed");
+        throw realm_legacy::util::runtime_error("EVP_DigestUpdate() failed");
     }
 
     rc = EVP_DigestFinal_ex(ctx, out_buffer, output_size);
@@ -134,12 +134,12 @@ void message_digest(const EVP_MD* digest_type, const char* in_buffer, size_t in_
     EVP_MD_CTX_destroy(ctx);
 
     if (rc == 0)
-        throw realm::util::runtime_error("EVP_DigestFinal_ex() failed");
+        throw realm_legacy::util::runtime_error("EVP_DigestFinal_ex() failed");
 }
 #endif
 
 #ifdef REALM_USE_BUNDLED_SHA2
-using namespace realm::util;
+using namespace realm_legacy::util;
 template <typename ShaState, size_t digest_length>
 void hmac(Span<const uint8_t> in_buffer, Span<uint8_t, digest_length> out_buffer, Span<const uint8_t, 32> key)
 {
@@ -168,7 +168,7 @@ void hmac(Span<const uint8_t> in_buffer, Span<uint8_t, digest_length> out_buffer
 #endif
 } // namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 void sha1(const char* in_buffer, size_t in_buffer_size, unsigned char* out_buffer)
@@ -249,4 +249,4 @@ void hmac_sha256(Span<const uint8_t> in_buffer, Span<uint8_t, 32> out_buffer, Sp
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

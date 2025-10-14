@@ -5,14 +5,14 @@
 #include <realm/sync/changeset_parser.hpp>
 #include <realm/sync/noinst/integer_codec.hpp>
 
-using namespace realm;
-using namespace realm::sync::instr;
-using realm::sync::Changeset;
+using namespace realm_legacy;
+using namespace realm_legacy::sync::instr;
+using realm_legacy::sync::Changeset;
 
 namespace {
 Changeset encode_then_parse(const Changeset& changeset)
 {
-    using realm::util::SimpleInputStream;
+    using realm_legacy::util::SimpleInputStream;
 
     sync::ChangesetEncoder::Buffer buffer;
     encode_changeset(changeset, buffer);
@@ -288,7 +288,7 @@ TEST(ChangesetEncoding_AccentWords)
     encoder.intern_string("Program");
     auto& buffer = encoder.buffer();
 
-    using realm::util::SimpleInputStream;
+    using realm_legacy::util::SimpleInputStream;
     SimpleInputStream stream{buffer};
     Changeset parsed;
     // This will throw if a string is interned twice.

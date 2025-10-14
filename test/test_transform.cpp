@@ -32,9 +32,9 @@ extern unsigned int unit_test_random_seed;
 
 namespace {
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 // Test independence and thread-safety
@@ -2004,11 +2004,11 @@ TEST(Transform_Set)
         auto obj = table->get_object_with_primary_key(0);
         auto set = obj.get_set<Mixed>("set");
         CHECK_EQUAL(set.size(), 4);
-        CHECK_NOT_EQUAL(set.find("Hello"), realm::npos);
-        CHECK_NOT_EQUAL(set.find(123.f), realm::npos);
-        CHECK_NOT_EQUAL(set.find("World"), realm::npos);
-        CHECK_NOT_EQUAL(set.find(456.f), realm::npos);
-        CHECK_EQUAL(set.find(999), realm::npos);
+        CHECK_NOT_EQUAL(set.find("Hello"), realm_legacy::npos);
+        CHECK_NOT_EQUAL(set.find(123.f), realm_legacy::npos);
+        CHECK_NOT_EQUAL(set.find("World"), realm_legacy::npos);
+        CHECK_NOT_EQUAL(set.find(456.f), realm_legacy::npos);
+        CHECK_EQUAL(set.find(999), realm_legacy::npos);
     });
 }
 

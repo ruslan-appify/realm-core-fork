@@ -20,7 +20,7 @@
 
 #include <realm/exceptions.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 static SectionedResults::SectionKeyFunc builtin_comparison(Results& results, Results::SectionedResultsOperator op,
                                                            StringData prop_name)
@@ -553,4 +553,4 @@ void SectionedResults::reset_section_callback(SectionKeyFunc section_callback)
     m_previous_key_to_index.clear();
     m_row_to_index_path.clear();
 }
-} // namespace realm
+} // namespace realm_legacy

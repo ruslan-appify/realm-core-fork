@@ -15,7 +15,7 @@
 #include <VersionHelpers.h>
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 
 #ifndef _WIN32
 

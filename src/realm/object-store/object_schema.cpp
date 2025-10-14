@@ -27,7 +27,7 @@
 #include <realm/group.hpp>
 #include <realm/table.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 static_assert(uint8_t(ObjectSchema::ObjectType::TopLevel) == uint8_t(Table::Type::TopLevel) &&
                   uint8_t(ObjectSchema::ObjectType::Embedded) == uint8_t(Table::Type::Embedded) &&
@@ -436,7 +436,7 @@ void ObjectSchema::validate(Schema const& schema, std::vector<ObjectSchemaValida
     }
 }
 
-namespace realm {
+namespace realm_legacy {
 bool operator==(ObjectSchema const& a, ObjectSchema const& b) noexcept
 {
     return std::tie(a.name, a.table_type, a.primary_key, a.persisted_properties, a.computed_properties) ==
@@ -455,4 +455,4 @@ std::ostream& operator<<(std::ostream& o, ObjectSchema::ObjectType table_type)
     }
     return o << "Invalid table type: " << uint8_t(table_type);
 }
-} // namespace realm
+} // namespace realm_legacy

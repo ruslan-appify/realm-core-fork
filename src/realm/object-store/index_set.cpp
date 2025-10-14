@@ -22,8 +22,8 @@
 
 #include <algorithm>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 const size_t IndexSet::npos;
 
@@ -508,7 +508,7 @@ void IndexSet::shift_for_insert_at(size_t index, size_t count)
     verify();
 }
 
-void IndexSet::shift_for_insert_at(realm::IndexSet const& values)
+void IndexSet::shift_for_insert_at(realm_legacy::IndexSet const& values)
 {
     if (empty() || values.empty())
         return;
@@ -646,7 +646,7 @@ void IndexSet::remove(size_t index, size_t count)
     do_remove(find(index), index, index + count);
 }
 
-void IndexSet::remove(realm::IndexSet const& values)
+void IndexSet::remove(realm_legacy::IndexSet const& values)
 {
     auto it = begin();
     for (auto range : values) {

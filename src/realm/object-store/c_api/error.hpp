@@ -23,7 +23,7 @@
 #include <realm.h>
 #include <realm/util/optional.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 void set_last_exception(std::exception_ptr eptr);
 
@@ -56,4 +56,4 @@ private:
     void* m_user_code_error;
 };
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

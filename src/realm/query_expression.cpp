@@ -20,7 +20,7 @@
 #include <realm/group.hpp>
 #include <realm/dictionary.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 void LinkMap::set_base_table(ConstTableRef table)
 {
@@ -338,7 +338,7 @@ void ColumnDictionaryKey::evaluate(size_t index, ValueBase& destination)
 
             Mixed val;
             size_t ndx = keys.find_first(m_key.get_string());
-            if (ndx != realm::npos) {
+            if (ndx != realm_legacy::npos) {
                 BPlusTree<Mixed> values(alloc);
                 values.set_parent(&top, 1);
                 values.init_from_parent();
@@ -736,4 +736,4 @@ Query Subexpr2<Mixed>::like(const Subexpr2<Mixed>& col, bool case_sensitive)
     return mixed_compare<Like, LikeIns>(*this, col, case_sensitive);
 }
 
-} // namespace realm
+} // namespace realm_legacy

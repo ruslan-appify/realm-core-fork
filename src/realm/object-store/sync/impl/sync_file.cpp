@@ -43,9 +43,9 @@ inline static int mkstemp(char* _template)
 #endif
 
 
-using File = realm::util::File;
+using File = realm_legacy::util::File;
 
-namespace realm {
+namespace realm_legacy {
 
 namespace {
 
@@ -277,7 +277,7 @@ bool SyncFileManager::remove_realm(const std::string& absolute_path) const
     bool success = true;
     try {
         constexpr bool delete_lockfile = true;
-        realm::DB::delete_files(absolute_path, &success, delete_lockfile);
+        realm_legacy::DB::delete_files(absolute_path, &success, delete_lockfile);
     }
     catch (FileAccessError const&) {
         success = false;
@@ -513,4 +513,4 @@ std::string SyncFileManager::get_user_directory_path(const std::string& user_ide
                                             util::FilePathType::Directory);
 }
 
-} // namespace realm
+} // namespace realm_legacy

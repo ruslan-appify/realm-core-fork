@@ -5,7 +5,7 @@
 #include <realm/object-store/c_api/types.hpp>
 #include <realm/util/functional.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 template <class F>
 inline auto wrap_err(F&& f) noexcept -> decltype(f())
@@ -83,7 +83,7 @@ inline void check_value_assignable(const SharedRealm& realm, const Table& table,
 }
 
 /// Check that a mixed value can be inserted in a list.
-inline void check_value_assignable(const realm::object_store::Collection& list, Mixed val)
+inline void check_value_assignable(const realm_legacy::object_store::Collection& list, Mixed val)
 {
     auto realm = list.get_realm();
     auto table_key = list.get_parent_table_key();
@@ -249,6 +249,6 @@ private:
     size_t m_size = 0;
     bool m_released = false;
 };
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api
 
 #endif // REALM_OBJECT_STORE_C_API_UTIL_HPP

@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 /// The Privilege enum is intended to be used in a bitfield.
@@ -115,7 +115,7 @@ inline constexpr uint_least32_t operator~(Privilege p)
 }
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy
 
 
 #endif // REALM_SYNC_PERMISSIONS_HPP

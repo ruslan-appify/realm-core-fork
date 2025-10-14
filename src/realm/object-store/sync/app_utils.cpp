@@ -25,7 +25,7 @@
 
 #include <algorithm>
 
-namespace realm {
+namespace realm_legacy {
 namespace app {
 
 const std::pair<const std::string, std::string>*
@@ -80,7 +80,7 @@ bool AppUtils::is_success_status_code(int status_code)
 
 bool AppUtils::is_redirect_status_code(int status_code)
 {
-    using namespace realm::sync;
+    using namespace realm_legacy::sync;
     // If the response contains a redirection, then return true
     if (auto code = HTTPStatus(status_code);
         code == HTTPStatus::MovedPermanently || code == HTTPStatus::PermanentRedirect) {
@@ -205,4 +205,4 @@ Response AppUtils::make_clienterror_response(ErrorCodes::Error code, const std::
 }
 
 } // namespace app
-} // namespace realm
+} // namespace realm_legacy

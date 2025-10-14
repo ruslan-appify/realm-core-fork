@@ -3,7 +3,7 @@
 
 #include <string_view>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 template <class C, class T>
@@ -153,6 +153,6 @@ quote:
 
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_QUOTE_HPP

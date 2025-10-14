@@ -93,8 +93,8 @@
 //            > Mutex["max_process_num"]
 // This is briefly violated, but using try_lock() which avoids deadlock.
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 #ifdef REALM_CONDVAR_EMULATION
 

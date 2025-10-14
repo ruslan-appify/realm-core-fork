@@ -25,7 +25,7 @@
 #include <realm/alloc_slab.hpp>
 #include <realm/group.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 namespace {
@@ -37,7 +37,7 @@ namespace {
 /// be used by multiple threads. Although it has m_replication, this
 /// is not a problem, as there is no way to modify it, so it will
 /// remain zero.
-class DefaultAllocator : public realm::Allocator {
+class DefaultAllocator : public realm_legacy::Allocator {
 public:
     DefaultAllocator()
     {
@@ -100,7 +100,7 @@ DefaultAllocator default_alloc;
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 Allocator& Allocator::get_default() noexcept
 {
@@ -120,7 +120,7 @@ char* Allocator::translate_less_critical(RefTranslation* ref_translation_ptr, re
     size_t offset = ref - get_section_base(idx);
     char* addr = txl.mapping_addr + offset;
 #if REALM_ENABLE_ENCRYPTION
-    realm::util::encryption_read_barrier(addr, NodeHeader::header_size, txl.encrypted_mapping, nullptr);
+    realm_legacy::util::encryption_read_barrier(addr, NodeHeader::header_size, txl.encrypted_mapping, nullptr);
 #endif
     auto size = NodeHeader::get_byte_size_from_header(addr);
     bool crosses_mapping = offset + size > (1 << section_shift);
@@ -136,7 +136,7 @@ char* Allocator::translate_less_critical(RefTranslation* ref_translation_ptr, re
     if (REALM_LIKELY(!crosses_mapping)) {
         // Array fits inside primary mapping, no new mapping needed.
 #if REALM_ENABLE_ENCRYPTION
-        realm::util::encryption_read_barrier(addr, size, txl.encrypted_mapping, nullptr);
+        realm_legacy::util::encryption_read_barrier(addr, size, txl.encrypted_mapping, nullptr);
 #endif
         return addr;
     }
@@ -153,9 +153,9 @@ char* Allocator::translate_less_critical(RefTranslation* ref_translation_ptr, re
         // array is now known to be inside the established xover mapping:
         addr = xover_mapping_addr + (offset - txl.xover_mapping_base);
 #if REALM_ENABLE_ENCRYPTION
-        realm::util::encryption_read_barrier(addr, size, txl.xover_encrypted_mapping, nullptr);
+        realm_legacy::util::encryption_read_barrier(addr, size, txl.xover_encrypted_mapping, nullptr);
 #endif
         return addr;
     }
 }
-} // namespace realm
+} // namespace realm_legacy

@@ -21,7 +21,7 @@
 
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 std::string quote(const std::string&);

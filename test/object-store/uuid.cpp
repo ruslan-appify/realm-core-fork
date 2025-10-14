@@ -23,7 +23,7 @@
 #include <algorithm>
 #include <cctype>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("uuid") {
     auto isxdigit = [](char c) {

@@ -4,13 +4,13 @@
 #include <realm/sync/noinst/compact_changesets.hpp>
 #include <realm/sync/changeset_encoder.hpp>
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::_impl;
 
 namespace {
 struct InstructionBuilder : InstructionHandler {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
 
     explicit InstructionBuilder(Changeset& log)
         : m_log(log)
@@ -43,7 +43,7 @@ struct InstructionBuilder : InstructionHandler {
 // FIXME: Compaction is disabled since path-based instructions.
 TEST_IF(CompactChangesets_RedundantSets, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -80,7 +80,7 @@ TEST_IF(CompactChangesets_RedundantSets, false)
 // FIXME: Compaction is disabled since path-based instructions.
 TEST_IF(CompactChangesets_DiscardsCreateErasePair, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -113,7 +113,7 @@ TEST_IF(CompactChangesets_DiscardsCreateErasePair, false)
 // FIXME: Compaction is disabled since path-based instructions.
 TEST_IF(CompactChangesets_LinksRescueObjects, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -159,7 +159,7 @@ TEST_IF(CompactChangesets_LinksRescueObjects, false)
 // FIXME: Compaction is disabled since path-based instructions.
 TEST_IF(CompactChangesets_EliminateSubgraphs, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -208,7 +208,7 @@ TEST_IF(CompactChangesets_EliminateSubgraphs, false)
 // FIXME: Compaction is disabled since path-based instructions.
 TEST_IF(CompactChangesets_EraseRecreate, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -255,7 +255,7 @@ TEST_IF(CompactChangesets_EraseRecreate, false)
 #if 0
 TEST(CompactChangesets_PrimaryKeysRescueObjects)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     Changeset changeset;
     InstructionBuilder push(changeset);
 
@@ -294,7 +294,7 @@ GlobalKey make_object_id(test_util::Random& random)
 
 void select_table(StringData table, InstructionBuilder& builder, StringData& selected_table)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     if (selected_table != table) {
         builder(Instruction::SelectTable{builder.intern_string(table)});
         selected_table = table;
@@ -304,7 +304,7 @@ void select_table(StringData table, InstructionBuilder& builder, StringData& sel
 
 TEST_IF(CompactChangesets_Measure, false)
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     using B = InstructionBuilder;
     using R = test_util::Random;
 

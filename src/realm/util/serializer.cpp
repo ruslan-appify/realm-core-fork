@@ -32,7 +32,7 @@
 #include <cmath>
 #include <iomanip>
 
-namespace realm {
+namespace realm_legacy {
 
 /* Uses Fliegel & Van Flandern algorithm */
 static constexpr long date_to_julian(int y, int m, int d)
@@ -179,7 +179,7 @@ std::string print_value<>(double val)
 }
 
 template <>
-std::string print_value<>(realm::null)
+std::string print_value<>(realm_legacy::null)
 {
     return "NULL";
 }
@@ -242,7 +242,7 @@ std::string print_value<>(StringData data)
 }
 
 template <>
-std::string print_value<>(realm::Timestamp t)
+std::string print_value<>(realm_legacy::Timestamp t)
 {
     if (t.is_null()) {
         return "NULL";
@@ -258,13 +258,13 @@ std::string print_value<>(realm::Timestamp t)
 }
 
 template <>
-std::string print_value<>(realm::ObjectId oid)
+std::string print_value<>(realm_legacy::ObjectId oid)
 {
     return "oid(" + oid.to_string() + ")";
 }
 
 template <>
-std::string print_value<>(realm::ObjKey k)
+std::string print_value<>(realm_legacy::ObjKey k)
 {
     std::stringstream ss;
     if (!k) {
@@ -276,7 +276,7 @@ std::string print_value<>(realm::ObjKey k)
     return ss.str();
 }
 
-std::string print_value(realm::ObjLink link, Group* g)
+std::string print_value(realm_legacy::ObjLink link, Group* g)
 {
     if (!link) {
         return "NULL";
@@ -298,20 +298,20 @@ std::string print_value(realm::ObjLink link, Group* g)
 }
 
 template <>
-std::string print_value<>(realm::UUID uuid)
+std::string print_value<>(realm_legacy::UUID uuid)
 {
     return "uuid(" + uuid.to_string() + ")";
 }
 
 template <>
-std::string print_value<>(realm::TypeOfValue type)
+std::string print_value<>(realm_legacy::TypeOfValue type)
 {
     return '"' + type.to_string() + '"';
 }
 
 #if REALM_ENABLE_GEOSPATIAL
 template <>
-std::string print_value<>(const realm::Geospatial& geo)
+std::string print_value<>(const realm_legacy::Geospatial& geo)
 {
     return geo.to_string();
 }
@@ -456,4 +456,4 @@ std::string SerialisationState::describe_expression_type(util::Optional<Expressi
 
 } // namespace serializer
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

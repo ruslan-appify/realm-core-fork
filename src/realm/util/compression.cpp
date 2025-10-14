@@ -31,7 +31,7 @@
 #include <os/availability.h>
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace util;
 
 namespace {
@@ -59,11 +59,11 @@ class ErrorCategoryImpl : public std::error_category {
 public:
     const char* name() const noexcept override final
     {
-        return "realm::util::compression::error";
+        return "realm_legacy::util::compression::error";
     }
     std::string message(int err) const override final
     {
-        using error = realm::util::compression::error;
+        using error = realm_legacy::util::compression::error;
         error e = error(err);
         switch (e) {
             case error::out_of_memory:
@@ -91,7 +91,7 @@ ErrorCategoryImpl g_error_category;
 
 void* custom_alloc(void* opaque, unsigned int cnt, unsigned int size)
 {
-    using Alloc = realm::util::compression::Alloc;
+    using Alloc = realm_legacy::util::compression::Alloc;
     Alloc& alloc = *static_cast<Alloc*>(opaque);
     std::size_t accum_size = cnt * std::size_t(size);
     return alloc.alloc(accum_size);
@@ -99,7 +99,7 @@ void* custom_alloc(void* opaque, unsigned int cnt, unsigned int size)
 
 void custom_free(void* opaque, void* addr)
 {
-    using Alloc = realm::util::compression::Alloc;
+    using Alloc = realm_legacy::util::compression::Alloc;
     Alloc& alloc = *static_cast<Alloc*>(opaque);
     return alloc.free(addr);
 }

@@ -22,7 +22,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 // Test independence and thread-safety
 // -----------------------------------

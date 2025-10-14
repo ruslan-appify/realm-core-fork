@@ -27,9 +27,9 @@
 #include <queue>
 #include <unordered_set>
 
-using namespace realm;
+using namespace realm_legacy;
 
-namespace realm {
+namespace realm_legacy {
 bool operator==(Schema const& a, Schema const& b) noexcept
 {
     return static_cast<Schema::base const&>(a) == static_cast<Schema::base const&>(b);
@@ -46,7 +46,7 @@ std::ostream& operator<<(std::ostream& os, const Schema& schema)
     return os;
 }
 
-} // namespace realm
+} // namespace realm_legacy
 
 Schema::Schema() noexcept = default;
 Schema::~Schema() = default;
@@ -380,7 +380,7 @@ std::vector<SchemaChange> Schema::compare(Schema const& target_schema, SchemaMod
     return changes;
 }
 
-void Schema::copy_keys_from(realm::Schema const& other, SchemaSubsetMode subset_mode)
+void Schema::copy_keys_from(realm_legacy::Schema const& other, SchemaSubsetMode subset_mode)
 {
     std::vector<const ObjectSchema*> other_classes;
     zip_matching(*this, other, [&](ObjectSchema* existing, const ObjectSchema* other) {
@@ -408,7 +408,7 @@ void Schema::copy_keys_from(realm::Schema const& other, SchemaSubsetMode subset_
     }
 }
 
-namespace realm {
+namespace realm_legacy {
 bool operator==(SchemaChange const& lft, SchemaChange const& rgt) noexcept
 {
     if (lft.m_kind != rgt.m_kind)
@@ -444,4 +444,4 @@ bool operator==(SchemaChange const& lft, SchemaChange const& rgt) noexcept
     } visitor{lft};
     return rgt.visit(visitor);
 }
-} // namespace realm
+} // namespace realm_legacy

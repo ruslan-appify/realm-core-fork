@@ -28,7 +28,7 @@
 #include <realm/group.hpp>
 #include <realm/table.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 struct SchemaChangePrinter {
     std::ostream& out;

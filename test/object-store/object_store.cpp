@@ -22,7 +22,7 @@
 
 #include <realm/object-store/object_store.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("ObjectStore: table_name_for_object_type()") {
     SECTION("should work with strings that aren't null-terminated") {

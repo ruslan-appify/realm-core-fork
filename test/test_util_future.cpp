@@ -11,7 +11,7 @@
 
 #include "test.hpp"
 
-namespace realm::util {
+namespace realm_legacy::util {
 namespace {
 
 static_assert(std::is_same_v<FutureContinuationResult<std::function<void()>>, void>);
@@ -2236,6 +2236,6 @@ TEST(Future_Void_Fail_onCompletionFutureAsync)
 }
 
 } // namespace
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #endif

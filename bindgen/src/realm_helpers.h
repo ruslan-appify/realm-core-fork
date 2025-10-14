@@ -43,7 +43,7 @@
 // Equivalent to std::forward<decltype(x)>(x), but faster to compile and less impact on debug builds
 #define FWD(x) ((decltype(x)&&)(x))
 
-namespace realm::js {
+namespace realm_legacy::js {
 namespace {
 
 // These types are exposed to JS in the spec.
@@ -127,7 +127,7 @@ struct Helpers {
                 if (methods.before_notify)
                     methods.before_notify(get_realm());
             }
-            void schema_did_change(realm::Schema const&) override
+            void schema_did_change(realm_legacy::Schema const&) override
             {
                 if (methods.schema_did_change)
                     methods.schema_did_change(get_realm());
@@ -222,7 +222,7 @@ struct Helpers {
     static void simulate_sync_error(SyncSession& session, const int& code, const std::string& message,
                                     const std::string& type, bool is_fatal)
     {
-        sync::SessionErrorInfo error(Status{type == "realm::sync::ProtocolError" ? ErrorCodes::SyncClientResetRequired
+        sync::SessionErrorInfo error(Status{type == "realm_legacy::sync::ProtocolError" ? ErrorCodes::SyncClientResetRequired
                                                                                  : ErrorCodes::UnknownError,
                                             message},
                                      sync::IsFatal(is_fatal));
@@ -240,7 +240,7 @@ struct Helpers {
 
     static bool file_exists(const StringData& path)
     {
-        return realm::util::File::exists(path);
+        return realm_legacy::util::File::exists(path);
     }
 
     static bool erase_subscription(sync::MutableSubscriptionSet& subs, const sync::Subscription& sub_to_remove)
@@ -385,4 +385,4 @@ auto asSigned(T num)
 }
 
 } // namespace
-} // namespace realm::js
+} // namespace realm_legacy::js

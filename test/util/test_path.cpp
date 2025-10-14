@@ -44,7 +44,7 @@
 #include <libgen.h>
 #endif
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 namespace {
 
@@ -91,7 +91,7 @@ std::string url_to_path(CFURLRef url)
 
 } // anonymous namespace
 
-namespace realm::test_util {
+namespace realm_legacy::test_util {
 
 void keep_test_files()
 {
@@ -324,7 +324,7 @@ std::string TestDirNameGenerator::next()
 std::shared_ptr<DB> get_test_db(const std::string& path, const char* crypt_key)
 {
     const char* str = getenv("UNITTEST_LOG_LEVEL");
-    realm::util::Logger::Level core_log_level = realm::util::Logger::Level::off;
+    realm_legacy::util::Logger::Level core_log_level = realm_legacy::util::Logger::Level::off;
     if (str && strlen(str) != 0) {
         std::istringstream in(str);
         in.imbue(std::locale::classic());
@@ -338,4 +338,4 @@ std::shared_ptr<DB> get_test_db(const std::string& path, const char* crypt_key)
     return DB::create(make_in_realm_history(), path, options);
 }
 
-} // namespace realm::test_util
+} // namespace realm_legacy::test_util

@@ -19,7 +19,7 @@
 #include <realm/chunked_binary.hpp>
 #include <realm/util/hex_dump.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 BinaryIterator ChunkedBinaryData::iterator() const noexcept
 {

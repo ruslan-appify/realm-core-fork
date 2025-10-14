@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 
@@ -32,6 +32,6 @@ inline std::string get_type_name(const T& v)
 
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_DEMANGLE_HPP

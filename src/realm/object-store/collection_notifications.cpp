@@ -21,8 +21,8 @@
 #include <realm/object-store/impl/collection_notifier.hpp>
 #include <utility>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 NotificationToken::NotificationToken(std::shared_ptr<_impl::CollectionNotifier> notifier, uint64_t token)
     : m_notifier(std::move(notifier))
@@ -37,7 +37,7 @@ NotificationToken::~NotificationToken()
 
 NotificationToken::NotificationToken(NotificationToken&&) = default;
 
-NotificationToken& NotificationToken::operator=(realm::NotificationToken&& rgt)
+NotificationToken& NotificationToken::operator=(realm_legacy::NotificationToken&& rgt)
 {
     if (this != &rgt) {
         unregister();

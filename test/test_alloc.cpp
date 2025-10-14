@@ -34,8 +34,8 @@
 #include "test.hpp"
 #include "util/test_only.hpp"
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 
 // Test independence and thread-safety

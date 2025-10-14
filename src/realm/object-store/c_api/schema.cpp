@@ -2,7 +2,7 @@
 #include <realm/object-store/c_api/util.hpp>
 #include "realm.hpp"
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 RLM_API realm_schema_t* realm_schema_new(const realm_class_info_t* classes, size_t num_classes,
                                          const realm_property_info_t** class_properties)
@@ -278,4 +278,4 @@ RLM_API realm_callback_token_t* realm_add_schema_changed_callback(realm_t* realm
         realm, CBindingContext::get(*realm).schema_changed_callbacks().add(std::move(func)));
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

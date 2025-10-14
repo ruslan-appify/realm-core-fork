@@ -23,7 +23,7 @@
 #include <memory>
 #include <vector>
 
-namespace realm {
+namespace realm_legacy {
 class Table;
 class LinkView;
 class Realm;
@@ -34,11 +34,11 @@ class RealmCoordinator;
 
 namespace fuzzer {
 struct RealmState {
-    realm::Realm& realm;
-    realm::_impl::RealmCoordinator& coordinator;
+    realm_legacy::Realm& realm;
+    realm_legacy::_impl::RealmCoordinator& coordinator;
 
-    realm::Table& table;
-    realm::LinkViewRef lv;
+    realm_legacy::Table& table;
+    realm_legacy::LinkViewRef lv;
     int64_t uid;
     std::vector<int64_t> modified;
 };

@@ -39,7 +39,7 @@
 #error "No EventLoop implementation selected, tests will fail"
 #endif
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 namespace {
 template <typename Desired, typename Actual>

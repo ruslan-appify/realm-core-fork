@@ -26,7 +26,7 @@
 #include <fstream>
 #include <iostream>
 
-using namespace realm;
+using namespace realm_legacy;
 const size_t max_tables = REALM_MAX_BPNODE_SIZE * 10;
 
 const char hex_digits[] = "0123456789abcdefgh";

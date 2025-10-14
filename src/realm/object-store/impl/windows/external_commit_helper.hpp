@@ -21,7 +21,7 @@
 #include <future>
 #include <windows.h>
 
-namespace realm {
+namespace realm_legacy {
 struct RealmConfig;
 namespace _impl {
 class RealmCoordinator;
@@ -135,4 +135,4 @@ private:
 };
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy

@@ -14,7 +14,7 @@
 #include <realm/binary_data.hpp>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 struct VirtualPathComponents {
@@ -120,6 +120,6 @@ void find_realm_files(const std::string& root_dir, H handler)
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_SERVER_DIR_HPP

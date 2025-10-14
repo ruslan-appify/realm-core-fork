@@ -27,7 +27,7 @@
 #include <realm/util/features.h>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

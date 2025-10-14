@@ -21,9 +21,9 @@
 
 #include <algorithm>
 
-using namespace realm;
-using namespace realm::_impl;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
+using namespace realm_legacy::util;
 
 static std::string normalize_realm_path_for_windows_kernel_object_name(std::string realm_path)
 {

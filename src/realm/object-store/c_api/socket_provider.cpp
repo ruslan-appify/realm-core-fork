@@ -4,7 +4,7 @@
 #include <realm/sync/socket_provider.hpp>
 #include <realm/sync/network/websocket.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 namespace {
 
 // THis class represents the timer resource that is returned to the sync client from the
@@ -322,4 +322,4 @@ RLM_API void realm_sync_client_config_set_sync_socket(realm_sync_client_config_t
     config->socket_provider = *sync_socket;
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

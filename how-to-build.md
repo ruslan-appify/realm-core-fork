@@ -96,7 +96,7 @@ These are the available variables:
 
  - `UNITTEST_FILTER` can be used to exclude one or more tests from a particular
    run. For more information about the syntax, see the documentation of
-   `realm::test_util::unit_test::create_wildcard_filter()` in
+   `realm_legacy::test_util::unit_test::create_wildcard_filter()` in
    `test/util/unit_test.hpp`.
 
  - Set `UNITTEST_PROGRESS` to a non-empty value to enable reporting of progress
@@ -127,7 +127,7 @@ These are the available variables:
 
  - Set `UNITTEST_XML` to a non-empty value to dump the test results to a JUnit
    XML file. For details, see
-   `realm::test_util::unit_test::create_junit_reporter()` in
+   `realm_legacy::test_util::unit_test::create_junit_reporter()` in
    `test/util/unit_test.hpp`.
 
  - Set `UNITTEST_LOG_LEVEL` to adjust the log level threshold for custom intra

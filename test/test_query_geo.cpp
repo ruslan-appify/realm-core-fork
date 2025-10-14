@@ -34,9 +34,9 @@
 #include <ostream>
 #include <sstream>
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 // From https://github.com/10gen/mongo/pull/11605
 // Test which verifies that the rounding functions used by s2 follow 'round to even' rounding

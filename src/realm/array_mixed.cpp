@@ -19,7 +19,7 @@
 #include <realm/array_mixed.hpp>
 #include <realm/array_basic.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 ArrayMixed::ArrayMixed(Allocator& a)
     : Array(a)
@@ -215,14 +215,14 @@ size_t ArrayMixed::find_first(Mixed value, size_t begin, size_t end) const noexc
         return m_composite.find_first(0, begin, end);
     }
     DataType type = value.get_type();
-    if (end == realm::npos)
+    if (end == realm_legacy::npos)
         end = size();
     for (size_t i = begin; i < end; i++) {
         if (Mixed::data_types_are_comparable(this->get_type(i), type) && get(i) == value) {
             return i;
         }
     }
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 void ArrayMixed::verify() const

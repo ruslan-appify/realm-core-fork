@@ -40,7 +40,7 @@
 #if REALM_ENABLE_SYNC
 #if REALM_ENABLE_AUTH_TESTS
 
-using namespace realm;
+using namespace realm_legacy;
 
 enum MigrationMode { MigrateToFLX, RollbackToPBS };
 

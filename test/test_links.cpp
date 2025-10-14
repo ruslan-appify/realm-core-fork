@@ -26,9 +26,9 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 namespace {
 
@@ -241,7 +241,7 @@ TEST(Links_SetLinkLogicErrors)
     CHECK_THROW(obj.set(col0, ObjKey(10)), KeyNotFound);
 
     group.remove_table("origin");
-    CHECK_THROW(obj.set(col0, ObjKey(10)), realm::InvalidTableRef);
+    CHECK_THROW(obj.set(col0, ObjKey(10)), realm_legacy::InvalidTableRef);
 }
 
 
@@ -1204,7 +1204,7 @@ TEST(Links_CascadeRemove_ColumnLink)
     // Break link by nullifying
     {
         Fixture f;
-        f.get_origin_obj(0).set(f.col_link, null_key); // origin[0].o_1 -> realm::null()
+        f.get_origin_obj(0).set(f.col_link, null_key); // origin[0].o_1 -> realm_legacy::null()
         // Cascade: target->remove_object(key[0])
         CHECK(!f.target->is_valid(f.target_keys[0]));
         CHECK(f.target->is_valid(f.target_keys[1]) && f.target->is_valid(f.target_keys[2]));
@@ -1213,7 +1213,7 @@ TEST(Links_CascadeRemove_ColumnLink)
     }
     {
         Fixture f;
-        f.get_origin_obj(1).set(f.col_link, null_key); // origin[1].o_1 -> realm::null()
+        f.get_origin_obj(1).set(f.col_link, null_key); // origin[1].o_1 -> realm_legacy::null()
         // Cascade: target->remove_object(key[1])
         CHECK(!f.target->is_valid(f.target_keys[1]));
         CHECK(f.target->is_valid(f.target_keys[0]) && f.target->is_valid(f.target_keys[2]));
@@ -1222,7 +1222,7 @@ TEST(Links_CascadeRemove_ColumnLink)
     }
     {
         Fixture f;
-        f.get_origin_obj(2).set(f.col_link, null_key); // origin[0].o_1 -> realm::null()
+        f.get_origin_obj(2).set(f.col_link, null_key); // origin[0].o_1 -> realm_legacy::null()
         // Cascade: target->remove_object(key[2])
         CHECK(!f.target->is_valid(f.target_keys[2]));
         CHECK(f.target->is_valid(f.target_keys[0]) && f.target->is_valid(f.target_keys[1]));

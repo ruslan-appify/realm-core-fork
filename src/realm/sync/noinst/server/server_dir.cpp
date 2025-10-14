@@ -2,7 +2,7 @@
 
 #include <realm/sync/noinst/server/server_dir.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 

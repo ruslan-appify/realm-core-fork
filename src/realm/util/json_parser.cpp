@@ -48,12 +48,12 @@ size_t convert_utf32_to_utf8(unsigned int utf32, char* p) noexcept
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 const char* JSONParser::ErrorCategory::name() const noexcept
 {
-    return "realm::util::JSONParser::ErrorCategory";
+    return "realm_legacy::util::JSONParser::ErrorCategory";
 }
 
 std::string JSONParser::ErrorCategory::message(int ec) const
@@ -190,4 +190,4 @@ StringData JSONParser::Event::unescape_string(char* buffer) const noexcept
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

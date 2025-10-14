@@ -8,7 +8,7 @@
 #include <locale>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 /// This template class allows you to endow a fundamental `enum` type with
@@ -196,6 +196,6 @@ std::basic_istream<C, T>& operator>>(std::basic_istream<C, T>& in, Enum<E, S, ig
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_ENUM_HPP

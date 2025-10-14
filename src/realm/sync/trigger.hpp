@@ -22,7 +22,7 @@
 #include <realm/util/bind_ptr.hpp>
 #include <realm/sync/socket_provider.hpp>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 /// Register a function whose invocation can be triggered repeatedly.
 ///
@@ -140,4 +140,4 @@ inline void Trigger<Service>::trigger()
     m_service->post(std::move(handler));
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

@@ -2,7 +2,7 @@
 #include <realm/util/file.hpp>
 #include <realm/util/load_file.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 std::string util::load_file(const std::string& path)

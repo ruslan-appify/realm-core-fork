@@ -43,7 +43,7 @@
 
 #include <realm/util/scope_exit.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::any_cast;
 
 TEST_CASE("Construct frozen Realm", "[frozen]") {
@@ -390,7 +390,7 @@ TEST_CASE("Freeze Results", "[frozen]") {
         }
 
         // FIXME? the test itself passes but crashes on teardown in notifier thread
-        //       with realm::NoSuchTable on Query constructor through import_copy_of
+        //       with realm_legacy::NoSuchTable on Query constructor through import_copy_of
         /* SECTION("Results on query") {
             results = Results(realm, table->column<Int>(value_col) > 0, DescriptorOrdering());
             do_remove = [&] {

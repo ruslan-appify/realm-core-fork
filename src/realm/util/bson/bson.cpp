@@ -22,7 +22,7 @@
 #include <sstream>
 #include <algorithm>
 
-namespace realm {
+namespace realm_legacy {
 namespace bson {
 
 Bson::~Bson() noexcept
@@ -426,7 +426,7 @@ std::ostream& operator<<(std::ostream& out, const Bson& b)
             break;
         }
         case Bson::Type::Datetime: {
-            auto d = static_cast<realm::Timestamp>(b);
+            auto d = static_cast<realm_legacy::Timestamp>(b);
 
             out << "{\"$date\":{\"$numberLong\":\"" << ((d.get_seconds() * 1000) + d.get_nanoseconds() / 1000000)
                 << "\"}}";
@@ -673,7 +673,7 @@ static constexpr std::pair<std::string_view, FancyParser> bson_fancy_parsers[] =
     {"$date",
      +[](const Json& json) {
          int64_t millis_since_epoch = dom_elem_to_bson(json).operator int64_t();
-         return Bson(realm::Timestamp(millis_since_epoch / 1000,
+         return Bson(realm_legacy::Timestamp(millis_since_epoch / 1000,
                                       (millis_since_epoch % 1000) * 1'000'000)); // ms -> ns
      }},
     {"$maxKey",
@@ -805,4 +805,4 @@ bool accept(util::Span<const char> json) noexcept
 }
 
 } // namespace bson
-} // namespace realm
+} // namespace realm_legacy

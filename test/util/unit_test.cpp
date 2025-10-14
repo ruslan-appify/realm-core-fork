@@ -37,10 +37,10 @@
 #include "wildcard.hpp"
 #include "unit_test.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
-using namespace realm::test_util::unit_test;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
+using namespace realm_legacy::test_util::unit_test;
 
 
 // FIXME: Write quoted strings with escaped nonprintables
@@ -412,7 +412,7 @@ private:
 } // anonymous namespace
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 namespace unit_test {
 

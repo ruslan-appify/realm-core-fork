@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <numeric>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -560,7 +560,7 @@ void advance_with_notifications(BindingContext* context, const std::shared_ptr<T
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 UnsupportedSchemaChange::UnsupportedSchemaChange()
@@ -634,4 +634,4 @@ void parse(Transaction& tr, TransactionChangeInfo& info, VersionID::version_type
 
 } // namespace transaction
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy

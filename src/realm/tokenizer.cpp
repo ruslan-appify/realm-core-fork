@@ -19,7 +19,7 @@
 #include <realm/tokenizer.hpp>
 #include <realm/exceptions.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 Tokenizer::~Tokenizer() {}
 
@@ -229,7 +229,7 @@ std::unique_ptr<Tokenizer> Tokenizer::get_instance()
     return std::make_unique<DefaultTokenizer>();
 }
 
-} // namespace realm
+} // namespace realm_legacy
 
 #ifdef TOKENIZER_UNITTEST
 
@@ -243,7 +243,7 @@ std::unique_ptr<Tokenizer> Tokenizer::get_instance()
 #include <fstream>
 #include <iostream>
 
-static std::ostream& operator<<(std::ostream& out, const realm::TokenInfo& info)
+static std::ostream& operator<<(std::ostream& out, const realm_legacy::TokenInfo& info)
 {
     out << "\n\t\tweight: " << info.weight << "\n\t\tfrequency: " << info.frequency << "\n\t\tpositions: [";
     for (auto p : info.positions)
@@ -255,7 +255,7 @@ static std::ostream& operator<<(std::ostream& out, const realm::TokenInfo& info)
     return out;
 }
 
-static std::ostream& operator<<(std::ostream& out, const realm::TokenInfoMap& infoMap)
+static std::ostream& operator<<(std::ostream& out, const realm_legacy::TokenInfoMap& infoMap)
 {
     out << "TokenInfoMap(size: " << infoMap.size();
     for (auto&& [token, info] : infoMap)
@@ -287,7 +287,7 @@ int main(int argc, const char* argv[])
         text = std::string_view(buffer, std::cin.gcount());
     }
 
-    auto tok = realm::Tokenizer::get_instance();
+    auto tok = realm_legacy::Tokenizer::get_instance();
     tok->reset(text);
     auto t1 = steady_clock::now();
     auto tokens = tok->get_all_tokens();

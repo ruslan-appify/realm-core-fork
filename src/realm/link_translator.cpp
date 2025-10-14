@@ -22,7 +22,7 @@
 #include <realm/list.hpp>
 #include <realm/set.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 LinkTranslator::LinkTranslator(Obj origin, ColKey origin_col_key)
     : m_origin_obj(origin)
@@ -91,4 +91,4 @@ void LinkTranslator::run()
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

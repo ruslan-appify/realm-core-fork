@@ -19,7 +19,7 @@
 #include <realm/table_ref.hpp>
 #include <realm/table.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 ConstTableRef ConstTableRef::unsafe_create(const Table* t_ptr)
 {

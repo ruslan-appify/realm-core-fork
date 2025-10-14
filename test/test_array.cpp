@@ -32,8 +32,8 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 
@@ -1438,7 +1438,7 @@ TEST(Array_get_sum)
     CHECK_EQUAL(c.get_sum(), 120);
     c.clear();
 
-    const auto size = realm::max_array_size / 4;
+    const auto size = realm_legacy::max_array_size / 4;
 
     // test multiple chunks w=1
     for (uint64_t i = 0; i < size; ++i)
@@ -1511,7 +1511,7 @@ NONCONCURRENT_TEST(Array_count)
 
     TestArray c(Allocator::get_default());
     c.create(Array::type_Normal);
-    const size_t size = realm::max_array_size;
+    const size_t size = realm_legacy::max_array_size;
 
     // test multiple chunks w=1
     c.clear();

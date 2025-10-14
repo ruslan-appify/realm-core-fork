@@ -24,7 +24,7 @@
 #include <cstring>
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 
 MemRef Node::create_node(size_t size, Allocator& alloc, bool context_flag, Type type, WidthType width_type, int width)
 {
@@ -139,7 +139,7 @@ void Node::do_copy_on_write(size_t minimum_size)
     const char* old_begin = header;
     const char* old_end = header + array_size;
     char* new_begin = mref.get_addr();
-    realm::safe_copy_n(old_begin, old_end - old_begin, new_begin);
+    realm_legacy::safe_copy_n(old_begin, old_end - old_begin, new_begin);
 
     ref_type old_ref = m_ref;
 

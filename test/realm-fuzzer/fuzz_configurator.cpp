@@ -26,7 +26,7 @@ FuzzConfigurator::FuzzConfigurator(FuzzObject& fuzzer, const std::string& input,
     , m_fuzzer(fuzzer)
     , m_fuzz_name(name)
 {
-    realm::disable_sync_to_disk();
+    realm_legacy::disable_sync_to_disk();
     init(input);
     setup_realm_config();
 }
@@ -35,7 +35,7 @@ void FuzzConfigurator::setup_realm_config()
 {
     m_config.path = m_path;
     m_config.schema_version = 0;
-    m_config.scheduler = realm::util::Scheduler::make_dummy();
+    m_config.scheduler = realm_legacy::util::Scheduler::make_dummy();
     if (m_use_encryption) {
         const char* key = m_fuzzer.get_encryption_key();
         const char* i = key;
@@ -46,7 +46,7 @@ void FuzzConfigurator::setup_realm_config()
     }
 }
 
-const realm::Realm::Config& FuzzConfigurator::get_config() const
+const realm_legacy::Realm::Config& FuzzConfigurator::get_config() const
 {
     return m_config;
 }
@@ -74,7 +74,7 @@ State& FuzzConfigurator::get_state()
 void FuzzConfigurator::init(const std::string& input)
 {
     std::string db_name = "fuzz-test";
-    realm::test_util::RealmPathInfo test_context{db_name};
+    realm_legacy::test_util::RealmPathInfo test_context{db_name};
     SHARED_GROUP_TEST_PATH(path);
     m_path = path.c_str();
     if (m_used_input_file) {

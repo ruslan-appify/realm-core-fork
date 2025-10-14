@@ -39,8 +39,8 @@
 
 #include <external/json/json.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 #define TEST_READ_UPGRADE_MODE 1 // set to 0 when using this in an older version of core to write new tests files
 
@@ -1121,7 +1121,7 @@ TEST(Upgrade_FixColumnKeys)
 NONCONCURRENT_TEST(Upgrade_BackupAtoBtoAtoC)
 {
     SHARED_GROUP_TEST_PATH(path);
-    std::string prefix = realm::BackupHandler::get_prefix_from_path(path);
+    std::string prefix = realm_legacy::BackupHandler::get_prefix_from_path(path);
     // clear out any leftovers from potential earlier crash of unittest
     File::try_remove(prefix + "v200.backup.realm");
 
@@ -1195,7 +1195,7 @@ NONCONCURRENT_TEST(Upgrade_BackupAtoBtoAtoC)
 NONCONCURRENT_TEST(Upgrade_BackupAtoBbypassAtoC)
 {
     SHARED_GROUP_TEST_PATH(path);
-    std::string prefix = realm::BackupHandler::get_prefix_from_path(path);
+    std::string prefix = realm_legacy::BackupHandler::get_prefix_from_path(path);
     // clear out any leftovers from potential earlier crash of unittest
     File::try_remove(prefix + "v200.backup.realm");
     File::try_remove(prefix + "v201.backup.realm");
@@ -1341,9 +1341,9 @@ TEST_IF(Upgrade_Database_22, REALM_MAX_BPNODE_SIZE == 4 || REALM_MAX_BPNODE_SIZE
     auto set = obj.get_set<Mixed>(col_set);
     CHECK_EQUAL(set.size(), set_values.size() + 1);
     for (auto& val : set_values) {
-        CHECK(set.find(val) != realm::npos);
+        CHECK(set.find(val) != realm_legacy::npos);
     }
-    CHECK(set.find(obj1.get_link()) != realm::npos);
+    CHECK(set.find(obj1.get_link()) != realm_legacy::npos);
 
     CHECK_EQUAL(obj1.get_backlink_count(), 2);
 

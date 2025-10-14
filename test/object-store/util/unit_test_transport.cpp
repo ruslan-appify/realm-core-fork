@@ -25,8 +25,8 @@
 
 #include <catch2/catch_all.hpp>
 
-using namespace realm;
-using namespace realm::app;
+using namespace realm_legacy;
+using namespace realm_legacy::app;
 
 std::string UnitTestTransport::access_token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."

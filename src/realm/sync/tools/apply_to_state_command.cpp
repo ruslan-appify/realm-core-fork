@@ -22,38 +22,38 @@
 #include <type_traits>
 
 namespace {
-using namespace realm;
-using namespace realm::util;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::_impl;
 
 struct ServerIdentMessage {
-    realm::sync::session_ident_type session_ident;
-    realm::sync::SaltedFileIdent file_ident;
+    realm_legacy::sync::session_ident_type session_ident;
+    realm_legacy::sync::SaltedFileIdent file_ident;
 
     static ServerIdentMessage parse(HeaderLineParser& msg);
 };
 
 struct DownloadMessage {
-    realm::sync::session_ident_type session_ident;
-    realm::sync::SyncProgress progress;
-    realm::sync::SaltedVersion latest_server_version;
+    realm_legacy::sync::session_ident_type session_ident;
+    realm_legacy::sync::SyncProgress progress;
+    realm_legacy::sync::SaltedVersion latest_server_version;
     uint64_t downloadable_bytes;
-    realm::sync::DownloadBatchState batch_state;
+    realm_legacy::sync::DownloadBatchState batch_state;
     int64_t query_version;
 
     Buffer<char> uncompressed_body_buffer;
-    std::vector<realm::sync::RemoteChangeset> changesets;
+    std::vector<realm_legacy::sync::RemoteChangeset> changesets;
 
     static DownloadMessage parse(HeaderLineParser& msg, Logger& logger, bool is_flx_sync);
 };
 
 struct UploadMessage {
-    realm::sync::session_ident_type session_ident;
-    realm::sync::UploadCursor upload_progress;
-    realm::sync::version_type locked_server_version;
+    realm_legacy::sync::session_ident_type session_ident;
+    realm_legacy::sync::UploadCursor upload_progress;
+    realm_legacy::sync::version_type locked_server_version;
 
     Buffer<char> uncompressed_body_buffer;
-    std::vector<realm::sync::Changeset> changesets;
+    std::vector<realm_legacy::sync::Changeset> changesets;
 
     static UploadMessage parse(HeaderLineParser& msg, Logger& logger);
 };
@@ -135,7 +135,7 @@ DownloadMessage DownloadMessage::parse(HeaderLineParser& msg, Logger& logger, bo
 
     HeaderLineParser body(body_str);
     while (!body.at_end()) {
-        realm::sync::RemoteChangeset cur_changeset;
+        realm_legacy::sync::RemoteChangeset cur_changeset;
         cur_changeset.remote_version = body.read_next<sync::version_type>();
         cur_changeset.last_integrated_local_version = body.read_next<sync::version_type>();
         cur_changeset.origin_timestamp = body.read_next<sync::timestamp_type>();
@@ -143,10 +143,10 @@ DownloadMessage DownloadMessage::parse(HeaderLineParser& msg, Logger& logger, bo
         cur_changeset.original_changeset_size = body.read_next<size_t>();
         auto changeset_size = body.read_next<size_t>();
 
-        realm::sync::Changeset parsed_changeset;
+        realm_legacy::sync::Changeset parsed_changeset;
         auto changeset_data = body.read_sized_data<BinaryData>(changeset_size);
-        auto changeset_stream = realm::util::SimpleInputStream(changeset_data);
-        realm::sync::parse_changeset(changeset_stream, parsed_changeset);
+        auto changeset_stream = realm_legacy::util::SimpleInputStream(changeset_data);
+        realm_legacy::sync::parse_changeset(changeset_stream, parsed_changeset);
         logger.trace("found download changeset: serverVersion: %1, clientVersion: %2, origin: %3 %4",
                      cur_changeset.remote_version, cur_changeset.last_integrated_local_version,
                      cur_changeset.origin_file_ident, parsed_changeset);
@@ -188,7 +188,7 @@ UploadMessage UploadMessage::parse(HeaderLineParser& msg, Logger& logger)
 
     HeaderLineParser body(body_str);
     while (!body.at_end()) {
-        realm::sync::Changeset cur_changeset;
+        realm_legacy::sync::Changeset cur_changeset;
         cur_changeset.version = body.read_next<sync::version_type>();
         cur_changeset.last_integrated_remote_version = body.read_next<sync::version_type>();
         cur_changeset.origin_timestamp = body.read_next<sync::timestamp_type>();
@@ -200,9 +200,9 @@ UploadMessage UploadMessage::parse(HeaderLineParser& msg, Logger& logger)
         logger.trace("found upload changeset: %1 %2 %3 %4 %5", cur_changeset.last_integrated_remote_version,
                      cur_changeset.version, cur_changeset.origin_timestamp, cur_changeset.origin_file_ident,
                      changeset_size);
-        realm::util::SimpleInputStream changeset_stream(changeset_buffer);
+        realm_legacy::util::SimpleInputStream changeset_stream(changeset_buffer);
         try {
-            realm::sync::parse_changeset(changeset_stream, cur_changeset);
+            realm_legacy::sync::parse_changeset(changeset_stream, cur_changeset);
         }
         catch (...) {
             logger.error("error decoding changeset after instructions %1", cur_changeset);
@@ -274,9 +274,9 @@ int main(int argc, const char** argv)
         encryption_key = load_file(encryption_key_arg.as<std::string>());
     }
 
-    realm::DBOptions db_opts(encryption_key.empty() ? nullptr : encryption_key.c_str());
-    realm::sync::ClientReplication repl{};
-    auto local_db = realm::DB::create(repl, realm_path, db_opts);
+    realm_legacy::DBOptions db_opts(encryption_key.empty() ? nullptr : encryption_key.c_str());
+    realm_legacy::sync::ClientReplication repl{};
+    auto local_db = realm_legacy::DB::create(repl, realm_path, db_opts);
     auto& history = repl.get_history();
 
     auto input_contents = load_file(input_arg.as<std::string>());
@@ -291,9 +291,9 @@ int main(int argc, const char** argv)
             return EXIT_FAILURE;
         }
 
-        mpark::visit(realm::util::overload{
+        mpark::visit(realm_legacy::util::overload{
                          [&](const DownloadMessage& download_message) {
-                             realm::sync::VersionInfo version_info;
+                             realm_legacy::sync::VersionInfo version_info;
                              auto transact = bool(flx_sync_arg) ? local_db->start_write() : local_db->start_read();
                              history.integrate_server_changesets(download_message.progress,
                                                                  &download_message.downloadable_bytes,
@@ -306,11 +306,11 @@ int main(int argc, const char** argv)
                                      return changeset.origin_timestamp;
                                  });
                                  auto transaction = local_db->start_write();
-                                 realm::sync::InstructionApplier applier(*transaction);
+                                 realm_legacy::sync::InstructionApplier applier(*transaction);
                                  applier.apply(changeset, logger.get());
                                  auto generated_version = transaction->commit();
                                  logger->debug("integrated local changesets as version %1", generated_version);
-                                 history.set_local_origin_timestamp_source(realm::sync::generate_changeset_timestamp);
+                                 history.set_local_origin_timestamp_source(realm_legacy::sync::generate_changeset_timestamp);
                              }
                          },
                          [&](const ServerIdentMessage& ident_message) {

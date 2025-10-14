@@ -24,7 +24,7 @@
 #include <realm/array_integer.hpp>
 #include <realm/array_ref.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 struct Changeset;
 }
@@ -885,6 +885,6 @@ inline auto ServerHistory::find_history_entry(file_ident_type remote_file_ident,
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_SERVER_HISTORY_HPP

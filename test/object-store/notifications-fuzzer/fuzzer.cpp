@@ -36,7 +36,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
-using namespace realm;
+using namespace realm_legacy;
 
 #ifndef FUZZ_SORTED
 #define FUZZ_SORTED 0
@@ -241,7 +241,7 @@ static void test(Realm::Config const& config, SharedRealm& r, SharedRealm& r2, s
 int main(int argc, char** argv)
 {
     std::ios_base::sync_with_stdio(false);
-    realm::disable_sync_to_disk();
+    realm_legacy::disable_sync_to_disk();
 
     Realm::Config config;
     config.path = "fuzzer.realm";

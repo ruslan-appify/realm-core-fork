@@ -19,10 +19,10 @@
 #include <realm/object-store/sync/impl/emscripten/socket_provider.hpp>
 #include <emscripten/websocket.h>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 #define check_result(expr)                                                                                           \
     do {                                                                                                             \
         [[maybe_unused]] auto result = expr;                                                                         \
@@ -236,4 +236,4 @@ std::unique_ptr<WebSocketInterface> EmscriptenSocketProvider::connect(std::uniqu
     REALM_ASSERT(result > 0);
     return std::make_unique<EmscriptenWebSocket>(result, std::move(observer));
 }
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

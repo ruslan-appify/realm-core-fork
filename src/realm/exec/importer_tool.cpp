@@ -27,7 +27,7 @@
 #include <cstdarg>
 #include "importer.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 FILE* out_file;
 FILE* in_file;

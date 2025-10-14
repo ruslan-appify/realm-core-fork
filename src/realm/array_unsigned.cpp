@@ -20,7 +20,7 @@
 #include <realm/array_direct.hpp>
 #include <algorithm>
 
-namespace realm {
+namespace realm_legacy {
 
 void ArrayUnsigned::set_width(uint8_t width)
 {
@@ -109,13 +109,13 @@ size_t ArrayUnsigned::lower_bound(uint64_t value) const noexcept
     else if (m_width < 8) {
         switch (m_width) {
             case 0:
-                return realm::lower_bound<0>(m_data, m_size, value);
+                return realm_legacy::lower_bound<0>(m_data, m_size, value);
             case 1:
-                return realm::lower_bound<1>(m_data, m_size, value);
+                return realm_legacy::lower_bound<1>(m_data, m_size, value);
             case 2:
-                return realm::lower_bound<2>(m_data, m_size, value);
+                return realm_legacy::lower_bound<2>(m_data, m_size, value);
             case 4:
-                return realm::lower_bound<4>(m_data, m_size, value);
+                return realm_legacy::lower_bound<4>(m_data, m_size, value);
             default:
                 REALM_UNREACHABLE();
                 break;
@@ -147,13 +147,13 @@ size_t ArrayUnsigned::upper_bound(uint64_t value) const noexcept
     else if (m_width < 8) {
         switch (m_width) {
             case 0:
-                return realm::upper_bound<0>(m_data, m_size, value);
+                return realm_legacy::upper_bound<0>(m_data, m_size, value);
             case 1:
-                return realm::upper_bound<1>(m_data, m_size, value);
+                return realm_legacy::upper_bound<1>(m_data, m_size, value);
             case 2:
-                return realm::upper_bound<2>(m_data, m_size, value);
+                return realm_legacy::upper_bound<2>(m_data, m_size, value);
             case 4:
-                return realm::upper_bound<4>(m_data, m_size, value);
+                return realm_legacy::upper_bound<4>(m_data, m_size, value);
             default:
                 REALM_UNREACHABLE();
                 break;
@@ -268,4 +268,4 @@ void ArrayUnsigned::truncate(size_t ndx)
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

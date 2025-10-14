@@ -22,9 +22,9 @@
 
 #include <numeric>
 
-using namespace realm;
-using namespace realm::util;
-namespace cf = realm::collection_fixtures;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+namespace cf = realm_legacy::collection_fixtures;
 
 // Create a new Set for each operation to validate that every Set function
 // initializes things correctly
@@ -171,7 +171,7 @@ TEMPLATE_PRODUCT_TEST_CASE("set all types", "[set]", (CreateNewSet, ReuseSet),
         auto check_empty = [&]() {
             REQUIRE(set().size() == 0);
             for (size_t i = 0; i < values.size(); ++i) {
-                REQUIRE(set().find(T(values[i])) == realm::not_found);
+                REQUIRE(set().find(T(values[i])) == realm_legacy::not_found);
             }
         };
         SECTION("remove()") {
@@ -412,7 +412,7 @@ TEMPLATE_PRODUCT_TEST_CASE("set of links to all types", "[set]", (CreateNewSet, 
         auto check_empty = [&] {
             REQUIRE(set().size() == 0);
             for (auto key : keys) {
-                REQUIRE(set().find(key) == realm::not_found);
+                REQUIRE(set().find(key) == realm_legacy::not_found);
             }
         };
         SECTION("remove()") {
@@ -645,15 +645,15 @@ TEMPLATE_TEST_CASE("set", "[set]", CreateNewSet<void>, ReuseSet<void>)
 
         write([&] {
             CHECK(set().insert(Decimal128(5)).second);
-            CHECK(set().insert(Decimal128(realm::null())).second);
+            CHECK(set().insert(Decimal128(realm_legacy::null())).second);
             CHECK(set().insert(Decimal128(7)).second);
         });
 
         REQUIRE(set().is_valid());
         CHECK(set().size() == 3);
-        CHECK(results.index_of(Decimal128(realm::null())) == 0);
+        CHECK(results.index_of(Decimal128(realm_legacy::null())) == 0);
         auto sorted = results.sort({{"self", false}});
-        CHECK(sorted.index_of(Decimal128(realm::null())) == 2);
+        CHECK(sorted.index_of(Decimal128(realm_legacy::null())) == 2);
     }
 
     SECTION("objects / links") {
@@ -1350,13 +1350,13 @@ TEMPLATE_TEST_CASE("set", "[set]", CreateNewSet<void>, ReuseSet<void>)
 
         write([&] {
             CHECK(set().insert(Decimal128(5)).second);
-            CHECK(set().insert(Decimal128(realm::null())).second);
+            CHECK(set().insert(Decimal128(realm_legacy::null())).second);
             CHECK(set().insert(Decimal128(7)).second);
         });
 
         write([&] {
             list.add(Decimal128(4));
-            list.add(Decimal128(realm::null()));
+            list.add(Decimal128(realm_legacy::null()));
             list.add(Decimal128(7));
             list.add(Decimal128(4));
         });

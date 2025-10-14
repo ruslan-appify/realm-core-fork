@@ -31,7 +31,7 @@
 
 #include <iostream>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 template <class L>

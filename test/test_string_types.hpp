@@ -25,10 +25,10 @@
 #include <realm/array_key.hpp>
 
 struct string_array {
-    using ColumnTestType = realm::ArrayString;
+    using ColumnTestType = realm_legacy::ArrayString;
     string_array(bool = false)
     {
-        m_col = new ColumnTestType(realm::Allocator::get_default());
+        m_col = new ColumnTestType(realm_legacy::Allocator::get_default());
         m_col->create();
         m_ref = m_col->get_ref();
     }
@@ -42,7 +42,7 @@ struct string_array {
     {
         return *m_col;
     }
-    realm::ref_type m_ref;
+    realm_legacy::ref_type m_ref;
     ColumnTestType* m_col;
     static bool is_nullable()
     {
@@ -55,10 +55,10 @@ struct string_array {
 };
 
 struct string_column {
-    using ColumnTestType = realm::BPlusTree<realm::StringData>;
+    using ColumnTestType = realm_legacy::BPlusTree<realm_legacy::StringData>;
     string_column(bool = false)
     {
-        m_col = new ColumnTestType(realm::Allocator::get_default());
+        m_col = new ColumnTestType(realm_legacy::Allocator::get_default());
         m_col->create();
         m_ref = m_col->get_ref();
     }
@@ -72,7 +72,7 @@ struct string_column {
     {
         return *m_col;
     }
-    realm::ref_type m_ref;
+    realm_legacy::ref_type m_ref;
     ColumnTestType* m_col;
     static bool is_nullable()
     {

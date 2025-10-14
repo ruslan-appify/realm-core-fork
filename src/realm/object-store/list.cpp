@@ -26,7 +26,7 @@
 #include <realm/exceptions.hpp>
 
 namespace {
-using namespace realm;
+using namespace realm_legacy;
 
 template <typename T>
 struct ListType {
@@ -40,7 +40,7 @@ struct ListType<Obj> {
 
 } // namespace
 
-namespace realm {
+namespace realm_legacy {
 using namespace _impl;
 
 List::List(const List&) = default;
@@ -323,7 +323,7 @@ template void List::insert<Mixed>(size_t, Mixed);
 template void List::set<Mixed>(size_t, Mixed);
 
 #undef REALM_PRIMITIVE_LIST_TYPE
-} // namespace realm
+} // namespace realm_legacy
 
 namespace std {
 size_t hash<List>::operator()(List const& list) const

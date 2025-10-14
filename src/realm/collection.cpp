@@ -2,7 +2,7 @@
 #include <realm/bplustree.hpp>
 #include <realm/array_key.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 size_t virtual2real(const std::vector<size_t>& vec, size_t ndx) noexcept
 {
@@ -110,4 +110,4 @@ size_t get_collection_size_from_ref(ref_type ref, Allocator& alloc)
     return ret;
 }
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

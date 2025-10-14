@@ -2,8 +2,9 @@
 #include <string>
 #include <errno.h>
 #include <algorithm>
+#include <cstdlib>
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 CliArgumentParser::ParseResult CliArgumentParser::parse(int argc, const char** argv)
 {
@@ -76,4 +77,4 @@ int64_t CliArgument::as<int64_t>() const
     return val;
 }
 
-} // namespace realm::util
+} // namespace realm_legacy::util

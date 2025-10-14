@@ -50,7 +50,7 @@
 #include "timer.hpp"
 #include "benchmark_results.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace test_util;
 
 

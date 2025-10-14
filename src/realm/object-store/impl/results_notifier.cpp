@@ -22,8 +22,8 @@
 
 #include <numeric>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 // Some of the inter-thread synchronization for this class is handled externally
 // by RealmCoordinator using the "notifier lock" which also guards registering

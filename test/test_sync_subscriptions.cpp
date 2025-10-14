@@ -10,7 +10,7 @@
 
 #include <filesystem>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 struct SubscriptionStoreFixture {
     SubscriptionStoreFixture(const test_util::DBTestPathGuard& path)
@@ -934,4 +934,4 @@ TEST(Sync_MutableSubscriptionSetOperations)
     }
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

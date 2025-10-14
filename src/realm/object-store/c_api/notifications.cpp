@@ -2,7 +2,7 @@
 #include <realm/object-store/c_api/util.hpp>
 #include <realm/object-store/keypath_helpers.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 namespace {
 struct ObjectNotificationsCallback {
     UserdataPtr m_userdata;
@@ -337,4 +337,4 @@ RLM_API void realm_collection_changes_get_changes(const realm_collection_changes
     }
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

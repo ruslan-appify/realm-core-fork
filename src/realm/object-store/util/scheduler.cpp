@@ -38,7 +38,7 @@
 
 #include <realm/object-store/util/generic/scheduler.hpp>
 
-namespace realm::util {
+namespace realm_legacy::util {
 namespace {
 
 util::UniqueFunction<std::shared_ptr<Scheduler>()> s_factory = &Scheduler::make_platform_default;
@@ -69,7 +69,7 @@ private:
     VersionID m_version;
 };
 
-class DummyScheduler : public realm::util::Scheduler {
+class DummyScheduler : public realm_legacy::util::Scheduler {
 public:
     bool is_on_thread() const noexcept override
     {
@@ -181,4 +181,4 @@ std::shared_ptr<Scheduler> Scheduler::make_uv()
 }
 #endif // REALM_HAVE_UV
 
-} // namespace realm::util
+} // namespace realm_legacy::util

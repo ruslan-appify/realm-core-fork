@@ -1,7 +1,7 @@
 #include <realm/sync/noinst/server/access_control.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 struct AccessControl::Impl final : public AccessToken::Verifier {
     util::Optional<PKey> m_public_key;

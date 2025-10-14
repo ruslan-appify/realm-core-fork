@@ -1,6 +1,6 @@
 #include <realm/sync/noinst/server/server_file_access_cache.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace _impl;
 
 

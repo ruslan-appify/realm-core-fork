@@ -24,8 +24,8 @@
 #include <string>
 #include <memory>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 using TestContext = test_util::unit_test::TestContext;
 

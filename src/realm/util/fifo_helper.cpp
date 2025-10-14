@@ -26,7 +26,7 @@
 #include <sys/stat.h>
 
 // FIFOs do not work on Windows.
-namespace realm::util {
+namespace realm_legacy::util {
 
 namespace {
 void check_is_fifo(std::string_view path)
@@ -102,4 +102,4 @@ bool try_create_fifo(std::string_view path, bool has_more_fallbacks)
     }
 }
 
-} // namespace realm::util
+} // namespace realm_legacy::util

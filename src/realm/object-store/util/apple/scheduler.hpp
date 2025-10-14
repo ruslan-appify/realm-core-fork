@@ -28,12 +28,12 @@
 
 namespace {
 struct RefCountedInvocationQueue {
-    realm::util::InvocationQueue queue;
+    realm_legacy::util::InvocationQueue queue;
     std::atomic<size_t> ref_count = {0};
 };
 } // namespace
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 class RunLoopScheduler : public util::Scheduler {
 public:
@@ -218,4 +218,4 @@ bool DispatchQueueScheduler::is_same_as(const Scheduler* other) const noexcept
     return (o && (o->m_queue == m_queue));
 }
 
-} // namespace realm::util
+} // namespace realm_legacy::util

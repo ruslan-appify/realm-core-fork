@@ -42,13 +42,13 @@
 #include <fstream>
 #include <numeric>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
-using realm::sync::HistoryEntry;
-using realm::sync::RemoteChangeset;
-using realm::sync::SyncReplication;
-using realm::sync::TransformHistory;
+using realm_legacy::sync::HistoryEntry;
+using realm_legacy::sync::RemoteChangeset;
+using realm_legacy::sync::SyncReplication;
+using realm_legacy::sync::TransformHistory;
 
 
 class ShortCircuitHistory : public SyncReplication {

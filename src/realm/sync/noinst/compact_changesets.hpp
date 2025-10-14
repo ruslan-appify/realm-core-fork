@@ -4,7 +4,7 @@
 
 #include <realm/sync/changeset.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 /// Compact changesets by removing redundant instructions.
@@ -33,9 +33,9 @@ namespace _impl {
 ///
 /// This function is thread-safe, as long as its arguments are not modified by
 /// other threads.
-void compact_changesets(realm::sync::Changeset* changesets, size_t num_changesets);
+void compact_changesets(realm_legacy::sync::Changeset* changesets, size_t num_changesets);
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_COMPACT_CHANGESETS_HPP

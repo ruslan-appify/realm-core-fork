@@ -12,7 +12,7 @@
 #include <realm/util/memory_stream.hpp>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 class TimestampFormatter {
@@ -82,6 +82,6 @@ inline auto TimestampFormatter::format(std::chrono::time_point<B> time) -> strin
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_TIMESTAMP_FORMATTER_HPP

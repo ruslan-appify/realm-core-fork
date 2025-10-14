@@ -33,7 +33,7 @@
 #include <external/mpark/variant.hpp>
 #include <stdexcept>
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace std::string_literals;
 
 // Whether to generate parser debug traces.
@@ -46,13 +46,13 @@ namespace {
 const char* agg_op_type_to_str(query_parser::AggrNode::Type type)
 {
     switch (type) {
-        case realm::query_parser::AggrNode::MAX:
+        case realm_legacy::query_parser::AggrNode::MAX:
             return ".@max";
-        case realm::query_parser::AggrNode::MIN:
+        case realm_legacy::query_parser::AggrNode::MIN:
             return ".@min";
-        case realm::query_parser::AggrNode::SUM:
+        case realm_legacy::query_parser::AggrNode::SUM:
             return ".@sum";
-        case realm::query_parser::AggrNode::AVG:
+        case realm_legacy::query_parser::AggrNode::AVG:
             return ".@avg";
     }
     return "";
@@ -103,7 +103,7 @@ bool is_length_suffix(const std::string& s)
 template <typename T>
 inline bool try_parse_specials(std::string str, T& ret)
 {
-    if constexpr (realm::is_any<T, float, double>::value || std::numeric_limits<T>::is_iec559) {
+    if constexpr (realm_legacy::is_any<T, float, double>::value || std::numeric_limits<T>::is_iec559) {
         std::transform(str.begin(), str.end(), str.begin(), toLowerAscii);
         if (std::numeric_limits<T>::has_quiet_NaN && (str == "nan" || str == "+nan")) {
             ret = std::numeric_limits<T>::quiet_NaN();
@@ -293,7 +293,7 @@ Timestamp get_timestamp_if_valid(int64_t seconds, int32_t nanoseconds)
 
 } // namespace
 
-namespace realm {
+namespace realm_legacy {
 
 namespace query_parser {
 
@@ -560,9 +560,9 @@ Query EqualityNode::visit(ParserDriver* drv)
                 switch (op) {
                     case CompareType::EQUAL:
                     case CompareType::IN:
-                        return drv->m_base_table->where().equal(col_key, realm::null());
+                        return drv->m_base_table->where().equal(col_key, realm_legacy::null());
                     case CompareType::NOT_EQUAL:
-                        return drv->m_base_table->where().not_equal(col_key, realm::null());
+                        return drv->m_base_table->where().not_equal(col_key, realm_legacy::null());
                     default:
                         break;
                 }
@@ -919,10 +919,10 @@ Query TrueOrFalseNode::visit(ParserDriver* drv)
 {
     Query q = drv->m_base_table->where();
     if (true_or_false) {
-        q.and_query(std::unique_ptr<realm::Expression>(new TrueExpression));
+        q.and_query(std::unique_ptr<realm_legacy::Expression>(new TrueExpression));
     }
     else {
-        q.and_query(std::unique_ptr<realm::Expression>(new FalseExpression));
+        q.and_query(std::unique_ptr<realm_legacy::Expression>(new FalseExpression));
     }
     return q;
 }
@@ -1016,7 +1016,7 @@ std::unique_ptr<Subexpr> SubqueryNode::visit(ParserDriver* drv, DataType)
         if (col_key.get_type() != col_type_LinkList) {
             throw InvalidQueryError(util::format("A subquery must operate on a list property, but '%1' is type '%2'",
                                                  identifier,
-                                                 realm::get_data_type_name(DataType(col_key.get_type()))));
+                                                 realm_legacy::get_data_type_name(DataType(col_key.get_type()))));
         }
         lc.link(identifier);
     }
@@ -1358,7 +1358,7 @@ std::unique_ptr<Subexpr> ConstantNode::visit(ParserDriver* drv, DataType hint)
                 ret = std::make_unique<Value<Binary>>(BinaryData()); // Null string
             }
             else {
-                ret = std::make_unique<Value<null>>(realm::null());
+                ret = std::make_unique<Value<null>>(realm_legacy::null());
             }
             break;
         case Type::TRUE:
@@ -1376,7 +1376,7 @@ std::unique_ptr<Subexpr> ConstantNode::visit(ParserDriver* drv, DataType hint)
             }
             if (drv->m_args.is_argument_null(arg_no)) {
                 explain_value_message = util::format("argument '%1' which is NULL", explain_value_message);
-                ret = std::make_unique<Value<null>>(realm::null());
+                ret = std::make_unique<Value<null>>(realm_legacy::null());
             }
             else if (drv->m_args.is_argument_list(arg_no)) {
                 std::vector<Mixed> mixed_list = drv->m_args.list_for_argument(arg_no);
@@ -2043,4 +2043,4 @@ SubQuery<T> column(const Table& origin, ColKey origin_col_key, Query subquery)
     return SubQuery<T>(column<T>(origin, origin_col_key), std::move(subquery));
 }
 
-} // namespace realm
+} // namespace realm_legacy

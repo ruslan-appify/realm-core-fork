@@ -60,9 +60,9 @@
 
 extern unsigned int unit_test_random_seed;
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 
@@ -344,7 +344,7 @@ ONLY(Shared_DiskSpace)
 {
     for (;;) {
         if (!File::exists("x")) {
-            File f("x", realm::util::File::mode_Write);
+            File f("x", realm_legacy::util::File::mode_Write);
             f.write(std::string(18 * 1024 * 1024, 'x'));
             f.close();
         }
@@ -3137,7 +3137,7 @@ TEST(Shared_LockFileOfWrongSizeThrows)
         // On Windows, we implement a shared lock on a file by locking the first byte of the file. Since
         // you cannot write to a locked region using WriteFile(), we use memory mapping which works fine, and
         // which is also the same method used by the .lock file initialization in SharedGroup::do_open()
-        char* mem = static_cast<char*>(f.map(realm::util::File::access_ReadWrite, 1));
+        char* mem = static_cast<char*>(f.map(realm_legacy::util::File::access_ReadWrite, 1));
 
         // set init_complete flag to 1 and sync
         mem[0] = 1;
@@ -3387,12 +3387,12 @@ TEST(Shared_ConstObjectIterator)
     t4->clear();
     auto i5(i4);
     // dereferencing an invalid iterator will throw
-    CHECK_THROW(*i5, realm::Exception);
+    CHECK_THROW(*i5, realm_legacy::Exception);
     // but moving it will not, it just stays invalid
     ++i5;
     i5 += 3;
     // so, should still throw
-    CHECK_THROW(*i5, realm::Exception);
+    CHECK_THROW(*i5, realm_legacy::Exception);
     CHECK(i5 == t4->end());
 }
 
@@ -3425,7 +3425,7 @@ TEST_IF(Shared_DecryptExisting, REALM_ENABLE_ENCRYPTION)
     // Page size of system that reads the .realm file must be the same as on the system
     // that created it, because we are running with encryption
     std::string path = test_util::get_test_resource_path() + "test_shared_decrypt_" +
-                       realm::util::to_string(page_size() / 1024) + "k_page.realm";
+                       realm_legacy::util::to_string(page_size() / 1024) + "k_page.realm";
 
 #if 0 // set to 1 to generate the .realm file
     {
@@ -4360,7 +4360,7 @@ TEST(Shared_WriteToFail)
 
 NONCONCURRENT_TEST_IF(Shared_LockFileConcurrentInit, testing_supports_spawn_process)
 {
-    auto path = realm::test_util::get_test_path(test_context.get_test_name(), ".test-dir");
+    auto path = realm_legacy::test_util::get_test_path(test_context.get_test_name(), ".test-dir");
     test_util::TestDirGuard test_dir(path, false);
     test_dir.do_remove = SpawnedProcess::is_parent();
     auto lock_prefix = std::string(path) + "/lock";

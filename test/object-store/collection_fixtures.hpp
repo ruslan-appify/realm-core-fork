@@ -32,7 +32,7 @@
 #include <string>
 #include <type_traits>
 
-namespace realm::collection_fixtures {
+namespace realm_legacy::collection_fixtures {
 
 template <typename T>
 constexpr bool always_false = false;
@@ -236,7 +236,7 @@ struct Date : Base<PropertyType::Date, Timestamp> {
     }
 };
 
-struct MixedVal : Base<PropertyType::Mixed, realm::Mixed> {
+struct MixedVal : Base<PropertyType::Mixed, realm_legacy::Mixed> {
     constexpr static const char* name = "mixed";
     using AvgType = Decimal128;
     constexpr static bool is_optional = true;
@@ -245,12 +245,12 @@ struct MixedVal : Base<PropertyType::Mixed, realm::Mixed> {
     constexpr static bool can_minmax = true;
     constexpr static PropertyType property_type = PropertyType::Mixed | PropertyType::Nullable;
 
-    static std::vector<realm::Mixed> values()
+    static std::vector<realm_legacy::Mixed> values()
     {
         return {
-            Mixed{realm::UUID()},
+            Mixed{realm_legacy::UUID()},
             Mixed{},
-            Mixed{realm::ObjectId()},
+            Mixed{realm_legacy::ObjectId()},
 
             // Mixed sorting considers all numerics to be the same time, so
             // ensure we have some interleaved values to test that
@@ -310,12 +310,12 @@ struct OID : Base<PropertyType::ObjectId, ObjectId> {
     }
 };
 
-struct UUID : Base<PropertyType::UUID, realm::UUID> {
+struct UUID : Base<PropertyType::UUID, realm_legacy::UUID> {
     constexpr static const char* name = "uuid";
-    static std::vector<realm::UUID> values()
+    static std::vector<realm_legacy::UUID> values()
     {
-        return {realm::UUID("3b241101-e2bb-4255-8caf-4136c566a962"),
-                realm::UUID("3b241101-a2b3-4255-8caf-4136c566a999")};
+        return {realm_legacy::UUID("3b241101-e2bb-4255-8caf-4136c566a962"),
+                realm_legacy::UUID("3b241101-a2b3-4255-8caf-4136c566a999")};
     }
 };
 
@@ -391,7 +391,7 @@ struct UnboxedOptional : BaseT {
         auto ret = BaseT::values();
         if constexpr (std::is_same_v<BaseT, collection_fixtures::Decimal>) {
             // The default Decimal128 ctr is 0, but we want a null value
-            ret.push_back(Decimal128(realm::null()));
+            ret.push_back(Decimal128(realm_legacy::null()));
         }
         else {
             ret.push_back(typename BaseT::Type());
@@ -507,7 +507,7 @@ struct ListOfObjects : public LinkedCollectionBase {
         ColKey col = get_link_col_key(from.get_table());
         auto coll = from.get_linklist(col);
         size_t ndx = coll.find_first(to.get_obj_key());
-        if (ndx != realm::not_found) {
+        if (ndx != realm_legacy::not_found) {
             coll.remove(ndx);
             return true;
         }
@@ -578,7 +578,7 @@ struct ListOfMixedLinks : public LinkedCollectionBase {
         ColKey col = get_link_col_key(from.get_table());
         auto coll = from.get_list<Mixed>(col);
         size_t ndx = coll.find_first(Mixed{to});
-        if (ndx != realm::not_found) {
+        if (ndx != realm_legacy::not_found) {
             coll.remove(ndx);
             return true;
         }
@@ -867,9 +867,9 @@ struct DictionaryOfMixedLinks : public LinkedCollectionBase {
 };
 
 
-} // namespace realm::collection_fixtures
+} // namespace realm_legacy::collection_fixtures
 
-namespace realm {
+namespace realm_legacy {
 template <typename T>
 bool operator==(List const& list, std::vector<T> const& values)
 {

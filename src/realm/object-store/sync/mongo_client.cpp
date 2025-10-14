@@ -21,7 +21,7 @@
 
 #include <realm/object-store/sync/app_service_client.hpp>
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 MongoClient::~MongoClient() = default;
 
@@ -35,4 +35,4 @@ MongoDatabase MongoClient::db(const std::string& name)
     return MongoDatabase(name, m_user, m_service, m_service_name);
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app

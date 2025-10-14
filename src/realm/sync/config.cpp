@@ -24,7 +24,7 @@
 
 #include <ostream>
 
-namespace realm {
+namespace realm_legacy {
 namespace {
 
 constexpr static std::string_view s_middle_part(" Logs: ");
@@ -41,7 +41,7 @@ std::string format_sync_error_message(const Status& status, std::optional<std::s
 // sync defines its own copy of port_type to avoid depending on network.hpp, but they should be the same.
 static_assert(std::is_same_v<sync::port_type, sync::network::Endpoint::port_type>);
 
-using ProtocolError = realm::sync::ProtocolError;
+using ProtocolError = realm_legacy::sync::ProtocolError;
 
 SyncError::SyncError(Status orig_status, bool is_fatal, std::optional<std::string_view> server_log,
                      std::vector<sync::CompensatingWriteErrorInfo> compensating_writes)
@@ -91,4 +91,4 @@ SyncConfig::SyncConfig(std::shared_ptr<SyncUser> user, FLXSyncEnabled)
 {
 }
 
-} // namespace realm
+} // namespace realm_legacy

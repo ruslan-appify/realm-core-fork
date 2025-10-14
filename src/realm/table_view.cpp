@@ -23,7 +23,7 @@
 
 #include <unordered_set>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TableView::TableView(TableView& src, Transaction* tr, PayloadPolicy policy_mode)
     : m_source_column_key(src.m_source_column_key)
@@ -106,7 +106,7 @@ Mixed TableView::aggregate(ColKey column_key, size_t* result_count, ObjKey* retu
         ObjKey key(get_key(tv_index));
 
         // skip detached references:
-        if (key == realm::null_key)
+        if (key == realm_legacy::null_key)
             continue;
 
         const Obj obj = m_table->try_get_object(key);
@@ -165,7 +165,7 @@ size_t TableView::aggregate_count(ColKey column_key, T count_target) const
         ObjKey key(get_key(tv_index));
 
         // skip detached references:
-        if (key == realm::null_key)
+        if (key == realm_legacy::null_key)
             continue;
 
         const Obj obj = m_table->try_get_object(key);

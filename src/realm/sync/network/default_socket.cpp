@@ -8,7 +8,7 @@
 #include <realm/util/random.hpp>
 #include <realm/util/scope_exit.hpp>
 
-namespace realm::sync::websocket {
+namespace realm_legacy::sync::websocket {
 
 namespace {
 
@@ -693,4 +693,4 @@ std::unique_ptr<WebSocketInterface> DefaultSocketProvider::connect(std::unique_p
                                                   std::move(observer), std::move(endpoint));
 }
 
-} // namespace realm::sync::websocket
+} // namespace realm_legacy::sync::websocket

@@ -61,7 +61,7 @@
 
 using namespace std::string_literals;
 
-namespace realm {
+namespace realm_legacy {
 
 class TestHelper {
 public:
@@ -73,7 +73,7 @@ public:
 
 } // namespace realm
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 namespace {
 const Schema g_minimal_schema{
@@ -658,7 +658,7 @@ TEST_CASE("flx: client reset", "[sync][flx][client reset][baas]") {
         auto&& [error_future, error_handler] = make_error_handler();
         config_local.sync_config->error_handler = error_handler;
 
-        std::string fresh_path = realm::_impl::client_reset::get_fresh_path_for(config_local.path);
+        std::string fresh_path = realm_legacy::_impl::client_reset::get_fresh_path_for(config_local.path);
         // create a non-empty directory that we'll fail to delete
         util::make_dir(fresh_path);
         util::File(util::File::resolve("file", fresh_path), util::File::mode_Write);
@@ -1153,7 +1153,7 @@ TEST_CASE("flx: client reset", "[sync][flx][client reset][baas]") {
         auto&& [error_future, error_handler] = make_error_handler();
         config_local.sync_config->error_handler = error_handler;
 
-        std::string fresh_path = realm::_impl::client_reset::get_fresh_path_for(config_local.path);
+        std::string fresh_path = realm_legacy::_impl::client_reset::get_fresh_path_for(config_local.path);
         // create a non-empty directory that we'll fail to delete
         util::make_dir(fresh_path);
         util::File(util::File::resolve("file", fresh_path), util::File::mode_Write);
@@ -1943,7 +1943,7 @@ TEST_CASE("flx: geospatial", "[sync][flx][geospatial][baas]") {
 
     SECTION("Server supports a basic geowithin FLX query") {
         harness->do_with_new_realm([&](SharedRealm realm) {
-            const realm::AppSession& app_session = harness->session().app_session();
+            const realm_legacy::AppSession& app_session = harness->session().app_session();
             auto sync_service = app_session.admin_api.get_sync_service(app_session.server_app_id);
 
             AdminAPISession::ServiceConfig config =
@@ -3158,7 +3158,7 @@ static void check_document(const std::vector<bson::BsonDocument>& documents, Obj
 }
 
 TEST_CASE("flx: data ingest", "[sync][flx][data ingest][baas]") {
-    using namespace ::realm::bson;
+    using namespace ::realm_legacy::bson;
 
     static auto server_schema = [] {
         FLXSyncTestHarness::ServerSchema server_schema;
@@ -4322,9 +4322,9 @@ TEST_CASE("flx: open realm + register subscription callback while bootstrapping"
         auto realm = Realm::get_shared_realm(config);
         REQUIRE(subscription_pf.future.get());
         auto sb = realm->get_latest_subscription_set();
-        auto future = sb.get_state_change_notification(realm::sync::SubscriptionSet::State::Complete);
+        auto future = sb.get_state_change_notification(realm_legacy::sync::SubscriptionSet::State::Complete);
         auto state = future.get();
-        REQUIRE(state == realm::sync::SubscriptionSet::State::Complete);
+        REQUIRE(state == realm_legacy::sync::SubscriptionSet::State::Complete);
         realm->refresh(); // refresh is needed otherwise table_ref->size() would be 0
         REQUIRE(verify_subscription(realm));
     }
@@ -4336,9 +4336,9 @@ TEST_CASE("flx: open realm + register subscription callback while bootstrapping"
             auto realm = Realm::get_shared_realm(config);
             REQUIRE(subscription_pf.future.get());
             auto sb = realm->get_latest_subscription_set();
-            auto future = sb.get_state_change_notification(realm::sync::SubscriptionSet::State::Complete);
+            auto future = sb.get_state_change_notification(realm_legacy::sync::SubscriptionSet::State::Complete);
             auto state = future.get();
-            REQUIRE(state == realm::sync::SubscriptionSet::State::Complete);
+            REQUIRE(state == realm_legacy::sync::SubscriptionSet::State::Complete);
             realm->refresh(); // refresh is needed otherwise table_ref->size() would be 0
             REQUIRE(verify_subscription(realm));
         }
@@ -4485,9 +4485,9 @@ TEST_CASE("flx: open realm + register subscription callback while bootstrapping"
                     subscription_invoked = false;
                     auto realm = Realm::get_shared_realm(config);
                     auto sb = realm->get_latest_subscription_set();
-                    auto future = sb.get_state_change_notification(realm::sync::SubscriptionSet::State::Complete);
+                    auto future = sb.get_state_change_notification(realm_legacy::sync::SubscriptionSet::State::Complete);
                     auto state = future.get();
-                    REQUIRE(state == realm::sync::SubscriptionSet::State::Complete);
+                    REQUIRE(state == realm_legacy::sync::SubscriptionSet::State::Complete);
                     realm->refresh(); // refresh is needed otherwise table_ref->size() would be 0
                     REQUIRE(verify_subscription(realm));
                     REQUIRE(realm->get_latest_subscription_set().version() == 1);
@@ -4715,7 +4715,7 @@ TEST_CASE("flx: fatal errors and session becoming inactive cancel pending waits"
         }
     };
 
-    auto create_subscription = [](auto realm) -> realm::sync::SubscriptionSet {
+    auto create_subscription = [](auto realm) -> realm_legacy::sync::SubscriptionSet {
         auto mut_subs = realm->get_latest_subscription_set().make_mutable_copy();
         auto table = realm->read_group().get_table("class_TopLevel");
         mut_subs.insert_or_assign(Query(table));
@@ -4800,6 +4800,6 @@ TEST_CASE("flx: pause and resume bootstrapping at query version 0", "[sync][flx]
     REQUIRE(active_sub_set.state() == sync::SubscriptionSet::State::Complete);
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app
 
 #endif // REALM_ENABLE_AUTH_TESTS

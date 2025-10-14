@@ -37,9 +37,9 @@
 #include "util/misc.hpp"
 #include "util/spawned_process.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 // Test independence and thread-safety
@@ -698,7 +698,7 @@ TEST(LangBindHelper_AdvanceReadTransact_AddTableWithFreshSharedGroup)
 
     // Add the first table
     {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
         wt.add_table("table_1");
@@ -706,13 +706,13 @@ TEST(LangBindHelper_AdvanceReadTransact_AddTableWithFreshSharedGroup)
     }
 
     // Create a SharedGroup to which we can apply a foreign transaction
-    std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+    std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
     DBRef sg = DB::create(*hist, path, DBOptions(crypt_key()));
     TransactionRef rt = sg->start_read();
 
     // Add the second table in a "foreign" transaction
     {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
         wt.add_table("table_2");
@@ -735,7 +735,7 @@ TEST(LangBindHelper_AdvanceReadTransact_RemoveTableWithFreshSharedGroup)
 
     // Add the table
     {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
         wt.add_table("table");
@@ -743,13 +743,13 @@ TEST(LangBindHelper_AdvanceReadTransact_RemoveTableWithFreshSharedGroup)
     }
 
     // Create a SharedGroup to which we can apply a foreign transaction
-    std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+    std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
     DBRef sg = DB::create(*hist, path, DBOptions(crypt_key()));
     TransactionRef rt = sg->start_read();
 
     // remove the table in a "foreign" transaction
     {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
         wt.get_group().remove_table("table");
@@ -766,14 +766,14 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_CreateManyTables, testi
     SHARED_GROUP_TEST_PATH(path2);
 
     if (SpawnedProcess::is_parent()) {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
         wt.add_table("table");
         wt.commit();
     }
 
-    std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+    std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
     DBRef sg = DB::create(*hist, path, DBOptions(crypt_key()));
     TransactionRef rt = sg->start_read();
 
@@ -781,7 +781,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_CreateManyTables, testi
     if (process->is_child()) {
         size_t free_space, used_space;
         {
-            std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+            std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
             DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
 
             WriteTransaction wt(sg_w);
@@ -792,7 +792,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_CreateManyTables, testi
             sg_w->get_stats(free_space, used_space);
         }
         {
-            std::unique_ptr<Replication> hist_w2(realm::make_in_realm_history());
+            std::unique_ptr<Replication> hist_w2(realm_legacy::make_in_realm_history());
             DBRef sg_w2 = DB::create(*hist_w2, path2, DBOptions(crypt_key()));
             WriteTransaction wt(sg_w2);
             auto table = wt.add_table("stats");
@@ -808,7 +808,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_CreateManyTables, testi
     }
     size_t reported_used_space = 0;
     {
-        std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
         DBRef sg = DB::create(*hist, path2, DBOptions(crypt_key()));
         WriteTransaction wt(sg);
         auto table = wt.get_table("stats");
@@ -830,7 +830,7 @@ TEST(LangBindHelper_AdvanceReadTransact_PinnedSize)
     constexpr int iterations = 10;
     constexpr int rows_per_iteration = num_rows / iterations;
 
-    std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+    std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
     auto sg = DB::create(*hist, path, DBOptions(crypt_key()));
     ObjKeys keys;
 
@@ -906,7 +906,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_InsertTable, testing_su
     SHARED_GROUP_TEST_PATH(path);
 
     if (test_util::SpawnedProcess::is_parent()) {
-        std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+        std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
         DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
         WriteTransaction wt(sg_w);
 
@@ -920,7 +920,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_InsertTable, testing_su
         wt.commit();
     }
 
-    std::unique_ptr<Replication> hist(realm::make_in_realm_history());
+    std::unique_ptr<Replication> hist(realm_legacy::make_in_realm_history());
     DBRef sg = DB::create(*hist, path, DBOptions(crypt_key()));
     TransactionRef rt = sg->start_read();
 
@@ -930,7 +930,7 @@ NONCONCURRENT_TEST_IF(LangBindHelper_AdvanceReadTransact_InsertTable, testing_su
     auto process = test_util::spawn_process(test_context.test_details.test_name, "add_table");
     if (process->is_child()) {
         {
-            std::unique_ptr<Replication> hist_w(realm::make_in_realm_history());
+            std::unique_ptr<Replication> hist_w(realm_legacy::make_in_realm_history());
             DBRef sg_w = DB::create(*hist_w, path, DBOptions(crypt_key()));
             WriteTransaction wt(sg_w);
             wt.get_group().add_table("new table");
@@ -3516,7 +3516,7 @@ TEST(LangBindHelper_SubqueryHandoverDependentViews)
             CHECK_EQUAL(51, tv1.size());
         }
         {
-            realm::TableView tv = qq2->equal(col1, true).find_all();
+            realm_legacy::TableView tv = qq2->equal(col1, true).find_all();
 
             CHECK(tv.is_in_sync());
             CHECK(tv.is_attached());
@@ -4592,8 +4592,8 @@ TEST(LangBindHelper_HandoverWithLinkQueries)
     // Do a query (which will have zero results) and export it twice.
     // To test separation, we'll later modify state at the exporting side,
     // and verify that the two different imports still get identical results
-    realm::Query query = table1->link(col_link2).column<String>(col_str) == "nabil";
-    realm::TableView tv4 = query.find_all();
+    realm_legacy::Query query = table1->link(col_link2).column<String>(col_str) == "nabil";
+    realm_legacy::TableView tv4 = query.find_all();
 
     auto rec1 = group_w->duplicate();
     auto q1 = rec1->import_copy_of(query, PayloadPolicy::Copy);
@@ -4601,7 +4601,7 @@ TEST(LangBindHelper_HandoverWithLinkQueries)
     auto q2 = rec2->import_copy_of(query, PayloadPolicy::Copy);
 
     {
-        realm::TableView tv = q1->find_all();
+        realm_legacy::TableView tv = q1->find_all();
         CHECK_EQUAL(0, tv.size());
     }
 
@@ -4615,7 +4615,7 @@ TEST(LangBindHelper_HandoverWithLinkQueries)
     {
         // Import query and evaluate in the old context. This should *not* be
         // affected by the change done above on the exporting side.
-        realm::TableView tv2 = q2->find_all();
+        realm_legacy::TableView tv2 = q2->find_all();
         CHECK_EQUAL(0, tv2.size());
     }
 }
@@ -4747,7 +4747,7 @@ TEST(LangBindHelper_HandoverQuerySubQuery)
 
         group_w->commit_and_continue_as_read();
 
-        realm::Query query_2 = source->column<Link>(col_link, target->column<String>(col_name) == "C").count() == 1;
+        realm_legacy::Query query_2 = source->column<Link>(col_link, target->column<String>(col_name) == "C").count() == 1;
         reader = group_w->duplicate();
         query = reader->import_copy_of(query_2, PayloadPolicy::Copy);
     }
@@ -4972,7 +4972,7 @@ TEST(LangBindHelper_CompactLargeEncryptedFile)
 {
     SHARED_GROUP_TEST_PATH(path);
 
-    std::vector<char> data(realm::util::page_size());
+    std::vector<char> data(realm_legacy::util::page_size());
     const size_t N = 32;
 
     {
@@ -5114,7 +5114,7 @@ TEST_IF(LangBindHelper_HandoverFuzzyTest, TEST_DURATION > 0)
         }
         rt->verify();
         {
-            realm::Query query = dog->link(c3).column<String>(c0) == "owner" + to_string(rand() % numberOfOwner);
+            realm_legacy::Query query = dog->link(c3).column<String>(c0) == "owner" + to_string(rand() % numberOfOwner);
             query.find_all(); // <-- fails
         }
         rt->commit();
@@ -5135,7 +5135,7 @@ TEST_IF(LangBindHelper_HandoverFuzzyTest, TEST_DURATION > 0)
                 qs.erase(qs.begin());
                 vector_mutex.unlock();
 
-                realm::TableView tv = q->find_all();
+                realm_legacy::TableView tv = q->find_all();
             }
             else {
                 vector_mutex.unlock();
@@ -5148,7 +5148,7 @@ TEST_IF(LangBindHelper_HandoverFuzzyTest, TEST_DURATION > 0)
     // Create and export query
     TableRef dog = rt->get_table("Dog");
 
-    realm::Query query = dog->link(c3).column<String>(c0) == "owner" + to_string(rand() % numberOfOwner);
+    realm_legacy::Query query = dog->link(c3).column<String>(c0) == "owner" + to_string(rand() % numberOfOwner);
     query.find_all(); // <-- fails
 
     Thread slaves[threads];
@@ -5284,7 +5284,7 @@ TEST(LangBindHelper_SessionHistoryConsistency)
         DBRef sg = DB::create(path, false, DBOptions(crypt_key()));
 
         // Out-of-Realm history
-        std::unique_ptr<Replication> hist = realm::make_in_realm_history();
+        std::unique_ptr<Replication> hist = realm_legacy::make_in_realm_history();
         CHECK_RUNTIME_ERROR(DB::create(*hist, path, DBOptions(crypt_key())), ErrorCodes::IncompatibleSession);
     }
 }

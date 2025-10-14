@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <cstring>
 
-namespace realm {
+namespace realm_legacy {
 
 ErrorCategory ErrorCodes::error_categories(Error code)
 {
@@ -504,4 +504,4 @@ std::ostream& operator<<(std::ostream& stream, ErrorCodes::Error code)
 }
 
 
-} // namespace realm
+} // namespace realm_legacy

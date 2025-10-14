@@ -4,7 +4,7 @@
 
 #include <realm/sync/protocol.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 class ServerImplBase {
@@ -23,6 +23,6 @@ static_assert(ServerImplBase::get_oldest_supported_protocol_version() >= 1, "");
 static_assert(ServerImplBase::get_oldest_supported_protocol_version() <= sync::get_current_protocol_version(), "");
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_SERVER_IMPL_BASE_HPP

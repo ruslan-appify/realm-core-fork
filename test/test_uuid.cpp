@@ -23,7 +23,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -587,15 +587,15 @@ TEST_TYPES(UUID_Query, WithIndex, WithoutIndex)
 
         Query q2 = table->column<UUID>(col_id) == uuid3;
         CHECK_EQUAL(q2.count(), 34);
-        q2 = table->column<UUID>(col_id) == realm::null();
+        q2 = table->column<UUID>(col_id) == realm_legacy::null();
         CHECK_EQUAL(q2.count(), num_expected_nulls);
-        q2 = table->where().equal(col_id, realm::null());
+        q2 = table->where().equal(col_id, realm_legacy::null());
         CHECK_EQUAL(q2.count(), num_expected_nulls);
 
         // Test query over links
         Query q3 = origin->link(col_owns).column<UUID>(col_id) == uuid3;
         CHECK_EQUAL(q3.count(), 34);
-        q3 = origin->link(col_owns).column<UUID>(col_id) == realm::null();
+        q3 = origin->link(col_owns).column<UUID>(col_id) == realm_legacy::null();
         CHECK_EQUAL(q3.count(), num_expected_nulls);
 
         // Test query over backlink (link list)

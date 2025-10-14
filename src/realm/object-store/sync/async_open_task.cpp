@@ -25,10 +25,10 @@
 #include <realm/object-store/sync/sync_session.hpp>
 #include <realm/object-store/thread_safe_reference.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 AsyncOpenTask::AsyncOpenTask(Private, std::shared_ptr<_impl::RealmCoordinator> coordinator,
-                             std::shared_ptr<realm::SyncSession> session, bool db_first_open)
+                             std::shared_ptr<realm_legacy::SyncSession> session, bool db_first_open)
     : m_coordinator(coordinator)
     , m_session(session)
     , m_db_first_open(db_first_open)
@@ -136,7 +136,7 @@ void AsyncOpenTask::attach_to_subscription_initializer(AsyncOpenCallback&& callb
         std::shared_ptr<AsyncOpenTask> self(shared_from_this());
         init_subscription.get_state_change_notification(sync::SubscriptionSet::State::Complete)
             .get_async([self, coordinator, callback = std::move(callback)](
-                           StatusWith<realm::sync::SubscriptionSet::State> state) mutable {
+                           StatusWith<realm_legacy::sync::SubscriptionSet::State> state) mutable {
                 self->async_open_complete(std::move(callback), coordinator, state.get_status());
             });
     }
@@ -270,4 +270,4 @@ void AsyncOpenTask::wait_for_bootstrap_or_complete(AsyncOpenCallback&& callback,
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

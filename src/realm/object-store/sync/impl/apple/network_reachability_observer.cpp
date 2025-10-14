@@ -20,8 +20,8 @@
 
 #if NETWORK_REACHABILITY_AVAILABLE
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 namespace {
 

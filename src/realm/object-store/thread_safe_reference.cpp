@@ -31,7 +31,7 @@
 #include <realm/db.hpp>
 #include <realm/keys.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 using OsDict = object_store::Dictionary;
 
@@ -304,4 +304,4 @@ template bool ThreadSafeReference::is<object_store::Set>() const;
 template bool ThreadSafeReference::is<OsDict>() const;
 template bool ThreadSafeReference::is<Object>() const;
 
-} // namespace realm
+} // namespace realm_legacy

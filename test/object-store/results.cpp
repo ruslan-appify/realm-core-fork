@@ -45,7 +45,7 @@
 
 #include <random>
 
-namespace realm {
+namespace realm_legacy {
 class TestHelper {
 public:
     static DBRef& get_shared_group(SharedRealm const& shared_realm)
@@ -60,19 +60,19 @@ template <>
 struct StringMaker<std::any> {
     static std::string convert(std::any const& any)
     {
-        return realm::util::format("Any<%1>", any.type().name());
+        return realm_legacy::util::format("Any<%1>", any.type().name());
     }
 };
 template <>
-struct StringMaker<realm::util::Optional<std::any>> {
-    static std::string convert(realm::util::Optional<std::any> any)
+struct StringMaker<realm_legacy::util::Optional<std::any>> {
+    static std::string convert(realm_legacy::util::Optional<std::any> any)
     {
-        return any ? realm::util::format("some(Any<%1>)", any->type().name()) : "none";
+        return any ? realm_legacy::util::format("some(Any<%1>)", any->type().name()) : "none";
     }
 };
 } // namespace Catch
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace std::string_literals;
 using util::any_cast;
 
@@ -85,7 +85,7 @@ struct TestContext : CppContext {
     std::map<std::string, AnyDict> defaults;
 
     using CppContext::CppContext;
-    TestContext(TestContext& parent, realm::Obj& obj, realm::Property const& prop)
+    TestContext(TestContext& parent, realm_legacy::Obj& obj, realm_legacy::Property const& prop)
         : CppContext(parent, obj, prop)
         , defaults(parent.defaults)
     {
@@ -4279,12 +4279,12 @@ TEST_CASE("results: list of primitives indexes", "[results]") {
             REQUIRE(results.index_of(Mixed(int64_t(i))) == i);
     }
     SECTION("index_of(null)") {
-        REQUIRE(results.index_of(Mixed{}) == realm::not_found);
+        REQUIRE(results.index_of(Mixed{}) == realm_legacy::not_found);
     }
     SECTION("index_of() with type checking") {
         SECTION("double does not match") {
             for (size_t i = 0; i < num_items; ++i)
-                REQUIRE(results.index_of(Mixed(double(i))) == realm::not_found);
+                REQUIRE(results.index_of(Mixed(double(i))) == realm_legacy::not_found);
         }
     }
 }
@@ -4318,10 +4318,10 @@ TEST_CASE("results: dictionary keys", "[results][dictionary]") {
         }
     }
     SECTION("index_of() non existant key") {
-        REQUIRE(results.index_of(Mixed("foo")) == realm::npos);
+        REQUIRE(results.index_of(Mixed("foo")) == realm_legacy::npos);
     }
     SECTION("index_of() wrong key type") {
-        REQUIRE(results.index_of(Mixed(int64_t(0))) == realm::npos);
+        REQUIRE(results.index_of(Mixed(int64_t(0))) == realm_legacy::npos);
     }
 }
 
@@ -4755,7 +4755,7 @@ TEST_CASE("results: nullable list of primitives", "[results]") {
     auto obj = table->create_object_with_primary_key(1);
     List nullable_decimal_list(realm, obj, nullable_decimal_col);
     List non_nullable_decimal_list(realm, obj, non_nullable_decimal_col);
-    nullable_decimal_list.add(Decimal128{realm::null()});
+    nullable_decimal_list.add(Decimal128{realm_legacy::null()});
     non_nullable_decimal_list.add(Decimal128{});
     List nullable_oid_list(realm, obj, nullable_oid_col);
     List non_nullable_oid_list(realm, obj, non_nullable_oid_col);
@@ -4769,7 +4769,7 @@ TEST_CASE("results: nullable list of primitives", "[results]") {
         Results r_non_nullable = non_nullable_decimal_list.as_results();
         CHECK(r_nullable.size() == 1);
         CHECK(r_non_nullable.size() == 1);
-        CHECK(r_nullable.get<Decimal128>(0) == Decimal128(realm::null()));
+        CHECK(r_nullable.get<Decimal128>(0) == Decimal128(realm_legacy::null()));
         CHECK(r_non_nullable.get<Decimal128>(0) == Decimal128(0));
     }
 

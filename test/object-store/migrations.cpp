@@ -40,7 +40,7 @@
 #include <util/sync/flx_sync_harness.hpp>
 #endif // REALM_ENABLE_AUTH_TESTS
 
-using namespace realm;
+using namespace realm_legacy;
 using ObjectType = ObjectSchema::ObjectType;
 using util::any_cast;
 

@@ -39,8 +39,8 @@
 #include <realm/sync/noinst/sync_schema_migration.hpp>
 #include <realm/sync/protocol.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 using SessionWaiterPointer = void (sync::Session::*)(util::UniqueFunction<void(std::error_code)>);
 
@@ -280,7 +280,7 @@ void SyncSession::handle_bad_auth(const std::shared_ptr<SyncUser>& user, Status 
 
 static bool check_for_auth_failure(const app::AppError& error)
 {
-    using namespace realm::sync;
+    using namespace realm_legacy::sync;
     // Auth failure is returned as a 401 (unauthorized) or 403 (forbidden) response
     if (error.additional_status_code) {
         auto status_code = HTTPStatus(*error.additional_status_code);
@@ -293,7 +293,7 @@ static bool check_for_auth_failure(const app::AppError& error)
 
 static bool check_for_redirect_response(const app::AppError& error)
 {
-    using namespace realm::sync;
+    using namespace realm_legacy::sync;
     // Check for unhandled 301/308 permanent redirect response
     if (error.additional_status_code) {
         auto status_code = HTTPStatus(*error.additional_status_code);

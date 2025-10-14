@@ -24,7 +24,7 @@
 #include <numeric>
 #include <unordered_map>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -120,7 +120,7 @@ TypeOfValue::Attribute attribute_from(DataType type)
 }
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 TypeOfValue::TypeOfValue(int64_t attributes)
     : m_attributes(attributes)
@@ -206,4 +206,4 @@ std::string TypeOfValue::to_string() const
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

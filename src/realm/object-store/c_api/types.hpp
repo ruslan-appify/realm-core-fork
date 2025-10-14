@@ -28,7 +28,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 class NotClonable : public RuntimeError {
 public:
     NotClonable()
@@ -106,12 +106,12 @@ struct FreeUserdata {
 using UserdataPtr = std::unique_ptr<void, FreeUserdata>;
 using SharedUserdata = std::shared_ptr<void>;
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api
 
-struct realm_async_error : realm::c_api::WrapC {
-    realm::c_api::ErrorStorage error_storage;
+struct realm_async_error : realm_legacy::c_api::WrapC {
+    realm_legacy::c_api::ErrorStorage error_storage;
 
-    explicit realm_async_error(const realm::c_api::ErrorStorage& storage)
+    explicit realm_async_error(const realm_legacy::c_api::ErrorStorage& storage)
         : error_storage(storage)
     {
     }
@@ -135,14 +135,14 @@ struct realm_async_error : realm::c_api::WrapC {
     }
 };
 
-struct realm_thread_safe_reference : realm::c_api::WrapC {
+struct realm_thread_safe_reference : realm_legacy::c_api::WrapC {
     realm_thread_safe_reference(const realm_thread_safe_reference&) = delete;
 
 protected:
     realm_thread_safe_reference() {}
 };
 
-struct realm_config : realm::c_api::WrapC, realm::RealmConfig {
+struct realm_config : realm_legacy::c_api::WrapC, realm_legacy::RealmConfig {
     using RealmConfig::RealmConfig;
     std::map<void*, realm_free_userdata_func_t> free_functions;
     realm_config(const realm_config&) = delete;
@@ -156,9 +156,9 @@ struct realm_config : realm::c_api::WrapC, realm::RealmConfig {
 };
 
 // LCOV_EXCL_START
-struct realm_scheduler : realm::c_api::WrapC, std::shared_ptr<realm::util::Scheduler> {
-    explicit realm_scheduler(std::shared_ptr<realm::util::Scheduler> ptr)
-        : std::shared_ptr<realm::util::Scheduler>(std::move(ptr))
+struct realm_scheduler : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::util::Scheduler> {
+    explicit realm_scheduler(std::shared_ptr<realm_legacy::util::Scheduler> ptr)
+        : std::shared_ptr<realm_legacy::util::Scheduler>(std::move(ptr))
     {
     }
 
@@ -182,24 +182,24 @@ struct realm_scheduler : realm::c_api::WrapC, std::shared_ptr<realm::util::Sched
 };
 // LCOV_EXCL_STOP
 
-struct realm_schema : realm::c_api::WrapC {
-    std::unique_ptr<realm::Schema> owned;
-    const realm::Schema* ptr = nullptr;
+struct realm_schema : realm_legacy::c_api::WrapC {
+    std::unique_ptr<realm_legacy::Schema> owned;
+    const realm_legacy::Schema* ptr = nullptr;
 
-    realm_schema(std::unique_ptr<realm::Schema> o, const realm::Schema* ptr = nullptr)
+    realm_schema(std::unique_ptr<realm_legacy::Schema> o, const realm_legacy::Schema* ptr = nullptr)
         : owned(std::move(o))
         , ptr(ptr ? ptr : owned.get())
     {
     }
 
-    explicit realm_schema(const realm::Schema* ptr)
+    explicit realm_schema(const realm_legacy::Schema* ptr)
         : ptr(ptr)
     {
     }
 
     realm_schema_t* clone() const override
     {
-        auto o = std::make_unique<realm::Schema>(*ptr);
+        auto o = std::make_unique<realm_legacy::Schema>(*ptr);
         return new realm_schema_t{std::move(o)};
     }
 
@@ -212,9 +212,9 @@ struct realm_schema : realm::c_api::WrapC {
     }
 };
 
-struct shared_realm : realm::c_api::WrapC, realm::SharedRealm {
-    shared_realm(realm::SharedRealm rlm)
-        : realm::SharedRealm{std::move(rlm)}
+struct shared_realm : realm_legacy::c_api::WrapC, realm_legacy::SharedRealm {
+    shared_realm(realm_legacy::SharedRealm rlm)
+        : realm_legacy::SharedRealm{std::move(rlm)}
     {
     }
 
@@ -236,16 +236,16 @@ struct shared_realm : realm::c_api::WrapC, realm::SharedRealm {
         return false;
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference, realm::ThreadSafeReference {
-        thread_safe_reference(const realm::SharedRealm& rlm)
-            : realm::ThreadSafeReference(rlm)
+    struct thread_safe_reference : realm_thread_safe_reference, realm_legacy::ThreadSafeReference {
+        thread_safe_reference(const realm_legacy::SharedRealm& rlm)
+            : realm_legacy::ThreadSafeReference(rlm)
         {
         }
 
-        thread_safe_reference(realm::ThreadSafeReference&& other)
-            : realm::ThreadSafeReference(std::move(other))
+        thread_safe_reference(realm_legacy::ThreadSafeReference&& other)
+            : realm_legacy::ThreadSafeReference(std::move(other))
         {
-            REALM_ASSERT(this->is<realm::SharedRealm>());
+            REALM_ASSERT(this->is<realm_legacy::SharedRealm>());
         }
     };
 
@@ -255,9 +255,9 @@ struct shared_realm : realm::c_api::WrapC, realm::SharedRealm {
     }
 };
 
-struct realm_object : realm::c_api::WrapC, realm::Object {
-    explicit realm_object(realm::Object obj)
-        : realm::Object(std::move(obj))
+struct realm_object : realm_legacy::c_api::WrapC, realm_legacy::Object {
+    explicit realm_object(realm_legacy::Object obj)
+        : realm_legacy::Object(std::move(obj))
     {
     }
 
@@ -268,7 +268,7 @@ struct realm_object : realm::c_api::WrapC, realm::Object {
 
     bool is_frozen() const override
     {
-        return realm::Object::is_frozen();
+        return realm_legacy::Object::is_frozen();
     }
 
     bool equals(const WrapC& other) const noexcept final
@@ -281,9 +281,9 @@ struct realm_object : realm::c_api::WrapC, realm::Object {
         return false;
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference, realm::ThreadSafeReference {
-        thread_safe_reference(const realm::Object& obj)
-            : realm::ThreadSafeReference(obj)
+    struct thread_safe_reference : realm_thread_safe_reference, realm_legacy::ThreadSafeReference {
+        thread_safe_reference(const realm_legacy::Object& obj)
+            : realm_legacy::ThreadSafeReference(obj)
         {
         }
     };
@@ -294,7 +294,7 @@ struct realm_object : realm::c_api::WrapC, realm::Object {
     }
 };
 
-struct realm_list : realm::c_api::WrapC, realm::List {
+struct realm_list : realm_legacy::c_api::WrapC, realm_legacy::List {
     explicit realm_list(List list)
         : List(std::move(list))
     {
@@ -320,9 +320,9 @@ struct realm_list : realm::c_api::WrapC, realm::List {
         return false;
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference, realm::ThreadSafeReference {
+    struct thread_safe_reference : realm_thread_safe_reference, realm_legacy::ThreadSafeReference {
         thread_safe_reference(const List& list)
-            : realm::ThreadSafeReference(list)
+            : realm_legacy::ThreadSafeReference(list)
         {
         }
     };
@@ -333,7 +333,7 @@ struct realm_list : realm::c_api::WrapC, realm::List {
     }
 };
 
-struct realm_set : realm::c_api::WrapC, realm::object_store::Set {
+struct realm_set : realm_legacy::c_api::WrapC, realm_legacy::object_store::Set {
     explicit realm_set(Set set)
         : Set(std::move(set))
     {
@@ -359,9 +359,9 @@ struct realm_set : realm::c_api::WrapC, realm::object_store::Set {
         return false;
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference, realm::ThreadSafeReference {
+    struct thread_safe_reference : realm_thread_safe_reference, realm_legacy::ThreadSafeReference {
         thread_safe_reference(const Set& set)
-            : realm::ThreadSafeReference(set)
+            : realm_legacy::ThreadSafeReference(set)
         {
         }
     };
@@ -372,7 +372,7 @@ struct realm_set : realm::c_api::WrapC, realm::object_store::Set {
     }
 };
 
-struct realm_dictionary : realm::c_api::WrapC, realm::object_store::Dictionary {
+struct realm_dictionary : realm_legacy::c_api::WrapC, realm_legacy::object_store::Dictionary {
     explicit realm_dictionary(Dictionary set)
         : Dictionary(std::move(set))
     {
@@ -398,9 +398,9 @@ struct realm_dictionary : realm::c_api::WrapC, realm::object_store::Dictionary {
         return false;
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference, realm::ThreadSafeReference {
+    struct thread_safe_reference : realm_thread_safe_reference, realm_legacy::ThreadSafeReference {
         thread_safe_reference(const Dictionary& set)
-            : realm::ThreadSafeReference(set)
+            : realm_legacy::ThreadSafeReference(set)
         {
         }
     };
@@ -411,57 +411,57 @@ struct realm_dictionary : realm::c_api::WrapC, realm::object_store::Dictionary {
     }
 };
 
-struct realm_key_path_array : realm::c_api::WrapC, realm::KeyPathArray {
-    explicit realm_key_path_array(realm::KeyPathArray kpa)
-        : realm::KeyPathArray(std::move(kpa))
+struct realm_key_path_array : realm_legacy::c_api::WrapC, realm_legacy::KeyPathArray {
+    explicit realm_key_path_array(realm_legacy::KeyPathArray kpa)
+        : realm_legacy::KeyPathArray(std::move(kpa))
     {
     }
 };
 
-struct realm_object_changes : realm::c_api::WrapC, realm::CollectionChangeSet {
-    explicit realm_object_changes(realm::CollectionChangeSet changes)
-        : realm::CollectionChangeSet(std::move(changes))
+struct realm_object_changes : realm_legacy::c_api::WrapC, realm_legacy::CollectionChangeSet {
+    explicit realm_object_changes(realm_legacy::CollectionChangeSet changes)
+        : realm_legacy::CollectionChangeSet(std::move(changes))
     {
     }
 
     realm_object_changes* clone() const override
     {
-        return new realm_object_changes{static_cast<const realm::CollectionChangeSet&>(*this)};
+        return new realm_object_changes{static_cast<const realm_legacy::CollectionChangeSet&>(*this)};
     }
 };
 
-struct realm_collection_changes : realm::c_api::WrapC, realm::CollectionChangeSet {
-    explicit realm_collection_changes(realm::CollectionChangeSet changes)
-        : realm::CollectionChangeSet(std::move(changes))
+struct realm_collection_changes : realm_legacy::c_api::WrapC, realm_legacy::CollectionChangeSet {
+    explicit realm_collection_changes(realm_legacy::CollectionChangeSet changes)
+        : realm_legacy::CollectionChangeSet(std::move(changes))
     {
     }
 
     realm_collection_changes* clone() const override
     {
-        return new realm_collection_changes{static_cast<const realm::CollectionChangeSet&>(*this)};
+        return new realm_collection_changes{static_cast<const realm_legacy::CollectionChangeSet&>(*this)};
     }
 };
 
-struct realm_dictionary_changes : realm::c_api::WrapC, realm::DictionaryChangeSet {
-    explicit realm_dictionary_changes(realm::DictionaryChangeSet changes)
-        : realm::DictionaryChangeSet(std::move(changes))
+struct realm_dictionary_changes : realm_legacy::c_api::WrapC, realm_legacy::DictionaryChangeSet {
+    explicit realm_dictionary_changes(realm_legacy::DictionaryChangeSet changes)
+        : realm_legacy::DictionaryChangeSet(std::move(changes))
     {
     }
 
     realm_dictionary_changes* clone() const override
     {
-        return new realm_dictionary_changes{static_cast<const realm::DictionaryChangeSet&>(*this)};
+        return new realm_dictionary_changes{static_cast<const realm_legacy::DictionaryChangeSet&>(*this)};
     }
 };
 
-struct realm_notification_token : realm::c_api::WrapC, realm::NotificationToken {
-    explicit realm_notification_token(realm::NotificationToken token)
-        : realm::NotificationToken(std::move(token))
+struct realm_notification_token : realm_legacy::c_api::WrapC, realm_legacy::NotificationToken {
+    explicit realm_notification_token(realm_legacy::NotificationToken token)
+        : realm_legacy::NotificationToken(std::move(token))
     {
     }
 };
 
-struct realm_callback_token : realm::c_api::WrapC {
+struct realm_callback_token : realm_legacy::c_api::WrapC {
 protected:
     realm_callback_token(realm_t* realm, uint64_t token)
         : m_realm(realm)
@@ -496,12 +496,12 @@ struct realm_refresh_callback_token : realm_callback_token {
     ~realm_refresh_callback_token() override;
 };
 
-struct realm_query : realm::c_api::WrapC {
-    realm::Query query;
-    std::weak_ptr<realm::Realm> weak_realm;
+struct realm_query : realm_legacy::c_api::WrapC {
+    realm_legacy::Query query;
+    std::weak_ptr<realm_legacy::Realm> weak_realm;
 
-    explicit realm_query(realm::Query query, realm::util::bind_ptr<realm::DescriptorOrdering> ordering,
-                         std::weak_ptr<realm::Realm> realm)
+    explicit realm_query(realm_legacy::Query query, realm_legacy::util::bind_ptr<realm_legacy::DescriptorOrdering> ordering,
+                         std::weak_ptr<realm_legacy::Realm> realm)
         : query(std::move(query))
         , weak_realm(realm)
         , m_ordering(std::move(ordering))
@@ -513,14 +513,14 @@ struct realm_query : realm::c_api::WrapC {
         return new realm_query{*this};
     }
 
-    realm::Query& get_query()
+    realm_legacy::Query& get_query()
     {
         return query;
     }
 
-    const realm::DescriptorOrdering& get_ordering() const
+    const realm_legacy::DescriptorOrdering& get_ordering() const
     {
-        static const realm::DescriptorOrdering null_ordering;
+        static const realm_legacy::DescriptorOrdering null_ordering;
         return m_ordering ? *m_ordering : null_ordering;
     }
 
@@ -533,31 +533,31 @@ struct realm_query : realm::c_api::WrapC {
     }
 
 private:
-    realm::util::bind_ptr<realm::DescriptorOrdering> m_ordering;
+    realm_legacy::util::bind_ptr<realm_legacy::DescriptorOrdering> m_ordering;
     std::string m_description;
 
     realm_query(const realm_query&) = default;
 };
 
-struct realm_results : realm::c_api::WrapC, realm::Results {
-    explicit realm_results(realm::Results results)
-        : realm::Results(std::move(results))
+struct realm_results : realm_legacy::c_api::WrapC, realm_legacy::Results {
+    explicit realm_results(realm_legacy::Results results)
+        : realm_legacy::Results(std::move(results))
     {
     }
 
     realm_results* clone() const override
     {
-        return new realm_results{static_cast<const realm::Results&>(*this)};
+        return new realm_results{static_cast<const realm_legacy::Results&>(*this)};
     }
 
     bool is_frozen() const override
     {
-        return realm::Results::is_frozen();
+        return realm_legacy::Results::is_frozen();
     }
 
-    struct thread_safe_reference : realm_thread_safe_reference_t, realm::ThreadSafeReference {
-        thread_safe_reference(const realm::Results& results)
-            : realm::ThreadSafeReference(results)
+    struct thread_safe_reference : realm_thread_safe_reference_t, realm_legacy::ThreadSafeReference {
+        thread_safe_reference(const realm_legacy::Results& results)
+            : realm_legacy::ThreadSafeReference(results)
         {
         }
     };
@@ -570,44 +570,44 @@ struct realm_results : realm::c_api::WrapC, realm::Results {
 
 #if REALM_ENABLE_SYNC
 
-struct realm_sync_user_subscription_token : realm::c_api::WrapC {
-    using Token = realm::Subscribable<realm::SyncUser>::Token;
-    realm_sync_user_subscription_token(std::shared_ptr<realm::SyncUser> user, Token&& token)
+struct realm_sync_user_subscription_token : realm_legacy::c_api::WrapC {
+    using Token = realm_legacy::Subscribable<realm_legacy::SyncUser>::Token;
+    realm_sync_user_subscription_token(std::shared_ptr<realm_legacy::SyncUser> user, Token&& token)
         : user(user)
         , token(std::move(token))
     {
     }
     ~realm_sync_user_subscription_token();
-    std::shared_ptr<realm::SyncUser> user;
+    std::shared_ptr<realm_legacy::SyncUser> user;
     Token token;
 };
 
-struct realm_async_open_task_progress_notification_token : realm::c_api::WrapC {
-    realm_async_open_task_progress_notification_token(std::shared_ptr<realm::AsyncOpenTask> task, uint64_t token)
+struct realm_async_open_task_progress_notification_token : realm_legacy::c_api::WrapC {
+    realm_async_open_task_progress_notification_token(std::shared_ptr<realm_legacy::AsyncOpenTask> task, uint64_t token)
         : task(task)
         , token(token)
     {
     }
     ~realm_async_open_task_progress_notification_token();
-    std::shared_ptr<realm::AsyncOpenTask> task;
+    std::shared_ptr<realm_legacy::AsyncOpenTask> task;
     uint64_t token;
 };
 
-struct realm_sync_session_connection_state_notification_token : realm::c_api::WrapC {
-    realm_sync_session_connection_state_notification_token(std::shared_ptr<realm::SyncSession> session,
+struct realm_sync_session_connection_state_notification_token : realm_legacy::c_api::WrapC {
+    realm_sync_session_connection_state_notification_token(std::shared_ptr<realm_legacy::SyncSession> session,
                                                            uint64_t token)
         : session(session)
         , token(token)
     {
     }
     ~realm_sync_session_connection_state_notification_token();
-    std::shared_ptr<realm::SyncSession> session;
+    std::shared_ptr<realm_legacy::SyncSession> session;
     uint64_t token;
 };
 
-struct realm_http_transport : realm::c_api::WrapC, std::shared_ptr<realm::app::GenericNetworkTransport> {
-    realm_http_transport(std::shared_ptr<realm::app::GenericNetworkTransport> transport)
-        : std::shared_ptr<realm::app::GenericNetworkTransport>(std::move(transport))
+struct realm_http_transport : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::app::GenericNetworkTransport> {
+    realm_http_transport(std::shared_ptr<realm_legacy::app::GenericNetworkTransport> transport)
+        : std::shared_ptr<realm_legacy::app::GenericNetworkTransport>(std::move(transport))
     {
     }
 
@@ -625,15 +625,15 @@ struct realm_http_transport : realm::c_api::WrapC, std::shared_ptr<realm::app::G
     }
 };
 
-struct realm_app_config : realm::c_api::WrapC, realm::app::App::Config {
+struct realm_app_config : realm_legacy::c_api::WrapC, realm_legacy::app::App::Config {
     using Config::Config;
 };
 
-struct realm_sync_client_config : realm::c_api::WrapC, realm::SyncClientConfig {
+struct realm_sync_client_config : realm_legacy::c_api::WrapC, realm_legacy::SyncClientConfig {
     using SyncClientConfig::SyncClientConfig;
 };
 
-struct realm_sync_config : realm::c_api::WrapC, realm::SyncConfig {
+struct realm_sync_config : realm_legacy::c_api::WrapC, realm_legacy::SyncConfig {
     using SyncConfig::SyncConfig;
     realm_sync_config(const SyncConfig& c)
         : SyncConfig(c)
@@ -641,9 +641,9 @@ struct realm_sync_config : realm::c_api::WrapC, realm::SyncConfig {
     }
 };
 
-struct realm_app : realm::c_api::WrapC, realm::app::SharedApp {
-    realm_app(realm::app::SharedApp app)
-        : realm::app::SharedApp{std::move(app)}
+struct realm_app : realm_legacy::c_api::WrapC, realm_legacy::app::SharedApp {
+    realm_app(realm_legacy::app::SharedApp app)
+        : realm_legacy::app::SharedApp{std::move(app)}
     {
     }
 
@@ -661,16 +661,16 @@ struct realm_app : realm::c_api::WrapC, realm::app::SharedApp {
     }
 };
 
-struct realm_app_credentials : realm::c_api::WrapC, realm::app::AppCredentials {
-    realm_app_credentials(realm::app::AppCredentials credentials)
-        : realm::app::AppCredentials{std::move(credentials)}
+struct realm_app_credentials : realm_legacy::c_api::WrapC, realm_legacy::app::AppCredentials {
+    realm_app_credentials(realm_legacy::app::AppCredentials credentials)
+        : realm_legacy::app::AppCredentials{std::move(credentials)}
     {
     }
 };
 
-struct realm_user : realm::c_api::WrapC, std::shared_ptr<realm::SyncUser> {
-    realm_user(std::shared_ptr<realm::SyncUser> user)
-        : std::shared_ptr<realm::SyncUser>{std::move(user)}
+struct realm_user : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::SyncUser> {
+    realm_user(std::shared_ptr<realm_legacy::SyncUser> user)
+        : std::shared_ptr<realm_legacy::SyncUser>{std::move(user)}
     {
     }
 
@@ -688,9 +688,9 @@ struct realm_user : realm::c_api::WrapC, std::shared_ptr<realm::SyncUser> {
     }
 };
 
-struct realm_sync_session : realm::c_api::WrapC, std::shared_ptr<realm::SyncSession> {
-    realm_sync_session(std::shared_ptr<realm::SyncSession> session)
-        : std::shared_ptr<realm::SyncSession>{std::move(session)}
+struct realm_sync_session : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::SyncSession> {
+    realm_sync_session(std::shared_ptr<realm_legacy::SyncSession> session)
+        : std::shared_ptr<realm_legacy::SyncSession>{std::move(session)}
     {
     }
 
@@ -708,14 +708,14 @@ struct realm_sync_session : realm::c_api::WrapC, std::shared_ptr<realm::SyncSess
     }
 };
 
-struct realm_flx_sync_subscription : realm::c_api::WrapC, realm::sync::Subscription {
-    realm_flx_sync_subscription(realm::sync::Subscription&& subscription)
-        : realm::sync::Subscription(std::move(subscription))
+struct realm_flx_sync_subscription : realm_legacy::c_api::WrapC, realm_legacy::sync::Subscription {
+    realm_flx_sync_subscription(realm_legacy::sync::Subscription&& subscription)
+        : realm_legacy::sync::Subscription(std::move(subscription))
     {
     }
 
-    realm_flx_sync_subscription(const realm::sync::Subscription& subscription)
-        : realm::sync::Subscription(subscription)
+    realm_flx_sync_subscription(const realm_legacy::sync::Subscription& subscription)
+        : realm_legacy::sync::Subscription(subscription)
     {
     }
 
@@ -733,23 +733,23 @@ struct realm_flx_sync_subscription : realm::c_api::WrapC, realm::sync::Subscript
     }
 };
 
-struct realm_flx_sync_subscription_set : realm::c_api::WrapC, realm::sync::SubscriptionSet {
-    realm_flx_sync_subscription_set(realm::sync::SubscriptionSet&& subscription_set)
-        : realm::sync::SubscriptionSet(std::move(subscription_set))
+struct realm_flx_sync_subscription_set : realm_legacy::c_api::WrapC, realm_legacy::sync::SubscriptionSet {
+    realm_flx_sync_subscription_set(realm_legacy::sync::SubscriptionSet&& subscription_set)
+        : realm_legacy::sync::SubscriptionSet(std::move(subscription_set))
     {
     }
 };
 
-struct realm_flx_sync_mutable_subscription_set : realm::c_api::WrapC, realm::sync::MutableSubscriptionSet {
-    realm_flx_sync_mutable_subscription_set(realm::sync::MutableSubscriptionSet&& subscription_set)
-        : realm::sync::MutableSubscriptionSet(std::move(subscription_set))
+struct realm_flx_sync_mutable_subscription_set : realm_legacy::c_api::WrapC, realm_legacy::sync::MutableSubscriptionSet {
+    realm_flx_sync_mutable_subscription_set(realm_legacy::sync::MutableSubscriptionSet&& subscription_set)
+        : realm_legacy::sync::MutableSubscriptionSet(std::move(subscription_set))
     {
     }
 };
 
-struct realm_async_open_task : realm::c_api::WrapC, std::shared_ptr<realm::AsyncOpenTask> {
-    realm_async_open_task(std::shared_ptr<realm::AsyncOpenTask> task)
-        : std::shared_ptr<realm::AsyncOpenTask>{std::move(task)}
+struct realm_async_open_task : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::AsyncOpenTask> {
+    realm_async_open_task(std::shared_ptr<realm_legacy::AsyncOpenTask> task)
+        : std::shared_ptr<realm_legacy::AsyncOpenTask>{std::move(task)}
     {
     }
 
@@ -767,16 +767,16 @@ struct realm_async_open_task : realm::c_api::WrapC, std::shared_ptr<realm::Async
     }
 };
 
-struct realm_mongodb_collection : realm::c_api::WrapC, realm::app::MongoCollection {
-    realm_mongodb_collection(realm::app::MongoCollection collection)
-        : realm::app::MongoCollection(std::move(collection))
+struct realm_mongodb_collection : realm_legacy::c_api::WrapC, realm_legacy::app::MongoCollection {
+    realm_mongodb_collection(realm_legacy::app::MongoCollection collection)
+        : realm_legacy::app::MongoCollection(std::move(collection))
     {
     }
 };
 
-struct realm_sync_socket : realm::c_api::WrapC, std::shared_ptr<realm::sync::SyncSocketProvider> {
-    explicit realm_sync_socket(std::shared_ptr<realm::sync::SyncSocketProvider> ptr)
-        : std::shared_ptr<realm::sync::SyncSocketProvider>(std::move(ptr))
+struct realm_sync_socket : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::sync::SyncSocketProvider> {
+    explicit realm_sync_socket(std::shared_ptr<realm_legacy::sync::SyncSocketProvider> ptr)
+        : std::shared_ptr<realm_legacy::sync::SyncSocketProvider>(std::move(ptr))
     {
     }
 
@@ -794,9 +794,9 @@ struct realm_sync_socket : realm::c_api::WrapC, std::shared_ptr<realm::sync::Syn
     }
 };
 
-struct realm_websocket_observer : realm::c_api::WrapC, std::shared_ptr<realm::sync::WebSocketObserver> {
-    explicit realm_websocket_observer(std::shared_ptr<realm::sync::WebSocketObserver> ptr)
-        : std::shared_ptr<realm::sync::WebSocketObserver>(std::move(ptr))
+struct realm_websocket_observer : realm_legacy::c_api::WrapC, std::shared_ptr<realm_legacy::sync::WebSocketObserver> {
+    explicit realm_websocket_observer(std::shared_ptr<realm_legacy::sync::WebSocketObserver> ptr)
+        : std::shared_ptr<realm_legacy::sync::WebSocketObserver>(std::move(ptr))
     {
     }
 
@@ -814,10 +814,10 @@ struct realm_websocket_observer : realm::c_api::WrapC, std::shared_ptr<realm::sy
     }
 };
 
-struct realm_sync_socket_callback : realm::c_api::WrapC,
-                                    std::shared_ptr<realm::sync::SyncSocketProvider::FunctionHandler> {
-    explicit realm_sync_socket_callback(std::shared_ptr<realm::sync::SyncSocketProvider::FunctionHandler> ptr)
-        : std::shared_ptr<realm::sync::SyncSocketProvider::FunctionHandler>(std::move(ptr))
+struct realm_sync_socket_callback : realm_legacy::c_api::WrapC,
+                                    std::shared_ptr<realm_legacy::sync::SyncSocketProvider::FunctionHandler> {
+    explicit realm_sync_socket_callback(std::shared_ptr<realm_legacy::sync::SyncSocketProvider::FunctionHandler> ptr)
+        : std::shared_ptr<realm_legacy::sync::SyncSocketProvider::FunctionHandler>(std::move(ptr))
     {
     }
 
@@ -836,13 +836,13 @@ struct realm_sync_socket_callback : realm::c_api::WrapC,
         }
 
         auto complete_status = result == RLM_ERR_SYNC_SOCKET_SUCCESS
-                                   ? realm::Status::OK()
-                                   : realm::Status{static_cast<realm::ErrorCodes::Error>(result), reason};
+                                   ? realm_legacy::Status::OK()
+                                   : realm_legacy::Status{static_cast<realm_legacy::ErrorCodes::Error>(result), reason};
         (*get())(complete_status);
     }
 };
 
-struct CBindingThreadObserver : public realm::BindingCallbackThreadObserver {
+struct CBindingThreadObserver : public realm_legacy::BindingCallbackThreadObserver {
 public:
     CBindingThreadObserver(realm_on_object_store_thread_callback_t on_thread_create,
                            realm_on_object_store_thread_callback_t on_thread_destroy,
@@ -916,7 +916,7 @@ protected:
     realm_on_object_store_thread_callback_t m_create_callback_func = nullptr;
     realm_on_object_store_thread_callback_t m_destroy_callback_func = nullptr;
     realm_on_object_store_error_callback_t m_error_callback_func = nullptr;
-    realm::c_api::UserdataPtr m_user_data;
+    realm_legacy::c_api::UserdataPtr m_user_data;
 };
 
 #endif // REALM_ENABLE_SYNC

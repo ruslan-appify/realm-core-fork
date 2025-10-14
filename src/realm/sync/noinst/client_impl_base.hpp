@@ -29,7 +29,7 @@
 #include <string>
 #include <utility>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 // (protocol, address, port, session_multiplex_ident)
 //
@@ -1602,6 +1602,6 @@ inline void ClientImpl::Session::enlist_to_send()
     m_conn.enlist_to_send(this); // Throws
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync
 
 #endif // REALM_NOINST_CLIENT_IMPL_BASE_HPP

@@ -35,7 +35,7 @@
 
 using namespace std::chrono;
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace test_util;
 
 extern unsigned int unit_test_random_seed;
@@ -739,9 +739,9 @@ TEST(TableView_SortNullString)
     Table t;
     auto col = t.add_column(type_String, "s", true);
     Obj obj = t.create_object().set(col, StringData("")); // empty string
-    t.create_object().set(col, realm::null());            // realm::null()
+    t.create_object().set(col, realm_legacy::null());            // realm_legacy::null()
     t.create_object().set(col, StringData(""));           // empty string
-    t.create_object().set(col, realm::null());            // realm::null()
+    t.create_object().set(col, realm_legacy::null());            // realm_legacy::null()
 
     TableView tv;
 
@@ -918,7 +918,7 @@ TEST(TableView_QueryCopyStringOr)
     q.Or();
     q.equal(str_col_key, "two");
     q.Or();
-    q.equal(str_col_key, realm::null());
+    q.equal(str_col_key, realm_legacy::null());
     q.Or();
     q.equal(str_col_key, "");
     q.end_group();

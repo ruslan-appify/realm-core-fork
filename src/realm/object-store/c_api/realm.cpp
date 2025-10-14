@@ -4,20 +4,20 @@
 
 realm_callback_token_realm::~realm_callback_token_realm()
 {
-    realm::c_api::CBindingContext::get(*m_realm).realm_changed_callbacks().remove(m_token);
+    realm_legacy::c_api::CBindingContext::get(*m_realm).realm_changed_callbacks().remove(m_token);
 }
 
 realm_callback_token_schema::~realm_callback_token_schema()
 {
-    realm::c_api::CBindingContext::get(*m_realm).schema_changed_callbacks().remove(m_token);
+    realm_legacy::c_api::CBindingContext::get(*m_realm).schema_changed_callbacks().remove(m_token);
 }
 
 realm_refresh_callback_token::~realm_refresh_callback_token()
 {
-    realm::c_api::CBindingContext::get(*m_realm).realm_pending_refresh_callbacks().remove(m_token);
+    realm_legacy::c_api::CBindingContext::get(*m_realm).realm_pending_refresh_callbacks().remove(m_token);
 }
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 
 RLM_API bool realm_get_version_id(const realm_t* realm, bool* out_found, realm_version_id_t* out_version)
@@ -350,4 +350,4 @@ void CBindingContext::did_change(std::vector<ObserverState> const&, std::vector<
     m_realm_changed_callbacks.invoke();
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

@@ -10,7 +10,7 @@
 #include <realm/util/backtrace.hpp>
 #include <vector>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 struct ScratchArena;
@@ -169,7 +169,7 @@ inline void* ScratchMemory::allocate(const ScratchArena& current_arena, size_t s
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 
 #endif // REALM_UTIL_SCRATCH_ALLOCATOR_HPP

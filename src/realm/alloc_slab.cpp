@@ -44,8 +44,8 @@
 #include <realm/alloc_slab.hpp>
 #include <realm/group.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 
 namespace {
@@ -630,7 +630,7 @@ MemRef SlabAlloc::do_realloc(size_t ref, char* addr, size_t old_size, size_t new
 
     // Copy existing segment
     char* new_addr = new_mem.get_addr();
-    realm::safe_copy_n(addr, old_size, new_addr);
+    realm_legacy::safe_copy_n(addr, old_size, new_addr);
 
     // Add old segment to freelist
     do_free(ref, addr);
@@ -661,7 +661,7 @@ int SlabAlloc::get_committed_file_format_version() noexcept
             // if we have mapped a file, m_mappings will have at least one mapping and
             // the first will be to the start of the file. Don't come here, if we're
             // just attaching a buffer. They don't have mappings.
-            realm::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
+            realm_legacy::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
         }
     }
     const Header& header = *reinterpret_cast<const Header*>(m_data);
@@ -723,7 +723,7 @@ bool SlabAlloc::align_filesize_for_mmap(ref_type top_ref, Config& cfg)
         size_t top_offset = top_ref - top_page_base;
         size_t map_size = std::min(max_top_size + top_offset, size - top_page_base);
         File::Map<char> map_top(m_file, top_page_base, File::access_ReadOnly, map_size, 0, m_write_observer);
-        realm::util::encryption_read_barrier(map_top, top_offset, max_top_size);
+        realm_legacy::util::encryption_read_barrier(map_top, top_offset, max_top_size);
         auto top_header = map_top.get_addr() + top_offset;
         auto top_data = NodeHeader::get_data_from_header(top_header);
         auto w = NodeHeader::get_width_from_header(top_header);
@@ -792,7 +792,7 @@ ref_type SlabAlloc::attach_file(const std::string& path, Config& cfg, util::Writ
     REALM_ASSERT_EX(cfg.session_initiator || !cfg.clear_file, cfg.session_initiator, cfg.clear_file,
                     get_file_path_for_assertions());
 
-    using namespace realm::util;
+    using namespace realm_legacy::util;
     File::AccessMode access = cfg.read_only ? File::access_ReadOnly : File::access_ReadWrite;
     File::CreateMode create = cfg.read_only || cfg.no_create ? File::create_Never : File::create_Auto;
     set_read_only(cfg.read_only);
@@ -856,7 +856,7 @@ ref_type SlabAlloc::attach_file(const std::string& path, Config& cfg, util::Writ
     try {
         // we'll read header and (potentially) footer
         File::Map<char> map_header(m_file, File::access_ReadOnly, sizeof(Header), 0, m_write_observer);
-        realm::util::encryption_read_barrier(map_header, 0, sizeof(Header));
+        realm_legacy::util::encryption_read_barrier(map_header, 0, sizeof(Header));
         auto header = reinterpret_cast<const Header*>(map_header.get_addr());
 
         File::Map<char> map_footer;
@@ -867,7 +867,7 @@ ref_type SlabAlloc::attach_file(const std::string& path, Config& cfg, util::Writ
             size_t footer_offset = footer_ref - footer_page_base;
             map_footer = File::Map<char>(m_file, footer_page_base, File::access_ReadOnly,
                                          sizeof(StreamingFooter) + footer_offset, 0, m_write_observer);
-            realm::util::encryption_read_barrier(map_footer, footer_offset, sizeof(StreamingFooter));
+            realm_legacy::util::encryption_read_barrier(map_footer, footer_offset, sizeof(StreamingFooter));
             footer = reinterpret_cast<const StreamingFooter*>(map_footer.get_addr() + footer_offset);
         }
 
@@ -919,7 +919,7 @@ ref_type SlabAlloc::attach_file(const std::string& path, Config& cfg, util::Writ
     update_reader_view(size);
     REALM_ASSERT(m_mappings.size());
     m_data = m_mappings[0].primary_mapping.get_addr();
-    realm::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
+    realm_legacy::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
     dg.release();  // Do not detach
     fcg.release(); // Do not close
 #if REALM_ENABLE_ENCRYPTION
@@ -941,17 +941,17 @@ void SlabAlloc::convert_from_streaming_form(ref_type top_ref)
     {
         File::Map<Header> writable_map(m_file, File::access_ReadWrite, sizeof(Header)); // Throws
         Header& writable_header = *writable_map.get_addr();
-        realm::util::encryption_read_barrier_for_write(writable_map, 0);
+        realm_legacy::util::encryption_read_barrier_for_write(writable_map, 0);
         writable_header.m_top_ref[1] = top_ref;
         writable_header.m_file_format[1] = writable_header.m_file_format[0];
-        realm::util::encryption_write_barrier(writable_map, 0);
+        realm_legacy::util::encryption_write_barrier(writable_map, 0);
         writable_map.sync();
-        realm::util::encryption_read_barrier_for_write(writable_map, 0);
+        realm_legacy::util::encryption_read_barrier_for_write(writable_map, 0);
         writable_header.m_flags |= flags_SelectBit;
-        realm::util::encryption_write_barrier(writable_map, 0);
+        realm_legacy::util::encryption_write_barrier(writable_map, 0);
         writable_map.sync();
 
-        realm::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
+        realm_legacy::util::encryption_read_barrier(m_mappings[0].primary_mapping, 0, sizeof(Header));
     }
 }
 

@@ -20,8 +20,8 @@
 
 #include <thread>
 
-namespace realm::util {
-class GenericScheduler : public realm::util::Scheduler {
+namespace realm_legacy::util {
+class GenericScheduler : public realm_legacy::util::Scheduler {
 public:
     GenericScheduler() = default;
 
@@ -44,4 +44,4 @@ public:
 private:
     std::thread::id m_id = std::this_thread::get_id();
 };
-} // namespace realm::util
+} // namespace realm_legacy::util

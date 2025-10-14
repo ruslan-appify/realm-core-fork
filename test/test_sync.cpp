@@ -51,10 +51,10 @@
 #include "util/thread_wrapper.hpp"
 #include "util/compare_groups.hpp"
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::test_util;
-using namespace realm::fixtures;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::test_util;
+using namespace realm_legacy::fixtures;
 
 
 // Test independence and thread-safety
@@ -6521,7 +6521,7 @@ TEST(Sync_DifferentUsersMultiplexing)
 
         SessionBundle(unit_test::TestContext& ctx, ClientServerFixture& fixture, std::string name,
                       std::string signed_token, std::string user_id)
-            : path_guard(realm::test_util::get_test_path(ctx.get_test_name(), "." + name + ".realm"))
+            : path_guard(realm_legacy::test_util::get_test_path(ctx.get_test_name(), "." + name + ".realm"))
             , db(DB::create(make_client_replication(), path_guard))
         {
             Session::Config config;
@@ -6638,9 +6638,9 @@ TEST(Sync_TransformAgainstEmptyReciprocalChangeset)
 // Tests that an empty reciprocal changesets is set and retrieved correctly.
 TEST(Sync_SetAndGetEmptyReciprocalChangeset)
 {
-    using namespace realm;
-    using namespace realm::sync::instr;
-    using realm::sync::Changeset;
+    using namespace realm_legacy;
+    using namespace realm_legacy::sync::instr;
+    using realm_legacy::sync::Changeset;
 
     TEST_CLIENT_DB(db);
 
@@ -6890,7 +6890,7 @@ TEST(Sync_DanglingLinksCountInPriorSize)
 {
     SHARED_GROUP_TEST_PATH(path);
     ClientReplication repl;
-    auto local_db = realm::DB::create(repl, path);
+    auto local_db = realm_legacy::DB::create(repl, path);
     auto& history = repl.get_history();
     history.set_client_file_ident(sync::SaltedFileIdent{1, 123456}, true);
 
@@ -6901,10 +6901,10 @@ TEST(Sync_DanglingLinksCountInPriorSize)
         version_type locked_server_version = 0;
         history.find_uploadable_changesets(upload_cursor, last_version, changesets_to_upload, locked_server_version);
         CHECK_EQUAL(changesets_to_upload.size(), static_cast<size_t>(1));
-        realm::sync::Changeset parsed_changeset;
+        realm_legacy::sync::Changeset parsed_changeset;
         auto unparsed_changeset = changesets_to_upload[0].changeset.get_first_chunk();
-        realm::util::SimpleInputStream changeset_stream(unparsed_changeset);
-        realm::sync::parse_changeset(changeset_stream, parsed_changeset);
+        realm_legacy::util::SimpleInputStream changeset_stream(unparsed_changeset);
+        realm_legacy::sync::parse_changeset(changeset_stream, parsed_changeset);
         test_context.logger->info("changeset at version %1: %2", last_version, parsed_changeset);
         last_version_observed = last_version;
         return parsed_changeset;

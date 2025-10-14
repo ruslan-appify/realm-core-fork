@@ -24,7 +24,7 @@
 #include <realm/transaction.hpp>
 #include <realm/util/scope_exit.hpp>
 
-namespace realm::_impl::client_reset {
+namespace realm_legacy::_impl::client_reset {
 
 namespace {
 
@@ -102,4 +102,4 @@ bool perform_client_reset(util::Logger& logger, DB& db, DB& fresh_db, ClientResy
     return true;
 }
 
-} // namespace realm::_impl::client_reset
+} // namespace realm_legacy::_impl::client_reset

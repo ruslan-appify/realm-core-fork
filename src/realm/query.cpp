@@ -30,7 +30,7 @@
 
 #include <algorithm>
 
-using namespace realm;
+using namespace realm_legacy;
 
 Query::Query()
 {
@@ -381,7 +381,7 @@ std::unique_ptr<ParentNode> make_condition_node(const Table& table, ColKey colum
         }
         case type_Link:
         case type_LinkList:
-            if constexpr (std::is_same_v<T, Mixed> && realm::is_any_v<Cond, Equal, NotEqual>) {
+            if constexpr (std::is_same_v<T, Mixed> && realm_legacy::is_any_v<Cond, Equal, NotEqual>) {
                 ObjKey key;
                 if (value.is_type(type_Link)) {
                     key = value.template get<ObjKey>();
@@ -1557,7 +1557,7 @@ size_t Query::count(const DescriptorOrdering& descriptor) const
 {
     if (!m_table)
         return 0;
-    realm::util::Optional<size_t> min_limit = descriptor.get_min_limit();
+    realm_legacy::util::Optional<size_t> min_limit = descriptor.get_min_limit();
 
     if (bool(min_limit) && *min_limit == 0)
         return 0;

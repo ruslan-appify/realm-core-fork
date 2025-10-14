@@ -1,7 +1,7 @@
 #include <realm/sync/protocol.hpp>
 
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 const char* get_protocol_error_message(int error_code) noexcept
 {
@@ -259,4 +259,4 @@ Status protocol_error_to_status(ProtocolError error_code, std::string_view msg)
     return {translated_error_code, msg};
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

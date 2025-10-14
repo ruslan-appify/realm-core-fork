@@ -31,8 +31,8 @@
 #include <sys/resource.h>
 #endif
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 
 #if REALM_HAVE_POSIX_RLIMIT
 
@@ -80,7 +80,7 @@ void set_rlimit(Resource resource, long value, bool hard)
 #endif // REALM_HAVE_POSIX_RLIMIT
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 #if REALM_HAVE_POSIX_RLIMIT

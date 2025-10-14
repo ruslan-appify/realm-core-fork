@@ -23,7 +23,7 @@
 #include <realm/transaction.hpp>
 #include <realm/util/logger.hpp>
 
-namespace realm::_impl::client_reset {
+namespace realm_legacy::_impl::client_reset {
 struct RecoveredChange {
     util::AppendBuffer<char> encoded_changeset;
     sync::ClientHistory::version_type version;
@@ -32,6 +32,6 @@ struct RecoveredChange {
 std::vector<RecoveredChange>
 process_recovered_changesets(Transaction& dest_tr, Transaction& pre_reset_state, util::Logger& logger,
                              const std::vector<sync::ClientHistory::LocalChange>& changesets);
-} // namespace realm::_impl::client_reset
+} // namespace realm_legacy::_impl::client_reset
 
 #endif // REALM_NOINST_CLIENT_RESET_RECOVERY_HPP

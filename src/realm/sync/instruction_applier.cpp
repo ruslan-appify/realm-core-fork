@@ -4,7 +4,7 @@
 
 #include <realm/transaction.hpp>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace {
 
 REALM_NORETURN void throw_bad_transaction_log(std::string msg)
@@ -188,7 +188,7 @@ void InstructionApplier::operator()(const Instruction::CreateObject& instr)
                 if (!table->is_nullable(pk_col)) {
                     bad_transaction_log("CreateObject(NULL) on a table with a non-nullable primary key");
                 }
-                log("sync::create_object_with_primary_key(group, get_table(\"%1\"), realm::util::none);",
+                log("sync::create_object_with_primary_key(group, get_table(\"%1\"), realm_legacy::util::none);",
                     table->get_name());
                 m_last_object = table->create_object_with_primary_key(util::none);
             },
@@ -275,9 +275,9 @@ void InstructionApplier::visit_payload(const Instruction::Payload& payload, F&& 
         case Type::Erased:
             return visitor(Instruction::Payload::Erased{});
         case Type::GlobalKey:
-            return visitor(realm::util::none); // FIXME: Not sure about this
+            return visitor(realm_legacy::util::none); // FIXME: Not sure about this
         case Type::Null:
-            return visitor(realm::util::none);
+            return visitor(realm_legacy::util::none);
         case Type::Int:
             return visitor(data.integer);
         case Type::Bool:
@@ -1511,7 +1511,7 @@ ObjKey InstructionApplier::get_object_key(Table& table, const Instruction::Prima
                                         name, table_name, pk_name);
                 }
 
-                ObjKey key = table.get_objkey_from_primary_key(realm::util::none);
+                ObjKey key = table.get_objkey_from_primary_key(realm_legacy::util::none);
                 return key;
             },
             [&](int64_t pk) {
@@ -1584,4 +1584,4 @@ ObjKey InstructionApplier::get_object_key(Table& table, const Instruction::Prima
 }
 
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

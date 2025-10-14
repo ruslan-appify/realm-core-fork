@@ -6,7 +6,7 @@
 #include <realm/transaction.hpp>
 #include <realm/table.hpp>
 
-namespace realm::test_util {
+namespace realm_legacy::test_util {
 
 bool compare_tables(const Table& table_1, const Table& table_2, util::Logger&);
 
@@ -32,6 +32,6 @@ inline bool compare_groups(const Transaction& group_1, const Transaction& group_
         logger);
 }
 
-} // namespace realm::test_util
+} // namespace realm_legacy::test_util
 
 #endif // REALM_TEST_UTIL_COMPARE_GROUPS_HPP

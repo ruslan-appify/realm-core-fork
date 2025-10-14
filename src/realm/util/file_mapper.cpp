@@ -70,10 +70,10 @@ inline bool is_mmap_memory_error(int err)
 
 } // Unnamed namespace
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 size_t round_up_to_page_size(size_t size) noexcept
@@ -924,4 +924,4 @@ void msync(FileDesc fd, void* addr, size_t size)
 #endif
 }
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

@@ -30,7 +30,7 @@
 #include <realm.hpp>
 #include <realm/util/file.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 // which databases are possible

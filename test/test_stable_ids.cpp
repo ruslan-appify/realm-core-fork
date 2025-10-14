@@ -9,8 +9,8 @@
 #include <realm/sync/changeset_parser.hpp>
 #include <realm/sync/instruction_applier.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 
 namespace {
@@ -18,7 +18,7 @@ namespace {
 struct MakeClientHistory {
     static std::unique_ptr<ClientReplication> make_history()
     {
-        return realm::sync::make_client_replication();
+        return realm_legacy::sync::make_client_replication();
     }
 };
 

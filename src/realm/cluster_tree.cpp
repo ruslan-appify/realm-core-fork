@@ -44,7 +44,7 @@
  * less than 3/4 of the max size.
  */
 
-namespace realm {
+namespace realm_legacy {
 /*
  * The inner nodes are organized in the way that the main array has a ref to the
  * (optional) key array in position 0 and the subtree depth in position 1. After
@@ -391,7 +391,7 @@ size_t ClusterNodeInner::get_ndx(ObjKey key, size_t ndx) const noexcept
 {
     ChildInfo child_info;
     if (!find_child(key, child_info)) {
-        return realm::npos;
+        return realm_legacy::npos;
     }
 
     // First figure out how many objects there are in nodes before actual one
@@ -966,7 +966,7 @@ ClusterNode::State ClusterTree::try_get(ObjKey k) const noexcept
 {
     ClusterNode::State state;
     if (!(k && m_root->try_get(k, state)))
-        state.index = realm::npos;
+        state.index = realm_legacy::npos;
     return state;
 }
 
@@ -1293,7 +1293,7 @@ ClusterTree::Iterator::Iterator(const Iterator& other)
 size_t ClusterTree::Iterator::get_position()
 {
     auto ndx = m_tree.get_ndx(m_key);
-    if (ndx == realm::npos) {
+    if (ndx == realm_legacy::npos) {
         throw StaleAccessor("Stale iterator");
     }
     return ndx;
@@ -1430,4 +1430,4 @@ ClusterTree::Iterator::pointer ClusterTree::Iterator::operator->() const
     return &m_obj;
 }
 
-} // namespace realm
+} // namespace realm_legacy

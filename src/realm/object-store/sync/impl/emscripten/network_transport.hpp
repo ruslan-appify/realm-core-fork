@@ -18,7 +18,7 @@
 
 #include <realm/object-store/sync/generic_network_transport.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 class EmscriptenNetworkTransport final : public app::GenericNetworkTransport {
 public:
@@ -26,4 +26,4 @@ public:
                                         util::UniqueFunction<void(const app::Response&)>&& completion_block) final;
 };
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

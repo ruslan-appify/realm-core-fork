@@ -20,7 +20,7 @@
 #include <realm/object-store/class.hpp>
 #include <realm/object-store/shared_realm.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 Class::Class(std::shared_ptr<Realm> r, const ObjectSchema* object_schema)
     : m_realm(std::move(r))
@@ -46,4 +46,4 @@ Obj Class::get_object(Mixed pk)
     return m_table->get_object_with_primary_key(pk);
 }
 
-} // namespace realm
+} // namespace realm_legacy

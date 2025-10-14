@@ -8,7 +8,7 @@
 
 #include "test.hpp"
 
-namespace realm::util {
+namespace realm_legacy::util {
 namespace {
 
 struct MoveOnlyType {
@@ -84,6 +84,6 @@ TEST(Util_UniqueFunction_Target)
 }
 
 } // namespace
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #endif

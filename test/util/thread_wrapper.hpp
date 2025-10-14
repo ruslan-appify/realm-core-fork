@@ -25,7 +25,7 @@
 
 #include <realm/util/thread.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

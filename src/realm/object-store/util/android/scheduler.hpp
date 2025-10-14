@@ -34,7 +34,7 @@
         __android_log_print(ANDROID_LOG_ERROR, "REALM", __VA_ARGS__);                                                \
     } while (0)
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 namespace {
 // Write a byte to a pipe to notify anyone waiting for data on the pipe
@@ -209,4 +209,4 @@ private:
         return 1;
     }
 };
-} // namespace realm::util
+} // namespace realm_legacy::util

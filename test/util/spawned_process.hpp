@@ -26,7 +26,7 @@
 #include <memory>
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 // This is a wrapper around UNIX posix_spawn(), and Windows CreateProcess(). This

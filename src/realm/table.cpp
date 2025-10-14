@@ -202,7 +202,7 @@
 ///    underlying table is equal to the number of entries in `Table::m_cols`.
 ///
 ///  - Each entry in `Table::m_cols` is either null, or points to a column
-///    accessor whose type agrees with the data type (realm::DataType) of the
+///    accessor whose type agrees with the data type (realm_legacy::DataType) of the
 ///    corresponding underlying column (at same index).
 ///
 ///  - If a column accessor is of type `StringEnumColumn`, then the
@@ -258,8 +258,8 @@
 /// since the latter it an invariant.
 
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 Replication* Table::g_dummy_replication = nullptr;
 
@@ -276,7 +276,7 @@ bool TableVersions::operator==(const TableVersions& other) const
     return true;
 }
 
-namespace realm {
+namespace realm_legacy {
 const char* get_data_type_name(DataType type) noexcept
 {
     switch (type) {
@@ -333,7 +333,7 @@ std::ostream& operator<<(std::ostream& o, Table::Type table_type)
     }
     return o << "Invalid table type: " << uint8_t(table_type);
 }
-} // namespace realm
+} // namespace realm_legacy
 
 void LinkChain::add(ColKey ck)
 {
@@ -2229,10 +2229,10 @@ inline uint64_t Table::get_sync_file_id() const noexcept
 size_t Table::get_index_in_group() const noexcept
 {
     if (!m_top.is_attached())
-        return realm::npos;                   // Subtable with shared descriptor
+        return realm_legacy::npos;                   // Subtable with shared descriptor
     ArrayParent* parent = m_top.get_parent(); // ArrayParent guaranteed to be Table::Parent
     if (!parent)
-        return realm::npos; // Free-standing table
+        return realm_legacy::npos; // Free-standing table
     return m_top.get_ndx_in_parent();
 }
 
@@ -2390,7 +2390,7 @@ ObjKey Table::find_first(ColKey col_key, T value) const
     auto f = [&key, &col_key, &value, &leaf](const Cluster* cluster) {
         cluster->init_leaf(col_key, &leaf);
         size_t row = leaf.find_first(value, 0, cluster->node_size());
-        if (row != realm::npos) {
+        if (row != realm_legacy::npos) {
             key = cluster->get_real_key(row);
             return IteratorControl::Stop;
         }
@@ -2402,7 +2402,7 @@ ObjKey Table::find_first(ColKey col_key, T value) const
     return key;
 }
 
-namespace realm {
+namespace realm_legacy {
 
 template <>
 ObjKey Table::find_first(ColKey col_key, util::Optional<float> value) const
@@ -2421,7 +2421,7 @@ ObjKey Table::find_first(ColKey col_key, null) const
 {
     return find_first_null(col_key);
 }
-} // namespace realm
+} // namespace realm_legacy
 
 // Explicitly instantiate the generic case of the template for the types we care about.
 template ObjKey Table::find_first(ColKey col_key, bool) const;
@@ -3127,7 +3127,7 @@ ObjKey Table::get_objkey(GlobalKey global_key) const
         key = global_key.get_local_key(get_sync_file_id());
     }
     if (key && !is_valid(key)) {
-        key = realm::null_key;
+        key = realm_legacy::null_key;
     }
     return key;
 }
@@ -3340,7 +3340,7 @@ void Table::free_local_id_after_hash_collision(ObjKey key)
         collision_map.init_from_ref(collision_map_ref);
         local_id.init_from_parent();
         auto ndx = local_id.find_first(key.value);
-        if (ndx != realm::npos) {
+        if (ndx != realm_legacy::npos) {
             Array hi{m_alloc};
             Array lo{m_alloc};
 
@@ -3438,7 +3438,7 @@ ObjKey Table::invalidate_object(ObjKey key)
 void Table::remove_object_recursive(ObjKey key)
 {
     size_t table_ndx = get_index_in_group();
-    if (table_ndx != realm::npos) {
+    if (table_ndx != realm_legacy::npos) {
         CascadeState state(CascadeState::Mode::All, get_parent_group());
         state.m_to_be_deleted.emplace_back(m_key, key);
         nullify_links(state);
@@ -3779,7 +3779,7 @@ void Table::change_nullability_list(ColKey key_from, ColKey key_to, bool throw_o
 
 void Table::convert_column(ColKey from, ColKey to, bool throw_on_null)
 {
-    realm::DataType type_id = get_column_type(from);
+    realm_legacy::DataType type_id = get_column_type(from);
     bool _is_list = is_list(from);
     if (_is_list) {
         switch (type_id) {

@@ -9,9 +9,9 @@
 #include <mutex>    // std::unique_lock used for debug tracing
 #endif              // REALM_DEBUG
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::util;
 
 namespace {
 
@@ -2325,7 +2325,7 @@ void TransformerImpl::merge_instructions(MajorSide& their_side, MinorSide& our_s
 
 } // anonymous namespace
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 void Transformer::merge_changesets(file_ident_type local_file_ident, util::Span<Changeset> their_changesets,
                                    util::Span<Changeset*> our_changesets, util::Logger& logger)
 {
@@ -2593,4 +2593,4 @@ void parse_remote_changeset(const RemoteChangeset& remote_changeset, Changeset& 
     parsed_changeset.original_changeset_size = remote_changeset.original_changeset_size;
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

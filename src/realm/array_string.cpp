@@ -20,7 +20,7 @@
 #include <realm/spec.hpp>
 #include <realm/mixed.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 ArrayString::ArrayString(Allocator& a)
     : m_alloc(a)
@@ -55,7 +55,7 @@ void ArrayString::init_from_mem(MemRef mem) noexcept
             m_string_enum_values = std::make_unique<ArrayString>(m_alloc);
             ArrayParent* p;
             REALM_ASSERT(m_spec != nullptr);
-            REALM_ASSERT(m_col_ndx != realm::npos);
+            REALM_ASSERT(m_col_ndx != realm_legacy::npos);
             ref_type r = m_spec->get_enumkeys_ref(m_col_ndx, p);
             m_string_enum_values->init_from_ref(r);
             m_string_enum_values->set_parent(p, m_col_ndx);
@@ -153,7 +153,7 @@ void ArrayString::set(size_t ndx, StringData value)
         case Type::enum_strings: {
             size_t sz = m_string_enum_values->size();
             size_t res = m_string_enum_values->find_first(value, 0, sz);
-            if (res == realm::not_found) {
+            if (res == realm_legacy::not_found) {
                 m_string_enum_values->add(value);
                 res = sz;
             }
@@ -316,7 +316,7 @@ size_t ArrayString::find_first(StringData value, size_t begin, size_t end) const
         case Type::enum_strings: {
             size_t sz = m_string_enum_values->size();
             size_t res = m_string_enum_values->find_first(value, 0, sz);
-            if (res != realm::not_found) {
+            if (res != realm_legacy::not_found) {
                 return static_cast<Array*>(m_arr)->find_first(res, begin, end);
             }
             break;
@@ -372,7 +372,7 @@ size_t ArrayString::lower_bound(StringData value)
         case Type::enum_strings:
             break;
     }
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 ArrayString::Type ArrayString::upgrade_leaf(size_t value_size)

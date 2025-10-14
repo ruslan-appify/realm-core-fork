@@ -27,7 +27,7 @@
 #include <memory>
 #include <optional>
 
-namespace realm {
+namespace realm_legacy {
 
 using TokenRange = std::pair<unsigned, unsigned>;
 using TokenRanges = std::vector<TokenRange>;
@@ -84,6 +84,6 @@ protected:
     }
 };
 
-} // namespace realm
+} // namespace realm_legacy
 
 #endif /* REALM_TOKENIZER_HPP */

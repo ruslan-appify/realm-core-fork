@@ -48,9 +48,9 @@ using namespace std::chrono;
 //#include <valgrind/callgrind.h>
 //#define PERFORMACE_TESTING
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 #ifndef CALLGRIND_START_INSTRUMENTATION
@@ -133,7 +133,7 @@ struct value_copier<Optional<T1>, T2> {
             return *from_value;
         else {
             if (m_throw_on_null)
-                throw realm::LogicError(ErrorCodes::BrokenInvariant, "Null found");
+                throw realm_legacy::LogicError(ErrorCodes::BrokenInvariant, "Null found");
             else
                 return T2(); // default value for type
         }
@@ -169,7 +169,7 @@ struct value_copier<StringData, StringData> {
 
             if (m_throw_on_null) {
                 // possibly incorrect - may need to convert to default value for non-nullable entries instead
-                throw realm::LogicError(ErrorCodes::BrokenInvariant, "Null found");
+                throw realm_legacy::LogicError(ErrorCodes::BrokenInvariant, "Null found");
             }
             else
                 return StringData("", 0);
@@ -200,7 +200,7 @@ struct value_copier<BinaryData, BinaryData> {
 
             if (m_throw_on_null) {
                 // possibly incorrect - may need to convert to default value for non-nullable entries instead
-                throw realm::LogicError(ErrorCodes::BrokenInvariant, "Null Found");
+                throw realm_legacy::LogicError(ErrorCodes::BrokenInvariant, "Null Found");
             }
             else
                 return BinaryData("", 0);
@@ -229,7 +229,7 @@ struct value_copier<Timestamp, Timestamp> {
                 return Timestamp();
 
             if (m_throw_on_null)
-                throw realm::LogicError(ErrorCodes::BrokenInvariant, "Null found");
+                throw realm_legacy::LogicError(ErrorCodes::BrokenInvariant, "Null found");
             else
                 return Timestamp(0, 0);
         }
@@ -1280,7 +1280,7 @@ TEST(Table_Sorted_Query_where)
 #endif
 }
 
-namespace realm {
+namespace realm_legacy {
 template <class T>
 T nan(const char* tag)
 {
@@ -1319,7 +1319,7 @@ TEST_TYPES(Table_SortFloat, float, double, Decimal128)
         table.get_object(keys[i]).set(col, TEST_TYPE(-500.0 + i));
         table.get_object(keys[i + 1]).set_null(col);
         const char nan_tag[] = {char('0' + i % 10), 0};
-        table.get_object(keys[i + 2]).set(col, realm::nan<TEST_TYPE>(nan_tag));
+        table.get_object(keys[i + 2]).set(col, realm_legacy::nan<TEST_TYPE>(nan_tag));
     }
 
     TableView sorted = table.get_sorted_view(SortDescriptor{{{col}}, {true}});
@@ -1331,7 +1331,7 @@ TEST_TYPES(Table_SortFloat, float, double, Decimal128)
         CHECK(sorted.get_object(i).is_null(col));
     }
     for (size_t i = 300; i < 600; ++i) {
-        CHECK(realm::isnan(sorted.get_object(i).get<TEST_TYPE>(col)));
+        CHECK(realm_legacy::isnan(sorted.get_object(i).get<TEST_TYPE>(col)));
     }
     for (size_t i = 600; i + 1 < 900; ++i) {
         CHECK_GREATER(sorted.get_object(i + 1).get<TEST_TYPE>(col), sorted.get_object(i).get<TEST_TYPE>(col));
@@ -1814,13 +1814,13 @@ TEST(Table_NullInEnum)
     CHECK_EQUAL(100, r);
 
     Obj obj50 = table->get_object(ObjKey(50));
-    obj50.set<String>(col, realm::null());
+    obj50.set<String>(col, realm_legacy::null());
     r = table->where().equal(col, "hello").count();
     CHECK_EQUAL(99, r);
 
     table->enumerate_string_column(col);
 
-    obj50.set<String>(col, realm::null());
+    obj50.set<String>(col, realm_legacy::null());
     r = table->where().equal(col, "hello").count();
     CHECK_EQUAL(99, r);
 
@@ -1828,22 +1828,22 @@ TEST(Table_NullInEnum)
     r = table->where().equal(col, "hello").count();
     CHECK_EQUAL(100, r);
 
-    obj50.set<String>(col, realm::null());
+    obj50.set<String>(col, realm_legacy::null());
     r = table->where().equal(col, "hello").count();
     CHECK_EQUAL(99, r);
 
-    r = table->where().equal(col, realm::null()).count();
+    r = table->where().equal(col, realm_legacy::null()).count();
     CHECK_EQUAL(1, r);
 
-    table->get_object(ObjKey(55)).set(col, realm::null());
-    r = table->where().equal(col, realm::null()).count();
+    table->get_object(ObjKey(55)).set(col, realm_legacy::null());
+    r = table->where().equal(col, realm_legacy::null()).count();
     CHECK_EQUAL(2, r);
 
     r = table->where().equal(col, "hello").count();
     CHECK_EQUAL(98, r);
 
     table->remove_object(ObjKey(55));
-    r = table->where().equal(col, realm::null()).count();
+    r = table->where().equal(col, realm_legacy::null()).count();
     CHECK_EQUAL(1, r);
 }
 
@@ -1954,16 +1954,16 @@ TEST(Table_Aggregates)
     CHECK_APPROXIMATELY_EQUAL(d_sum, table.sum(double_col)->get_double(), 10 * epsilon);
     CHECK_EQUAL(decimal_sum, table.sum(decimal_col)->get_decimal());
     // average
-    size_t count = realm::npos;
+    size_t count = realm_legacy::npos;
     CHECK_APPROXIMATELY_EQUAL(i_sum / size, table.avg(int_col, &count)->get_double(), 10 * epsilon);
     CHECK_EQUAL(count, size);
-    count = realm::npos;
+    count = realm_legacy::npos;
     CHECK_APPROXIMATELY_EQUAL(f_sum / size, table.avg(float_col, &count)->get_double(), 10 * epsilon);
     CHECK_EQUAL(count, size);
-    count = realm::npos;
+    count = realm_legacy::npos;
     CHECK_APPROXIMATELY_EQUAL(d_sum / size, table.avg(double_col, &count)->get_double(), 10 * epsilon);
     CHECK_EQUAL(count, size);
-    count = realm::npos;
+    count = realm_legacy::npos;
     CHECK_EQUAL(decimal_sum / Decimal128(size), table.avg(decimal_col, &count)->get_decimal());
     CHECK_EQUAL(count, size);
 }
@@ -2263,11 +2263,11 @@ TEST(Table_NullableChecks)
     Timestamp ts;  // null
     BinaryData bd; // null
     obj.set(str_col, sd);
-    obj.set(int_col, realm::null());
-    obj.set(bool_col, realm::null());
+    obj.set(int_col, realm_legacy::null());
+    obj.set(bool_col, realm_legacy::null());
     obj.set(ts_col, ts);
-    obj.set(float_col, realm::null());
-    obj.set(double_col, realm::null());
+    obj.set(float_col, realm_legacy::null());
+    obj.set(double_col, realm_legacy::null());
     obj.set(binary_col, bd);
 
     // is_null is always reliable regardless of type
@@ -2325,11 +2325,11 @@ TEST(Table_Nulls)
 
         CHECK_EQUAL(1, t.count_string(col_str, "foo"));
         CHECK_EQUAL(1, t.count_string(col_str, ""));
-        CHECK_EQUAL(1, t.count_string(col_str, realm::null()));
+        CHECK_EQUAL(1, t.count_string(col_str, realm_legacy::null()));
 
         CHECK_EQUAL(keys[0], t.find_first_string(col_str, "foo"));
         CHECK_EQUAL(keys[1], t.find_first_string(col_str, ""));
-        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm::null()));
+        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm_legacy::null()));
 
         tv = t.find_all_string(col_str, "foo");
         CHECK_EQUAL(1, tv.size());
@@ -2337,7 +2337,7 @@ TEST(Table_Nulls)
         tv = t.find_all_string(col_str, "");
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[1], tv.get_key(0));
-        tv = t.find_all_string(col_str, realm::null());
+        tv = t.find_all_string(col_str, realm_legacy::null());
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[2], tv.get_key(0));
 
@@ -2346,11 +2346,11 @@ TEST(Table_Nulls)
 
         CHECK_EQUAL(1, t.count_string(col_str, string_medium));
         CHECK_EQUAL(1, t.count_string(col_str, ""));
-        CHECK_EQUAL(1, t.count_string(col_str, realm::null()));
+        CHECK_EQUAL(1, t.count_string(col_str, realm_legacy::null()));
 
         CHECK_EQUAL(keys[0], t.find_first_string(col_str, string_medium));
         CHECK_EQUAL(keys[1], t.find_first_string(col_str, ""));
-        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm::null()));
+        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm_legacy::null()));
 
         tv = t.find_all_string(col_str, string_medium);
         CHECK_EQUAL(1, tv.size());
@@ -2358,7 +2358,7 @@ TEST(Table_Nulls)
         tv = t.find_all_string(col_str, "");
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[1], tv.get_key(0));
-        tv = t.find_all_string(col_str, realm::null());
+        tv = t.find_all_string(col_str, realm_legacy::null());
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[2], tv.get_key(0));
 
@@ -2369,11 +2369,11 @@ TEST(Table_Nulls)
 
         CHECK_EQUAL(1, t.count_string(col_str, string_long));
         CHECK_EQUAL(1, t.count_string(col_str, ""));
-        CHECK_EQUAL(1, t.count_string(col_str, realm::null()));
+        CHECK_EQUAL(1, t.count_string(col_str, realm_legacy::null()));
 
         CHECK_EQUAL(keys[0], t.find_first_string(col_str, string_long));
         CHECK_EQUAL(keys[1], t.find_first_string(col_str, ""));
-        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm::null()));
+        CHECK_EQUAL(keys[2], t.find_first_string(col_str, realm_legacy::null()));
 
         tv = t.find_all_string(col_str, string_long);
         CHECK_EQUAL(1, tv.size());
@@ -2381,7 +2381,7 @@ TEST(Table_Nulls)
         tv = t.find_all_string(col_str, "");
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[1], tv.get_key(0));
-        tv = t.find_all_string(col_str, realm::null());
+        tv = t.find_all_string(col_str, realm_legacy::null());
         CHECK_EQUAL(1, tv.size());
         CHECK_EQUAL(keys[2], tv.get_key(0));
     }
@@ -4300,11 +4300,11 @@ TEST(Table_QueryNullOnNonNullSearchIndex)
     }
 
     {
-        Query q0 = t->column<Int>(col0) == realm::null();
+        Query q0 = t->column<Int>(col0) == realm_legacy::null();
         CHECK_EQUAL(q0.count(), 0);
-        Query q1 = t->link(col_link).column<Int>(col0) == realm::null();
+        Query q1 = t->link(col_link).column<Int>(col0) == realm_legacy::null();
         CHECK_EQUAL(q1.count(), 0);
-        Query q2 = t->link(col_link).link(col_link).column<Int>(col0) == realm::null();
+        Query q2 = t->link(col_link).link(col_link).column<Int>(col0) == realm_legacy::null();
         CHECK_EQUAL(q2.count(), 0);
     }
 }
@@ -4368,11 +4368,11 @@ TEST_TYPES(Table_QuerySearchEqualsNull, Prop<Int>, Prop<double>, Prop<float>, Pr
     }
 
     {
-        Query q0 = t->column<underlying_type>(col0) == realm::null();
+        Query q0 = t->column<underlying_type>(col0) == realm_legacy::null();
         CHECK_EQUAL(q0.count(), num_nulls);
-        Query q1 = t->link(col_link).column<underlying_type>(col0) == realm::null();
+        Query q1 = t->link(col_link).column<underlying_type>(col0) == realm_legacy::null();
         CHECK_EQUAL(q1.count(), num_nulls);
-        Query q2 = t->link(col_link).link(col_link).column<underlying_type>(col0) == realm::null();
+        Query q2 = t->link(col_link).link(col_link).column<underlying_type>(col0) == realm_legacy::null();
         CHECK_EQUAL(q2.count(), num_nulls);
         Query q3 = t->column<underlying_type>(col0) == default_non_null_value;
         CHECK_EQUAL(q3.count(), num_default_non_nullables);
@@ -4428,7 +4428,7 @@ struct Tester {
         }
     }
 
-    static void run(DBRef db, realm::DataType type)
+    static void run(DBRef db, realm_legacy::DataType type)
     {
         auto trans = db->start_write();
         auto table = trans->add_table("my_table");
@@ -4498,7 +4498,7 @@ struct Tester {
     template <typename Type = T2>
     typename std::enable_if<std::is_same<Type, StringData>::value, std::string>::type static create()
     {
-        std::string s = realm::util::to_string(fastrand(5));
+        std::string s = realm_legacy::util::to_string(fastrand(5));
         return s;
     }
     template <typename Type = T2>
@@ -4784,7 +4784,7 @@ struct generator<Optional<BinaryData>> {
 };
 
 template <typename T>
-void test_lists(TestContext& test_context, DBRef sg, const realm::DataType type_id, bool optional = false)
+void test_lists(TestContext& test_context, DBRef sg, const realm_legacy::DataType type_id, bool optional = false)
 {
     auto t = sg->start_write();
     auto table = t->add_table("the_table");
@@ -4867,7 +4867,7 @@ TEST(List_Ops)
 }
 
 template <typename T, typename U = T>
-void test_lists_numeric_agg(TestContext& test_context, DBRef sg, const realm::DataType type_id, U null_value = U{},
+void test_lists_numeric_agg(TestContext& test_context, DBRef sg, const realm_legacy::DataType type_id, U null_value = U{},
                             bool optional = false)
 {
     auto t = sg->start_write();
@@ -4890,7 +4890,7 @@ void test_lists_numeric_agg(TestContext& test_context, DBRef sg, const realm::Da
         CHECK_EQUAL(lst.get(j + 1000), T(j));
     }
     {
-        size_t ret_ndx = realm::npos;
+        size_t ret_ndx = realm_legacy::npos;
         auto min = lst.min(&ret_ndx);
         CHECK(min);
         CHECK(!min->is_null());
@@ -4918,19 +4918,19 @@ void test_lists_numeric_agg(TestContext& test_context, DBRef sg, const realm::Da
     lst.clear();
     CHECK_EQUAL(lst.size(), 0);
     {
-        size_t ret_ndx = realm::npos;
+        size_t ret_ndx = realm_legacy::npos;
         auto min = lst.min(&ret_ndx);
         CHECK(min);
-        CHECK_EQUAL(ret_ndx, realm::npos);
-        ret_ndx = realm::npos;
+        CHECK_EQUAL(ret_ndx, realm_legacy::npos);
+        ret_ndx = realm_legacy::npos;
         auto max = lst.max(&ret_ndx);
         CHECK(max);
-        CHECK_EQUAL(ret_ndx, realm::npos);
-        size_t ret_count = realm::npos;
+        CHECK_EQUAL(ret_ndx, realm_legacy::npos);
+        size_t ret_count = realm_legacy::npos;
         auto sum = lst.sum(&ret_count);
         CHECK(sum);
         CHECK_EQUAL(ret_count, 0);
-        ret_count = realm::npos;
+        ret_count = realm_legacy::npos;
         auto avg = lst.avg(&ret_count);
         CHECK(avg);
         CHECK_EQUAL(ret_count, 0);
@@ -4938,7 +4938,7 @@ void test_lists_numeric_agg(TestContext& test_context, DBRef sg, const realm::Da
 
     lst.add(T(1));
     {
-        size_t ret_ndx = realm::npos;
+        size_t ret_ndx = realm_legacy::npos;
         auto min = lst.min(&ret_ndx);
         CHECK(min);
         CHECK(!min->is_null());
@@ -4978,9 +4978,9 @@ TEST(List_AggOps)
     test_lists_numeric_agg<Decimal128>(test_context, sg, type_Decimal);
 
     test_lists_numeric_agg<Optional<int64_t>>(test_context, sg, type_Int, Optional<int64_t>{}, true);
-    test_lists_numeric_agg<float>(test_context, sg, type_Float, realm::null::get_null_float<float>(), true);
-    test_lists_numeric_agg<double>(test_context, sg, type_Double, realm::null::get_null_float<double>(), true);
-    test_lists_numeric_agg<Decimal128>(test_context, sg, type_Decimal, Decimal128(realm::null()), true);
+    test_lists_numeric_agg<float>(test_context, sg, type_Float, realm_legacy::null::get_null_float<float>(), true);
+    test_lists_numeric_agg<double>(test_context, sg, type_Double, realm_legacy::null::get_null_float<double>(), true);
+    test_lists_numeric_agg<Decimal128>(test_context, sg, type_Decimal, Decimal128(realm_legacy::null()), true);
 }
 
 TEST(List_DecimalMinMax)
@@ -4997,7 +4997,7 @@ TEST(List_DecimalMinMax)
     lst.add(Decimal128(larger_than_max_int64_t));
     CHECK_EQUAL(lst.size(), 1);
     CHECK_EQUAL(lst.get(0), Decimal128(larger_than_max_int64_t));
-    size_t min_ndx = realm::npos;
+    size_t min_ndx = realm_legacy::npos;
     auto min = lst.min(&min_ndx);
     CHECK(min);
     CHECK_EQUAL(min_ndx, 0);
@@ -5008,7 +5008,7 @@ TEST(List_DecimalMinMax)
     lst.add(Decimal128(smaller_than_min_int64_t));
     CHECK_EQUAL(lst.size(), 1);
     CHECK_EQUAL(lst.get(0), Decimal128(smaller_than_min_int64_t));
-    size_t max_ndx = realm::npos;
+    size_t max_ndx = realm_legacy::npos;
     auto max = lst.max(&max_ndx);
     CHECK(max);
     CHECK_EQUAL(max_ndx, 0);
@@ -5030,7 +5030,7 @@ void check_table_values(TestContext& test_context, TableRef t, ColKey col, std::
 }
 
 template <typename T>
-void test_tables(TestContext& test_context, DBRef sg, const realm::DataType type_id, bool optional = false)
+void test_tables(TestContext& test_context, DBRef sg, const realm_legacy::DataType type_id, bool optional = false)
 {
     auto t = sg->start_write();
     auto table = t->add_table("the_table");
@@ -5111,7 +5111,7 @@ TEST(Table_Ops)
 }
 
 template <typename TFrom, typename TTo>
-void test_dynamic_conversion(TestContext& test_context, DBRef sg, realm::DataType type_id, bool from_nullable,
+void test_dynamic_conversion(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id, bool from_nullable,
                              bool to_nullable)
 {
     // Create values of type TFrom and ask for dynamic conversion to TTo
@@ -5139,7 +5139,7 @@ void test_dynamic_conversion(TestContext& test_context, DBRef sg, realm::DataTyp
 }
 
 template <typename TFrom, typename TTo>
-void test_dynamic_conversion_list(TestContext& test_context, DBRef sg, realm::DataType type_id, bool from_nullable,
+void test_dynamic_conversion_list(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id, bool from_nullable,
                                   bool to_nullable)
 {
     // Create values of type TFrom and ask for dynamic conversion to TTo
@@ -5164,7 +5164,7 @@ void test_dynamic_conversion_list(TestContext& test_context, DBRef sg, realm::Da
 }
 
 template <typename T>
-void test_dynamic_conversion_combi(TestContext& test_context, DBRef sg, realm::DataType type_id)
+void test_dynamic_conversion_combi(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id)
 {
     test_dynamic_conversion<T, Optional<T>>(test_context, sg, type_id, false, true);
     test_dynamic_conversion<Optional<T>, T>(test_context, sg, type_id, true, false);
@@ -5173,7 +5173,7 @@ void test_dynamic_conversion_combi(TestContext& test_context, DBRef sg, realm::D
 }
 
 template <typename T>
-void test_dynamic_conversion_combi_sametype(TestContext& test_context, DBRef sg, realm::DataType type_id)
+void test_dynamic_conversion_combi_sametype(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id)
 {
     test_dynamic_conversion<T, T>(test_context, sg, type_id, false, true);
     test_dynamic_conversion<T, T>(test_context, sg, type_id, true, false);
@@ -5182,7 +5182,7 @@ void test_dynamic_conversion_combi_sametype(TestContext& test_context, DBRef sg,
 }
 
 template <typename T>
-void test_dynamic_conversion_list_combi(TestContext& test_context, DBRef sg, realm::DataType type_id)
+void test_dynamic_conversion_list_combi(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id)
 {
     test_dynamic_conversion_list<T, Optional<T>>(test_context, sg, type_id, false, true);
     test_dynamic_conversion_list<Optional<T>, T>(test_context, sg, type_id, true, false);
@@ -5191,7 +5191,7 @@ void test_dynamic_conversion_list_combi(TestContext& test_context, DBRef sg, rea
 }
 
 template <typename T>
-void test_dynamic_conversion_list_combi_sametype(TestContext& test_context, DBRef sg, realm::DataType type_id)
+void test_dynamic_conversion_list_combi_sametype(TestContext& test_context, DBRef sg, realm_legacy::DataType type_id)
 {
     test_dynamic_conversion_list<T, T>(test_context, sg, type_id, false, true);
     test_dynamic_conversion_list<T, T>(test_context, sg, type_id, true, false);

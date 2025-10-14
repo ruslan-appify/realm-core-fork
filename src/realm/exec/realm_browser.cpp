@@ -3,7 +3,7 @@
 #include <ctime>
 #include "realm/util/time.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 #define LL long long
 #define ULL unsigned long long

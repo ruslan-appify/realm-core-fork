@@ -18,7 +18,7 @@
 
 #include "quote.hpp"
 
-std::string realm::test_util::quote(const std::string& string)
+std::string realm_legacy::test_util::quote(const std::string& string)
 {
     std::string quoted;
     for (char c : string) {

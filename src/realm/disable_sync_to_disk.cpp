@@ -20,7 +20,7 @@
 
 #include <realm/disable_sync_to_disk.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -29,13 +29,13 @@ std::atomic<bool> g_disable_sync_to_disk(false);
 } // anonymous namespace
 
 // LCOV_EXCL_START We will sync to disc during coverage run
-void realm::disable_sync_to_disk(bool disable)
+void realm_legacy::disable_sync_to_disk(bool disable)
 {
     g_disable_sync_to_disk = disable;
 }
 // LCOV_EXCL_STOP
 
-bool realm::get_disable_sync_to_disk() noexcept
+bool realm_legacy::get_disable_sync_to_disk() noexcept
 {
     return g_disable_sync_to_disk;
 }

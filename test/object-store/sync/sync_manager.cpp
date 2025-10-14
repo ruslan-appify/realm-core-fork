@@ -31,9 +31,9 @@
 #include <realm/util/optional.hpp>
 #include <realm/util/scope_exit.hpp>
 
-using namespace realm;
-using namespace realm::util;
-using File = realm::util::File;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using File = realm_legacy::util::File;
 
 static const auto base_path =
     fs::path{util::make_temp_dir()}.make_preferred() / "realm_objectstore_sync_manager.test-dir";
@@ -167,8 +167,8 @@ TEST_CASE("sync_manager: `path_for_realm` API", "[sync][sync manager]") {
         SECTION("Custom filename for Flexible Sync with an existing path") {
             SyncConfig config(user, SyncConfig::FLXSyncEnabled{});
             std::string path = sync_manager->path_for_realm(config, util::make_optional<std::string>("custom.realm"));
-            realm::test_util::TestPathGuard guard(path);
-            realm::util::File existing_realm_file(path, File::mode_Write);
+            realm_legacy::test_util::TestPathGuard guard(path);
+            realm_legacy::util::File existing_realm_file(path, File::mode_Write);
             existing_realm_file.write(std::string("test"));
             existing_realm_file.sync();
             REQUIRE(sync_manager->path_for_realm(config, util::make_optional<std::string>("custom.realm")) ==
@@ -653,11 +653,11 @@ TEST_CASE("sync_manager: file actions", "[sync][sync manager]") {
             std::string realm3_dir = File::parent_dir(realm_path_3);
             realm3_dir = realm3_dir.empty() ? "." : realm3_dir;
             int original_perms = get_permissions(realm3_dir);
-            realm::chmod(realm3_dir, original_perms & (~0b010000000)); // without owner_write
+            realm_legacy::chmod(realm3_dir, original_perms & (~0b010000000)); // without owner_write
             // run the actions
             TestSyncManager tsm(config);
             // restore write permissions to the directory
-            realm::chmod(realm3_dir, original_perms);
+            realm_legacy::chmod(realm3_dir, original_perms);
             // Everything succeeded except deleting realm_path_3
             auto pending_actions = manager.all_pending_actions();
             REQUIRE(pending_actions.size() == 1);

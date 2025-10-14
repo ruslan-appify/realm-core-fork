@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 class Clock {
@@ -19,6 +19,6 @@ public:
 };
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_SYNC_CLOCK_HPP

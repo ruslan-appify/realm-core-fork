@@ -30,8 +30,8 @@
 #include <realm/util/features.h>
 #include "test.hpp"
 
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety

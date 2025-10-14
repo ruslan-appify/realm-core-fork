@@ -35,8 +35,8 @@
 #include <realm/transaction.hpp>
 #include <realm/replication.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 namespace {
 
@@ -44,7 +44,7 @@ class Initialization {
 public:
     Initialization()
     {
-        realm::cpuid_init();
+        realm_legacy::cpuid_init();
     }
 };
 

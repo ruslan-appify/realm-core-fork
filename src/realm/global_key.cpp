@@ -26,7 +26,7 @@
 #include <sstream>
 #include <cctype>
 
-namespace realm {
+namespace realm_legacy {
 
 std::ostream& operator<<(std::ostream& os, const GlobalKey& object_id)
 {
@@ -173,4 +173,4 @@ GlobalKey::GlobalKey(Mixed pk)
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

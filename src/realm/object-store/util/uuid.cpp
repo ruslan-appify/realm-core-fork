@@ -49,7 +49,7 @@ T create_and_seed_engine()
 
 } // unnamed namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 std::string uuid_string()
@@ -78,4 +78,4 @@ std::string uuid_string()
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

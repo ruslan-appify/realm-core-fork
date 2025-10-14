@@ -35,7 +35,7 @@
 #include <string.h>
 #include <unordered_set>
 
-using namespace realm;
+using namespace realm_legacy;
 
 constexpr uint64_t ObjectStore::NotVersioned;
 

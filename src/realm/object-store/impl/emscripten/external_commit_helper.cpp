@@ -23,8 +23,8 @@
 #include <realm/object-store/impl/external_commit_helper.hpp>
 #include <realm/object-store/impl/realm_coordinator.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 ExternalCommitHelper::ExternalCommitHelper(RealmCoordinator& parent, const RealmConfig&)
     : m_parent(parent)

@@ -47,7 +47,7 @@
 
 #include <external/json/json.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace std::string_literals;
 using Catch::Matchers::StartsWith;
 using nlohmann::json;

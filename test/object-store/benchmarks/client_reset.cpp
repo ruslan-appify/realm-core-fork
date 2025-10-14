@@ -31,7 +31,7 @@
 #include <realm/sync/noinst/client_reset.hpp>
 #include <realm/sync/noinst/client_reset_recovery.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 static TableRef get_table(Realm& realm, StringData object_type)
 {
@@ -48,7 +48,7 @@ static Obj create_object(Realm& realm, StringData object_type, util::Optional<in
 }
 
 struct BenchmarkLocalClientReset : public reset_utils::TestClientReset {
-    BenchmarkLocalClientReset(realm::Realm::Config local_config, realm::Realm::Config remote_config)
+    BenchmarkLocalClientReset(realm_legacy::Realm::Config local_config, realm_legacy::Realm::Config remote_config)
         : reset_utils::TestClientReset(local_config, remote_config)
     {
         REALM_ASSERT(m_local_config.sync_config);

@@ -58,7 +58,7 @@
 #include "util/sync/baas_admin_api.hpp"
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 
 extern "C" int realm_c_api_tests(const char* file);
 
@@ -141,7 +141,7 @@ realm_value_t rlm_decimal_val(double d)
     realm_value_t val;
     val.type = RLM_TYPE_DECIMAL128;
 
-    realm::Decimal128 dec{d};
+    realm_legacy::Decimal128 dec{d};
     val.decimal128.w[0] = dec.raw()->w[0];
     val.decimal128.w[1] = dec.raw()->w[1];
 
@@ -153,7 +153,7 @@ realm_value_t rlm_decimal_nan()
     realm_value_t val;
     val.type = RLM_TYPE_DECIMAL128;
 
-    realm::Decimal128 dec = realm::Decimal128::nan("0");
+    realm_legacy::Decimal128 dec = realm_legacy::Decimal128::nan("0");
     val.decimal128.w[0] = dec.raw()->w[0];
     val.decimal128.w[1] = dec.raw()->w[1];
 
@@ -164,7 +164,7 @@ realm_value_t rlm_uuid_val(const char* str)
 {
     realm_value_t val;
     val.type = RLM_TYPE_UUID;
-    realm::UUID uuid{realm::StringData{str}};
+    realm_legacy::UUID uuid{realm_legacy::StringData{str}};
     auto bytes = uuid.to_bytes();
     for (size_t i = 0; i < 16; ++i) {
         val.uuid.bytes[i] = bytes[i];
@@ -1453,7 +1453,7 @@ TEST_CASE("C API - realm", "[c_api]") {
     }
 
     SECTION("native ptr conversion") {
-        realm::SharedRealm native;
+        realm_legacy::SharedRealm native;
         _realm_get_native_ptr(realm, &native, sizeof(native));
         auto path = native->config().path;
         CHECK(path == test_file.path);
@@ -1978,9 +1978,9 @@ TEST_CASE("C API - properties", "[c_api]") {
         }
 
         SECTION("native pointer mapping") {
-            auto object = *static_cast<const realm::Object*>(_realm_object_get_native_ptr(obj1.get()));
+            auto object = *static_cast<const realm_legacy::Object*>(_realm_object_get_native_ptr(obj1.get()));
             auto obj = object.get_obj();
-            CHECK(obj.get<int64_t>(realm::ColKey(foo_int_key)) == int_val1.integer);
+            CHECK(obj.get<int64_t>(realm_legacy::ColKey(foo_int_key)) == int_val1.integer);
 
             auto obj1a = cptr_checked(_realm_object_from_native_copy(&object, sizeof(object)));
             CHECK(realm_equals(obj1.get(), obj1a.get()));
@@ -2381,7 +2381,7 @@ TEST_CASE("C API - properties", "[c_api]") {
                         realm_value_t dummy = rlm_str_val("c");
                         CHECK(checked(realm_list_find(strings.get(), &dummy, &out_index, &found)));
                         CHECK(!found);
-                        CHECK(out_index == realm::not_found);
+                        CHECK(out_index == realm_legacy::not_found);
 
                         // verify that conversion to results works
                         auto results = cptr_checked(realm_list_to_results(strings.get()));
@@ -2658,7 +2658,7 @@ TEST_CASE("C API - properties", "[c_api]") {
 
                     realm_list_clear(bars.get());
                     CHECK(checked(realm_list_find(bars.get(), &bar_link_val, &index, &found)));
-                    CHECK(index == realm::not_found);
+                    CHECK(index == realm_legacy::not_found);
                     CHECK(!found);
 
                     CHECK(checked(realm_list_insert(bars.get(), 0, bar_link_val)));
@@ -3988,7 +3988,7 @@ TEST_CASE("C API - properties", "[c_api]") {
                     CHECK(index == 1);
                     realm_value_t integer_no_present = rlm_int_val(678);
                     CHECK(checked(realm_dictionary_contains_value(ints.get(), integer_no_present, &index)));
-                    CHECK(index == realm::npos);
+                    CHECK(index == realm_legacy::npos);
                 }
             }
         }
@@ -4859,7 +4859,7 @@ TEST_CASE("C API - queries", "[c_api]") {
                 size_t index = -1;
                 bool found = false;
                 CHECK(realm_results_find(r2.get(), &value, &index, &found));
-                CHECK(index == realm::not_found);
+                CHECK(index == realm_legacy::not_found);
                 CHECK(found == false);
             }
 
@@ -4881,7 +4881,7 @@ TEST_CASE("C API - queries", "[c_api]") {
                 index = -1;
                 found = false;
                 CHECK(realm_results_find(r.get(), &value, &index, &found));
-                CHECK(index == realm::not_found);
+                CHECK(index == realm_legacy::not_found);
                 CHECK(found == false);
             }
 
@@ -4912,7 +4912,7 @@ TEST_CASE("C API - queries", "[c_api]") {
                 CHECK_ERR(RLM_ERR_INDEX_OUT_OF_BOUNDS);
                 CHECK(!realm_results_find_object(r.get(), obj2.get(), &index, &found));
                 CHECK(found == false);
-                CHECK(index == realm::not_found);
+                CHECK(index == realm_legacy::not_found);
             }
 
             SECTION("realm_results_filter()") {
@@ -5294,8 +5294,8 @@ TEST_CASE("C API - async_open", "[sync][pbs][c_api]") {
 
         struct Transport : UnitTestTransport {
             void send_request_to_server(
-                const realm::app::Request& req,
-                realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion) override
+                const realm_legacy::app::Request& req,
+                realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion) override
             {
                 if (req.url.find("/auth/session") != std::string::npos) {
                     completion(app::Response{403});
@@ -5405,7 +5405,7 @@ TEST_CASE("C API - binding callback thread observer", "[sync][c_api]") {
         REQUIRE(observer_ptr->test_get_userdata_ptr() == &bcto_user_data);
 
         auto test_thread = std::thread([&]() {
-            auto bcto_ptr = std::static_pointer_cast<realm::BindingCallbackThreadObserver>(
+            auto bcto_ptr = std::static_pointer_cast<realm_legacy::BindingCallbackThreadObserver>(
                 config->default_socket_provider_thread_observer);
             REQUIRE(bcto_ptr);
             auto will_destroy_thread = util::make_scope_exit([&bcto_ptr]() noexcept {
@@ -5482,7 +5482,7 @@ TEST_CASE("C API - client reset", "[sync][pbs][c_api][client reset][baas]") {
     realm_sync_config_t* local_sync_config = static_cast<realm_sync_config_t*>(local_config.sync_config.get());
 
     struct ResetRealmFiles {
-        void set_app(std::shared_ptr<realm::app::App> app)
+        void set_app(std::shared_ptr<realm_legacy::app::App> app)
         {
             m_app = app;
         }
@@ -5497,7 +5497,7 @@ TEST_CASE("C API - client reset", "[sync][pbs][c_api][client reset][baas]") {
             static ResetRealmFiles instance;
             return instance;
         }
-        std::shared_ptr<realm::app::App> m_app;
+        std::shared_ptr<realm_legacy::app::App> m_app;
     };
     ResetRealmFiles::instance().set_app(app);
 
@@ -5715,12 +5715,12 @@ TEST_CASE("C API app: link_user integration w/c_api transport", "[sync][app][c_a
         {
         }
         std::shared_ptr<util::Logger> logger;
-        std::unique_ptr<realm::app::GenericNetworkTransport> transport;
+        std::unique_ptr<realm_legacy::app::GenericNetworkTransport> transport;
     };
 
     auto send_request_to_server = [](realm_userdata_t userdata, const realm_http_request_t request,
                                      void* request_context) {
-        using namespace realm::app;
+        using namespace realm_legacy::app;
 
         constexpr uint64_t default_timeout_ms = 60000;
         REQUIRE(userdata != nullptr);
@@ -5929,10 +5929,10 @@ TEST_CASE("C API app: link_user integration w/c_api transport", "[sync][app][c_a
 }
 
 TEST_CASE("app: flx-sync compensating writes C API support", "[sync][flx][c_api][baas]") {
-    using namespace realm::app;
+    using namespace realm_legacy::app;
     FLXSyncTestHarness harness("c_api_comp_writes");
     create_user_and_log_in(harness.app());
-    SyncTestFile test_config(harness.app()->current_user(), harness.schema(), realm::SyncConfig::FLXSyncEnabled{});
+    SyncTestFile test_config(harness.app()->current_user(), harness.schema(), realm_legacy::SyncConfig::FLXSyncEnabled{});
     test_config.sync_config = std::make_shared<realm_sync_config_t>(*test_config.sync_config);
     realm_sync_config_t* sync_config = static_cast<realm_sync_config_t*>(test_config.sync_config.get());
 
@@ -6008,7 +6008,7 @@ TEST_CASE("app: flx-sync compensating writes C API support", "[sync][flx][c_api]
 }
 
 TEST_CASE("app: flx-sync basic tests", "[sync][flx][c_api][baas]") {
-    using namespace realm::app;
+    using namespace realm_legacy::app;
 
     auto make_schema = [] {
         Schema schema{{"Obj",
@@ -6314,7 +6314,7 @@ TEST_CASE("app: flx-sync basic tests", "[sync][flx][c_api][baas]") {
             REQUIRE(realm_flx_sync_sub);
 
             const realm_object_id_t& object_id = realm_sync_subscription_id(realm_flx_sync_sub);
-            CHECK(!realm::c_api::from_capi(object_id).to_string().empty());
+            CHECK(!realm_legacy::c_api::from_capi(object_id).to_string().empty());
 
             realm_timestamp_t create_time = realm_sync_subscription_created_at(realm_flx_sync_sub);
             realm_timestamp_t update_time = realm_sync_subscription_updated_at(realm_flx_sync_sub);
@@ -6403,9 +6403,9 @@ TEST_CASE("app: flx-sync basic tests", "[sync][flx][c_api][baas]") {
 }
 
 TEST_CASE("C API app: websocket provider", "[sync][app][c_api][baas]") {
-    using namespace realm::app;
-    using namespace realm::sync;
-    using namespace realm::sync::websocket;
+    using namespace realm_legacy::app;
+    using namespace realm_legacy::sync;
+    using namespace realm_legacy::sync::websocket;
 
     struct TestWebSocketObserverShim : sync::WebSocketObserver {
     public:
@@ -6443,7 +6443,7 @@ TEST_CASE("C API app: websocket provider", "[sync][app][c_api][baas]") {
         realm_websocket_observer_t* m_observer;
     };
 
-    struct TestWebSocket : realm::c_api::WrapC, WebSocketInterface {
+    struct TestWebSocket : realm_legacy::c_api::WrapC, WebSocketInterface {
     public:
         TestWebSocket(DefaultSocketProvider& socket_provider, realm_websocket_endpoint_t endpoint,
                       realm_websocket_observer_t* realm_websocket_observer)
@@ -6470,7 +6470,7 @@ TEST_CASE("C API app: websocket provider", "[sync][app][c_api][baas]") {
         std::unique_ptr<WebSocketInterface> m_websocket;
     };
 
-    struct TestSyncTimer : realm::c_api::WrapC, SyncSocketProvider::Timer {
+    struct TestSyncTimer : realm_legacy::c_api::WrapC, SyncSocketProvider::Timer {
     public:
         TestSyncTimer(DefaultSocketProvider& socket_provider, std::chrono::milliseconds delay,
                       realm_sync_socket_timer_callback_t* callback)
@@ -6581,7 +6581,7 @@ TEST_CASE("C API app: websocket provider", "[sync][app][c_api][baas]") {
                                    instance_of<SynchronousTestTransport>, *socket_provider);
 
         SyncTestFile test_config(harness.app()->current_user(), harness.schema(),
-                                 realm::SyncConfig::FLXSyncEnabled{});
+                                 realm_legacy::SyncConfig::FLXSyncEnabled{});
         auto realm = Realm::get_shared_realm(test_config);
         bool wait_success = wait_for_download(*realm);
         LOCKED_REQUIRE(!wait_success);

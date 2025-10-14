@@ -30,8 +30,8 @@
 #include <utility>
 #include <random>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 // Max number of rows in a table. Overridden only by create_object() and only in the case where
 // max_rows is not exceeded *prior* to executing add_empty_row.
@@ -373,7 +373,7 @@ void FuzzObject::rollback(SharedRealm shared_realm, Group& group, FuzzLog& log)
     }
 }
 
-void FuzzObject::advance(realm::SharedRealm shared_realm, FuzzLog& log)
+void FuzzObject::advance(realm_legacy::SharedRealm shared_realm, FuzzLog& log)
 {
     log << "FuzzObject::advance();\n";
     shared_realm->notify();

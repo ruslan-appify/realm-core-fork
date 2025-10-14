@@ -5,7 +5,7 @@
 #include <csignal>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 /// \brief Block all signals from being delivered to the instantiating thread.
@@ -52,6 +52,6 @@ inline SignalBlocker::~SignalBlocker() noexcept
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_SIGNAL_BLOCKER_HPP

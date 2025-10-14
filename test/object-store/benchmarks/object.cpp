@@ -38,14 +38,14 @@
 #include <random>
 #include <vector>
 
-using namespace realm;
+using namespace realm_legacy;
 using std::any;
 
 struct TestContext : CppContext {
     std::map<std::string, AnyDict> defaults;
 
     using CppContext::CppContext;
-    TestContext(TestContext& parent, Obj obj, realm::Property const& prop)
+    TestContext(TestContext& parent, Obj obj, realm_legacy::Property const& prop)
         : CppContext(parent, obj, prop)
         , defaults(parent.defaults)
     {

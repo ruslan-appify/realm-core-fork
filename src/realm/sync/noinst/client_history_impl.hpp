@@ -25,11 +25,11 @@
 #include <realm/util/functional.hpp>
 #include <realm/util/optional.hpp>
 
-namespace realm::_impl::client_reset {
+namespace realm_legacy::_impl::client_reset {
 struct RecoveredChange;
 }
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 class ClientReplication;
 // As new schema versions come into existence, describe them here.
@@ -255,7 +255,7 @@ public:
     static void get_upload_download_bytes(DB*, std::uint_fast64_t&, std::uint_fast64_t&, std::uint_fast64_t&,
                                           std::uint_fast64_t&, std::uint_fast64_t&);
 
-    // Overriding member functions in realm::TransformHistory
+    // Overriding member functions in realm_legacy::TransformHistory
     version_type find_history_entry(version_type, version_type, HistoryEntry&) const noexcept override;
     ChunkedBinaryData get_reciprocal_transform(version_type, bool&) const override;
     void set_reciprocal_transform(version_type, BinaryData) override;
@@ -427,7 +427,7 @@ private:
         return m_arrays ? m_arrays->ct_history.size() : 0;
     }
 
-    // Overriding member functions in realm::_impl::History
+    // Overriding member functions in realm_legacy::_impl::History
     void set_group(Group* group, bool updated = false) override;
     void update_from_ref_and_version(ref_type ref, version_type version) override;
     void update_from_parent(version_type current_version) override;
@@ -454,7 +454,7 @@ public:
         m_write_validator_factory = std::move(validator_factory);
     }
 
-    // Overriding member functions in realm::Replication
+    // Overriding member functions in realm_legacy::Replication
     void initialize(DB& sg) override;
     HistoryType get_history_type() const noexcept override;
     int get_history_schema_version() const noexcept override;
@@ -472,7 +472,7 @@ public:
         return hist;
     }
 
-    // Overriding member functions in realm::Replication
+    // Overriding member functions in realm_legacy::Replication
     version_type prepare_changeset(const char*, size_t, version_type) override;
 
     ClientHistory& get_history() noexcept
@@ -536,13 +536,13 @@ inline void ClientHistory::clamp_sync_version_range(version_type& begin, version
 }
 
 
-/// \brief Create a "sync history" implementation of the realm::Replication
+/// \brief Create a "sync history" implementation of the realm_legacy::Replication
 /// interface.
 ///
 /// The intended role for such an object is as a plugin for new
-/// realm::DB objects.
+/// realm_legacy::DB objects.
 std::unique_ptr<ClientReplication> make_client_replication();
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync
 
 #endif // REALM_NOINST_CLIENT_HISTORY_IMPL_HPP

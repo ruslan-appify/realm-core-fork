@@ -22,7 +22,7 @@
 #include <realm/object-store/sync/generic_network_transport.hpp>
 #include <realm/util/uri.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace app {
 
 using namespace bson;
@@ -588,4 +588,4 @@ void WatchStream::feed_sse(ServerSentEvent sse)
     }
 }
 } // namespace app
-} // namespace realm
+} // namespace realm_legacy

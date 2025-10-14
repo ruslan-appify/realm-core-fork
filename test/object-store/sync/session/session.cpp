@@ -38,8 +38,8 @@
 #include <unistd.h>
 #endif
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 TEST_CASE("SyncSession: management by SyncUser", "[sync][session]") {
     if (!EventLoop::has_implementation())
@@ -407,8 +407,8 @@ TEST_CASE("sync: error handling", "[sync][session]") {
     }
 #endif // !defined(SWIFT_PACKAGE) && !REALM_MOBILE
 
-    using ProtocolError = realm::sync::ProtocolError;
-    using ProtocolErrorInfo = realm::sync::ProtocolErrorInfo;
+    using ProtocolError = realm_legacy::sync::ProtocolError;
+    using ProtocolErrorInfo = realm_legacy::sync::ProtocolErrorInfo;
 
     SECTION("Doesn't treat unknown system errors as being fatal") {
         auto user = tsm.fake_user();
@@ -549,7 +549,7 @@ TEST_CASE("sync: stop policy behavior", "[sync][session]") {
         SECTION("transitions to Inactive if a fatal error occurs") {
             sync::SessionErrorInfo err{Status{ErrorCodes::SyncProtocolInvariantFailed, "Not a real error message"},
                                        sync::IsFatal{true}};
-            err.server_requests_action = realm::sync::ProtocolErrorInfo::Action::ProtocolViolation;
+            err.server_requests_action = realm_legacy::sync::ProtocolErrorInfo::Action::ProtocolViolation;
             SyncSession::OnlyForTesting::handle_error(*session, std::move(err));
             CHECK(sessions_are_inactive(*session));
             // The session shouldn't report fatal errors when in the dying state.
@@ -560,7 +560,7 @@ TEST_CASE("sync: stop policy behavior", "[sync][session]") {
             // Fire a simulated *non-fatal* error.
             sync::SessionErrorInfo err{Status{ErrorCodes::ConnectionClosed, "Not a real error message"},
                                        sync::IsFatal{false}};
-            err.server_requests_action = realm::sync::ProtocolErrorInfo::Action::Transient;
+            err.server_requests_action = realm_legacy::sync::ProtocolErrorInfo::Action::Transient;
             SyncSession::OnlyForTesting::handle_error(*session, std::move(err));
             REQUIRE(session->state() == SyncSession::State::Dying);
             CHECK(!error_handler_invoked);

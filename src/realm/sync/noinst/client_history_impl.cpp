@@ -36,7 +36,7 @@
 #include <cstring>
 #include <utility>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 void ClientHistory::set_client_reset_adjustments(
     util::Logger& logger, version_type current_version, SaltedFileIdent client_file_ident,
@@ -170,7 +170,7 @@ void ClientHistory::set_local_origin_timestamp_source(util::UniqueFunction<times
     m_local_origin_timestamp_source = std::move(source_fn);
 }
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 void ClientReplication::initialize(DB& sg)
 {
     SyncReplication::initialize(sg); // Throws
@@ -178,21 +178,21 @@ void ClientReplication::initialize(DB& sg)
 }
 
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 auto ClientReplication::get_history_type() const noexcept -> HistoryType
 {
     return hist_SyncClient;
 }
 
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 int ClientReplication::get_history_schema_version() const noexcept
 {
     return get_client_history_schema_version();
 }
 
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 bool ClientReplication::is_upgradable_history_schema(int stored_schema_version) const noexcept
 {
     if (stored_schema_version == 11) {
@@ -202,7 +202,7 @@ bool ClientReplication::is_upgradable_history_schema(int stored_schema_version) 
 }
 
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 void ClientReplication::upgrade_history_schema(int stored_schema_version)
 {
     // upgrade_history_schema() is called only when there is a need to upgrade
@@ -250,7 +250,7 @@ void ClientHistory::compress_stored_changesets()
     }
 }
 
-// Overriding member function in realm::Replication
+// Overriding member function in realm_legacy::Replication
 auto ClientReplication::prepare_changeset(const char* data, size_t size, version_type orig_version) -> version_type
 {
     m_history.ensure_updated(orig_version);
@@ -339,7 +339,7 @@ void ClientHistory::set_client_file_ident(SaltedFileIdent client_file_ident, boo
 }
 
 
-// Overriding member function in realm::sync::ClientHistoryBase
+// Overriding member function in realm_legacy::sync::ClientHistoryBase
 void ClientHistory::set_sync_progress(const SyncProgress& progress, const std::uint_fast64_t* downloadable_bytes,
                                       VersionInfo& version_info)
 {
@@ -826,9 +826,9 @@ void ClientHistory::add_sync_history_entry(const HistoryEntry& entry)
     }
 
     m_arrays->reciprocal_transforms.add(BinaryData{});                                            // Throws
-    m_arrays->remote_versions.insert(realm::npos, std::int_fast64_t(entry.remote_version));       // Throws
-    m_arrays->origin_file_idents.insert(realm::npos, std::int_fast64_t(entry.origin_file_ident)); // Throws
-    m_arrays->origin_timestamps.insert(realm::npos, std::int_fast64_t(entry.origin_timestamp));   // Throws
+    m_arrays->remote_versions.insert(realm_legacy::npos, std::int_fast64_t(entry.remote_version));       // Throws
+    m_arrays->origin_file_idents.insert(realm_legacy::npos, std::int_fast64_t(entry.origin_file_ident)); // Throws
+    m_arrays->origin_timestamps.insert(realm_legacy::npos, std::int_fast64_t(entry.origin_timestamp));   // Throws
 }
 
 
@@ -1223,7 +1223,7 @@ void ClientHistory::record_current_schema_version(Array& schema_versions, versio
     }
 }
 
-// Overriding member function in realm::_impl::History
+// Overriding member function in realm_legacy::_impl::History
 void ClientHistory::update_from_ref_and_version(ref_type ref, version_type version)
 {
     if (ref == 0) {
@@ -1258,7 +1258,7 @@ void ClientHistory::update_from_ref_and_version(ref_type ref, version_type versi
 }
 
 
-// Overriding member function in realm::_impl::History
+// Overriding member function in realm_legacy::_impl::History
 void ClientHistory::update_from_parent(version_type current_version)
 {
     using gf = _impl::GroupFriend;
@@ -1267,7 +1267,7 @@ void ClientHistory::update_from_parent(version_type current_version)
 }
 
 
-// Overriding member function in realm::_impl::History
+// Overriding member function in realm_legacy::_impl::History
 void ClientHistory::get_changesets(version_type begin_version, version_type end_version,
                                    BinaryIterator* iterators) const noexcept
 {
@@ -1282,7 +1282,7 @@ void ClientHistory::get_changesets(version_type begin_version, version_type end_
 }
 
 
-// Overriding member function in realm::_impl::History
+// Overriding member function in realm_legacy::_impl::History
 void ClientHistory::set_oldest_bound_version(version_type version)
 {
     REALM_ASSERT(version >= m_version_of_oldest_bound_snapshot);
@@ -1292,7 +1292,7 @@ void ClientHistory::set_oldest_bound_version(version_type version)
     }
 }
 
-// Overriding member function in realm::_impl::History
+// Overriding member function in realm_legacy::_impl::History
 void ClientHistory::verify() const
 {
 #ifdef REALM_DEBUG
@@ -1455,4 +1455,4 @@ void ClientHistory::Arrays::verify() const
 #endif // REALM_DEBUG
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

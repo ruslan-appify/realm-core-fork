@@ -56,8 +56,8 @@
 // #define REALM_ENABLE_LOGFILE
 
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 using Durability = DBOptions::Durability;
 
 namespace {
@@ -308,7 +308,7 @@ TransactionRef make_transaction_ref(Args&&... args)
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 /// The structure of the contents of the per session `.lock` file. Note that
 /// this file is transient in that it is recreated/reinitialized at the
@@ -2885,4 +2885,4 @@ DisableReplication::~DisableReplication()
         m_tr.initialize_replication();
 }
 
-} // namespace realm
+} // namespace realm_legacy

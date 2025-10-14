@@ -35,8 +35,8 @@
 
 #include <numeric>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 namespace Catch {
 template <>
@@ -60,7 +60,7 @@ struct StringMaker<object_store::Dictionary> {
 };
 } // namespace Catch
 
-namespace cf = realm::collection_fixtures;
+namespace cf = realm_legacy::collection_fixtures;
 
 TEMPLATE_TEST_CASE("dictionary types", "[dictionary]", cf::MixedVal, cf::Int, cf::Bool, cf::Float, cf::Double,
                    cf::String, cf::Binary, cf::Date, cf::OID, cf::Decimal, cf::UUID, cf::BoxedOptional<cf::Int>,
@@ -272,11 +272,11 @@ TEMPLATE_TEST_CASE("dictionary types", "[dictionary]", cf::MixedVal, cf::Int, cf
     SECTION("find_any()") {
         for (auto val : values) {
             auto ndx = dict.find_any(Mixed{val});
-            REQUIRE(ndx != realm::not_found);
+            REQUIRE(ndx != realm_legacy::not_found);
         }
         dict.remove_all();
         for (auto val : values) {
-            REQUIRE(dict.find_any(Mixed{val}) == realm::not_found);
+            REQUIRE(dict.find_any(Mixed{val}) == realm_legacy::not_found);
         }
     }
 
@@ -340,7 +340,7 @@ TEMPLATE_TEST_CASE("dictionary types", "[dictionary]", cf::MixedVal, cf::Int, cf
     SECTION("iteration") {
         for (size_t i = 0; i < values.size(); ++i) {
             auto ndx = dict.find_any(T(values[i]));
-            REQUIRE(ndx != realm::not_found);
+            REQUIRE(ndx != realm_legacy::not_found);
             Dictionary::Iterator it = dict.begin() + ndx;
             REQUIRE((*it).first.get_string() == keys[i]);
             Mixed val_i{values[i]};

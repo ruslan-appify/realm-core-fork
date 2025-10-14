@@ -28,7 +28,7 @@ class FuzzObject;
 class FuzzConfigurator {
 public:
     FuzzConfigurator(FuzzObject& fuzzer, const std::string& input, bool use_input_file, const std::string& name);
-    const realm::Realm::Config& get_config() const;
+    const realm_legacy::Realm::Config& get_config() const;
     FuzzObject& get_fuzzer();
     const std::string& get_realm_path() const;
     FuzzLog& get_logger();
@@ -40,7 +40,7 @@ private:
     void init(const std::string&);
     void setup_realm_config();
 
-    realm::Realm::Config m_config;
+    realm_legacy::Realm::Config m_config;
     std::string m_path;
     FuzzLog m_log;
     bool m_use_encryption{false};

@@ -21,7 +21,7 @@
 #include <realm/object-store/c_api/util.hpp>
 #include <realm/object-store/binding_context.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 class CBindingContext : public BindingContext {
 public:
@@ -63,4 +63,4 @@ private:
     CallbackRegistry<const Schema&> m_schema_changed_callbacks;
 };
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

@@ -25,7 +25,7 @@
 #include <cstring>
 #include <stdexcept>
 
-namespace realm {
+namespace realm_legacy {
 
 namespace {
 
@@ -1759,4 +1759,4 @@ void Decimal128::unpack(Bid128& coefficient, int& exponent, bool& sign) const no
     coefficient.w[1] = get_coefficient_high();
 }
 
-} // namespace realm
+} // namespace realm_legacy

@@ -37,7 +37,7 @@
 #endif
 #endif
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 #if REALM_HAVE_BACKTRACE
 static const size_t g_backtrace_depth = 128;

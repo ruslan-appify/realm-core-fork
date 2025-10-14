@@ -6,7 +6,7 @@
 
 #include <realm/util/safe_int_ops.hpp>
 
-namespace realm::util {
+namespace realm_legacy::util {
 struct FromCharsResult {
     const char* ptr;
     std::errc ec;
@@ -77,6 +77,6 @@ FromCharsResult from_chars(const char* const first, const char* const last, T& v
     return {ptr, {}};
 }
 
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #endif // FROM_CHARS_HPP

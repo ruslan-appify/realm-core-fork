@@ -37,7 +37,7 @@
 
 #include <chrono>
 
-namespace realm {
+namespace realm_legacy {
 
 std::ostream& operator<<(std::ostream& os, util::Optional<app::AppError> error)
 {
@@ -256,8 +256,8 @@ AutoVerifiedEmailCredentials create_user_and_log_in(app::SharedApp app)
         creds.email, creds.password, [&](util::Optional<app::AppError> error) {
             REQUIRE(!error);
         });
-    app->log_in_with_credentials(realm::app::AppCredentials::username_password(creds.email, creds.password),
-                                 [&](std::shared_ptr<realm::SyncUser> user, util::Optional<app::AppError> error) {
+    app->log_in_with_credentials(realm_legacy::app::AppCredentials::username_password(creds.email, creds.password),
+                                 [&](std::shared_ptr<realm_legacy::SyncUser> user, util::Optional<app::AppError> error) {
                                      REQUIRE(user);
                                      REQUIRE(!error);
                                  });
@@ -331,7 +331,7 @@ namespace reset_utils {
 Obj create_object(Realm& realm, StringData object_type, util::Optional<ObjectId> primary_key,
                   util::Optional<Partition> partition)
 {
-    auto table = realm::ObjectStore::table_for_object_type(realm.read_group(), object_type);
+    auto table = realm_legacy::ObjectStore::table_for_object_type(realm.read_group(), object_type);
     REQUIRE(table);
     FieldValues values = {};
     if (partition) {
@@ -346,7 +346,7 @@ namespace {
 
 TableRef get_table(Realm& realm, StringData object_type)
 {
-    return realm::ObjectStore::table_for_object_type(realm.read_group(), object_type);
+    return realm_legacy::ObjectStore::table_for_object_type(realm.read_group(), object_type);
 }
 
 // Run through the client reset steps manually without involving a sync server.

@@ -5,7 +5,7 @@
 #include <realm/util/time.hpp>
 #include <realm/util/timestamp_formatter.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::TimestampFormatter;
 
 

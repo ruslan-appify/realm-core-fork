@@ -22,7 +22,7 @@
 #include <realm/util/to_string.hpp>
 #include <realm/util/demangle.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 const char* Exception::what() const noexcept
 {
@@ -174,4 +174,4 @@ query_parser::SyntaxError::~SyntaxError() noexcept = default;
 query_parser::InvalidQueryError::~InvalidQueryError() noexcept = default;
 query_parser::InvalidQueryArgError::~InvalidQueryArgError() noexcept = default;
 
-} // namespace realm
+} // namespace realm_legacy

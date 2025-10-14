@@ -19,7 +19,7 @@
 #include <realm/object-store/sync/app_credentials.hpp>
 #include <realm/util/bson/bson.hpp>
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 std::string const kAppProviderKey = "provider";
 
@@ -193,4 +193,4 @@ AppCredentials& AppCredentials::operator=(const AppCredentials& credentials)
     return *this;
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app

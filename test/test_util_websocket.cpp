@@ -3,8 +3,8 @@
 #include <realm/sync/network/network.hpp>
 #include <realm/sync/network/websocket.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 using WriteCompletionHandler = websocket::WriteCompletionHandler;
 using ReadCompletionHandler = websocket::ReadCompletionHandler;

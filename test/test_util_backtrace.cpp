@@ -4,8 +4,8 @@
 #include <realm/exceptions.hpp>
 #include <realm/string_data.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 REALM_NOINLINE static void throw_logic_error(ErrorCodes::Error kind)
 {

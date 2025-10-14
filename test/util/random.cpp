@@ -19,7 +19,7 @@
 #include "random.hpp"
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

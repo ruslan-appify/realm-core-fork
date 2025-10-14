@@ -23,7 +23,7 @@
 #include <map>
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

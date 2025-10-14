@@ -30,8 +30,8 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 #ifdef LEGACY_TESTS

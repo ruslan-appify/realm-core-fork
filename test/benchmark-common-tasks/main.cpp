@@ -39,9 +39,9 @@
 #include "../util/crypt_key.hpp"
 #endif
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 static std::set<std::string> g_bench_filter;
 
@@ -865,7 +865,7 @@ struct BenchmarkQueryTimestampNotNull : BenchmarkWithTimestamps {
     void operator()(DBRef)
     {
         ConstTableRef table = m_table;
-        Query query = table->where().not_equal(m_col, realm::null());
+        Query query = table->where().not_equal(m_col, realm_legacy::null());
         TableView results = query.find_all();
         REALM_ASSERT_EX(results.size() == values.size(), results.size(), num_nulls_added, num_results_to_needle, values.size());
         static_cast<void>(results);
@@ -886,7 +886,7 @@ struct BenchmarkQueryTimestampEqualNull : BenchmarkWithTimestamps {
     void operator()(DBRef)
     {
         ConstTableRef table = m_table;
-        Query query = table->where().equal(m_col, realm::null());
+        Query query = table->where().equal(m_col, realm_legacy::null());
         TableView results = query.find_all();
         REALM_ASSERT_EX(results.size() == num_nulls_added, results.size(), num_nulls_added, values.size());
         static_cast<void>(results);
@@ -1467,7 +1467,7 @@ struct BenchmarkSortIntList : Benchmark {
 
     void operator()(DBRef db)
     {
-        realm::ReadTransaction tr(db);
+        realm_legacy::ReadTransaction tr(db);
         auto table = tr.get_group().get_table(name());
         auto list = table->get_object(m_obj).get_list<int64_t>(m_col);
         list.sort(m_indices, true);
@@ -1512,7 +1512,7 @@ struct BenchmarkSortIntDictionary : Benchmark {
 
     void operator()(DBRef db)
     {
-        realm::ReadTransaction tr(db);
+        realm_legacy::ReadTransaction tr(db);
         auto table = tr.get_group().get_table(name());
         auto dict = table->get_object(m_obj).get_dictionary(m_col);
         dict.sort(m_indices, true);
@@ -1556,7 +1556,7 @@ struct BenchmarkSortThenLimit : Benchmark {
 
     void operator()(DBRef db)
     {
-        realm::ReadTransaction tr(db);
+        realm_legacy::ReadTransaction tr(db);
         auto tv = tr.get_group().get_table(name())->where().find_all();
         DescriptorOrdering ordering;
         ordering.append_sort(SortDescriptor({{m_col}}));
@@ -1889,7 +1889,7 @@ struct BenchmarkNonInitiatorOpen : Benchmark {
         return "NonInitiatorOpen";
     }
     // the shared realm will be removed after the benchmark finishes
-    std::unique_ptr<realm::test_util::DBTestPathGuard> path;
+    std::unique_ptr<realm_legacy::test_util::DBTestPathGuard> path;
     DBRef initiator;
 
     DBRef do_open()
@@ -2306,7 +2306,7 @@ const char* to_ident_cstr(DBOptions::Durability level)
             return "Full";
         case DBOptions::Durability::MemOnly:
             return "MemOnly";
-        case realm::DBOptions::Durability::Unsafe:
+        case realm_legacy::DBOptions::Durability::Unsafe:
             return "Unsafe";
     }
     return nullptr;
@@ -2366,14 +2366,14 @@ void run_benchmark(BenchmarkResults& results, bool force_full = false)
                  << (key == nullptr ? "_EncryptionOff" : "_EncryptionOn");
         std::string ident = ident_ss.str();
 
-        realm::test_util::unit_test::TestDetails test_details;
+        realm_legacy::test_util::unit_test::TestDetails test_details;
         test_details.suite_name = "BenchmarkCommonTasks";
         test_details.test_name = ident.c_str();
         test_details.file_name = __FILE__;
         test_details.line_number = __LINE__;
 
         // Open a SharedGroup:
-        realm::test_util::DBTestPathGuard realm_path(
+        realm_legacy::test_util::DBTestPathGuard realm_path(
             test_util::get_test_path("benchmark_common_tasks_" + ident, ".realm"));
         DBRef group;
         group = DB::create(realm_path, false, DBOptions(level, key));
@@ -2419,7 +2419,7 @@ extern "C" int benchmark_common_tasks_main();
 
 int benchmark_common_tasks_main()
 {
-    std::string results_file_stem = realm::test_util::get_test_path_prefix();
+    std::string results_file_stem = realm_legacy::test_util::get_test_path_prefix();
     std::cout << "Results path: " << results_file_stem << std::endl;
     results_file_stem += "results";
     BenchmarkResults results(40, "benchmark-common-tasks", results_file_stem.c_str());

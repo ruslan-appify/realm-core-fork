@@ -24,7 +24,7 @@
 #include <functional>
 #include <memory>
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 struct EventLoop {
     // Returns if the current platform has an event loop implementation
@@ -54,6 +54,6 @@ private:
     std::unique_ptr<Impl> m_impl;
 };
 
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #endif // REALM_OS_TESTS_UTIL_EVENT_LOOP_HPP

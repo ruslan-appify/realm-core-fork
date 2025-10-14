@@ -28,9 +28,9 @@ namespace {
 constexpr char hex_digits[] = "0123456789abcdef";
 constexpr size_t size_of_uuid_string = 36;
 constexpr char null_uuid_string[] = "00000000-0000-0000-0000-000000000000";
-static_assert(sizeof(realm::UUID::UUIDBytes) == 16, "A change to the size of UUID is a file format breaking change");
-static_assert(realm::UUID::num_bytes == 16, "A change to the size of UUID is a file format breaking change");
-static_assert(sizeof(null_uuid_string) - 1 == (sizeof(realm::UUID::UUIDBytes) * 2) + 4,
+static_assert(sizeof(realm_legacy::UUID::UUIDBytes) == 16, "A change to the size of UUID is a file format breaking change");
+static_assert(realm_legacy::UUID::num_bytes == 16, "A change to the size of UUID is a file format breaking change");
+static_assert(sizeof(null_uuid_string) - 1 == (sizeof(realm_legacy::UUID::UUIDBytes) * 2) + 4,
               "size mismatch on uuid content and it's string representation");
 static_assert(sizeof(null_uuid_string) - 1 == size_of_uuid_string,
               "size mismatch on uuid content and it's string representation");
@@ -57,7 +57,7 @@ char parse_xdigit(char ch)
 }
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 bool UUID::is_valid_string(StringData str) noexcept
 {
@@ -123,4 +123,4 @@ std::string UUID::to_base64() const
     return encode_buffer;
 }
 
-} // namespace realm
+} // namespace realm_legacy

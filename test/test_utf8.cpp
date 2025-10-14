@@ -31,9 +31,9 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 // Test independence and thread-safety
 // -----------------------------------
@@ -199,7 +199,7 @@ NONCONCURRENT_TEST(Compare_Core_utf8_invalid_crash)
     constexpr size_t str_len = 20;
     char str1[str_len];
     char str2[str_len];
-    using namespace realm::test_util;
+    using namespace realm_legacy::test_util;
     Random r;
 
     set_string_compare_method(STRING_COMPARE_CORE, nullptr);

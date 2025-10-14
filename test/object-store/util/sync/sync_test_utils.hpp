@@ -44,7 +44,7 @@
 #define REALM_ENABLE_AUTH_TESTS 0
 #endif
 
-namespace realm {
+namespace realm_legacy {
 
 bool results_contains_user(SyncUserMetadataResults& results, const std::string& identity);
 bool results_contains_original_name(SyncFileActionMetadataResults& results, const std::string& original_name);
@@ -195,8 +195,8 @@ struct TestClientReset {
     virtual void run() = 0;
 
 protected:
-    realm::Realm::Config m_local_config;
-    realm::Realm::Config m_remote_config;
+    realm_legacy::Realm::Config m_local_config;
+    realm_legacy::Realm::Config m_remote_config;
 
     Callback m_on_setup;
     InitialObjectCallback m_populate_initial_object;

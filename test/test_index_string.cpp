@@ -29,11 +29,11 @@
 #include "util/misc.hpp"
 #include "util/random.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace util;
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 // Test independence and thread-safety
@@ -130,8 +130,8 @@ public:
         size_t find_first(T value) const
         {
             auto k = m_owner->m_table.find_first(m_owner->m_col_key, value);
-            if (k == realm::null_key) {
-                return realm::npos;
+            if (k == realm_legacy::null_key) {
+                return realm_legacy::npos;
             }
             auto it = std::find(m_keys.begin(), m_keys.end(), k);
             return it - m_keys.begin();
@@ -253,16 +253,16 @@ using non_nullable = std::false_type;
 
 TEST(Tokenizer_Basic)
 {
-    auto tok = realm::Tokenizer::get_instance();
+    auto tok = realm_legacy::Tokenizer::get_instance();
 
     tok->reset("to be or not to be");
     auto tokens = tok->get_all_tokens();
     CHECK_EQUAL(tokens.size(), 4);
 
     tok->reset("To be or not to be");
-    realm::TokenInfoMap info = tok->get_token_info();
+    realm_legacy::TokenInfoMap info = tok->get_token_info();
     CHECK_EQUAL(info.size(), 4);
-    realm::TokenInfo& i(info["to"]);
+    realm_legacy::TokenInfo& i(info["to"]);
     CHECK_EQUAL(i.positions.size(), 2);
     CHECK_EQUAL(i.positions[0], 0);
     CHECK_EQUAL(i.positions[1], 4);
@@ -275,7 +275,7 @@ TEST(Tokenizer_Basic)
     tok->reset("Jeg gik mig over sø og land");
     info = tok->get_token_info();
     CHECK_EQUAL(info.size(), 7);
-    realm::TokenInfo& j(info["sø"]);
+    realm_legacy::TokenInfo& j(info["sø"]);
     CHECK_EQUAL(j.ranges[0].first, 17);
     CHECK_EQUAL(j.ranges[0].second, 20);
 
@@ -988,11 +988,11 @@ TEST_TYPES(StringIndex_Null, nullable_string_column, nullable_enum_column)
     typename TEST_TYPE::ColumnTestType& col = test_resources.get_column();
 
     col.add("");
-    col.add(realm::null());
+    col.add(realm_legacy::null());
 
     const StringIndex& ndx = *col.create_search_index();
 
-    auto r1 = ndx.find_first(realm::null());
+    auto r1 = ndx.find_first(realm_legacy::null());
     CHECK_EQUAL(r1, col.key(1));
 }
 

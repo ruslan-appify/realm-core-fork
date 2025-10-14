@@ -19,7 +19,7 @@
 #include <realm/array_timestamp.hpp>
 #include <realm/array_integer_tpl.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 ArrayTimestamp::ArrayTimestamp(Allocator& a)
     : Array(a)
@@ -78,7 +78,7 @@ void ArrayTimestamp::insert(size_t ndx, Timestamp value)
     }
 }
 
-namespace realm {
+namespace realm_legacy {
 
 template <>
 size_t ArrayTimestamp::find_first<Greater>(Timestamp value, size_t begin, size_t end) const noexcept
@@ -244,4 +244,4 @@ void ArrayTimestamp::verify() const
     REALM_ASSERT(m_seconds.size() == m_nanoseconds.size());
 #endif
 }
-} // namespace realm
+} // namespace realm_legacy

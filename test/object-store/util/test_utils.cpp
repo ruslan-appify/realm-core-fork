@@ -40,7 +40,7 @@
 #include <sys/param.h>
 #endif
 
-namespace realm {
+namespace realm_legacy {
 
 bool ExceptionMatcher<void>::match(Exception const& ex) const
 {

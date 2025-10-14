@@ -21,7 +21,7 @@
 #include <realm/replication.hpp>
 #include <realm/util/to_string.hpp>
 #include <realm/group.hpp>
-using namespace realm;
+using namespace realm_legacy;
 
 Spec::~Spec() noexcept {}
 
@@ -458,7 +458,7 @@ ColKey Spec::find_backlink_column(TableKey origin_table_key, size_t spec_ndx) co
     int64_t tagged_table_ndx = (origin_table_key.value << 1) + 1;
     int64_t tagged_column_ndx = (spec_ndx << 1) + 1;
 
-    size_t col_ndx = realm::npos;
+    size_t col_ndx = realm_legacy::npos;
     for (size_t i = backlinks_start; i < count; i += 2) {
         if (subspecs.get(i) == tagged_table_ndx && subspecs.get(i + 1) == tagged_column_ndx) {
             size_t pos = (i - backlinks_start) / 2;
@@ -466,7 +466,7 @@ ColKey Spec::find_backlink_column(TableKey origin_table_key, size_t spec_ndx) co
             break;
         }
     }
-    REALM_ASSERT(col_ndx != realm::npos);
+    REALM_ASSERT(col_ndx != realm_legacy::npos);
     return ColKey{m_keys.get(col_ndx)};
 }
 

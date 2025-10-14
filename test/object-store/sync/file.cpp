@@ -25,9 +25,9 @@
 
 #include <realm/util/file.hpp>
 
-using namespace realm;
-using namespace realm::util;
-using File = realm::util::File;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using File = realm_legacy::util::File;
 
 TEST_CASE("sync_file: percent-encoding APIs", "[sync][file]") {
     SECTION("does not encode a string that has no restricted characters") {

@@ -21,7 +21,7 @@
 
 #include <realm/obj.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 // This construct is used when code needs to handle all
 // possible link column types. Subclass and override all
@@ -49,6 +49,6 @@ protected:
     ColKey m_origin_col_key;
 };
 
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_LINK_TRANSLATOR_HPP

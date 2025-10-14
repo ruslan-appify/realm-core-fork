@@ -22,10 +22,10 @@
 
 #include <string_view>
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace _impl;
 
-namespace realm::_impl::sync_schema_migration {
+namespace realm_legacy::_impl::sync_schema_migration {
 
 // A table without a "class_" prefix will not generate sync instructions.
 constexpr static std::string_view s_meta_schema_migration_table_name("schema_migration_metadata");
@@ -106,4 +106,4 @@ void track_sync_schema_migration(Transaction& wt, uint64_t previous_schema_versi
     }
 }
 
-} // namespace realm::_impl::sync_schema_migration
+} // namespace realm_legacy::_impl::sync_schema_migration

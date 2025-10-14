@@ -23,7 +23,7 @@
 #include <realm/history.hpp>
 #include <realm/array_key.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 namespace {
@@ -270,11 +270,11 @@ private:
 } // unnamed namespace
 
 
-namespace realm {
+namespace realm_legacy {
 
 std::unique_ptr<Replication> make_in_realm_history()
 {
     return std::unique_ptr<InRealmHistoryImpl>(new InRealmHistoryImpl()); // Throws
 }
 
-} // namespace realm
+} // namespace realm_legacy

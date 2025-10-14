@@ -1,7 +1,7 @@
 #include <realm/history.hpp>
 #include <realm/sync/noinst/client_history_impl.hpp>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 std::unique_ptr<ClientReplication> make_client_replication()
 {
@@ -9,4 +9,4 @@ std::unique_ptr<ClientReplication> make_client_replication()
     return std::make_unique<ClientReplication>(apply_server_changes); // Throws
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

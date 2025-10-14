@@ -5,7 +5,7 @@
 #include <string_view>
 #include <stdexcept>
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 class CliFlag;
 class CliArgumentParser {
@@ -102,6 +102,6 @@ public:
     using std::runtime_error::runtime_error;
 };
 
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #endif // REALM_UTIL_CLI_ARGS_HPP

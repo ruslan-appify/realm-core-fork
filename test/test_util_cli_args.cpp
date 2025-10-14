@@ -7,7 +7,7 @@
 
 #include "test.hpp"
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 TEST(CliArgs_Basic)
 {

@@ -36,7 +36,7 @@
 #include <iostream>
 #include <cmath>
 
-namespace realm {
+namespace realm_legacy {
 
 /******************************* FieldValues *********************************/
 
@@ -802,13 +802,13 @@ size_t Cluster::get_ndx(ObjKey k, size_t ndx) const noexcept
     if (m_keys.is_attached()) {
         index = m_keys.lower_bound(uint64_t(k.value));
         if (index == m_keys.size() || m_keys.get(index) != uint64_t(k.value)) {
-            return realm::npos;
+            return realm_legacy::npos;
         }
     }
     else {
         index = size_t(k.value);
         if (index >= get_as_ref_or_tagged(s_key_ref_or_size_index).get_as_int()) {
-            return realm::npos;
+            return realm_legacy::npos;
         }
     }
     return index + ndx;
@@ -817,7 +817,7 @@ size_t Cluster::get_ndx(ObjKey k, size_t ndx) const noexcept
 size_t Cluster::erase(ObjKey key, CascadeState& state)
 {
     size_t ndx = get_ndx(key, 0);
-    if (ndx == realm::npos)
+    if (ndx == realm_legacy::npos)
         throw KeyNotFound(util::format("When erasing key '%1' in '%2'", key.value, get_owning_table()->get_name()));
     std::vector<ColKey> backlink_column_keys;
 
@@ -970,7 +970,7 @@ size_t Cluster::erase(ObjKey key, CascadeState& state)
 void Cluster::nullify_incoming_links(ObjKey key, CascadeState& state)
 {
     size_t ndx = get_ndx(key, 0);
-    if (ndx == realm::npos)
+    if (ndx == realm_legacy::npos)
         throw KeyNotFound(util::format("Key '%1' not found in '%2' when nullifying incoming links", key.value,
                                        get_owning_table()->get_class_name()));
 
@@ -1541,4 +1541,4 @@ void Cluster::remove_backlinks(ObjKey origin_key, ColKey origin_col_key, const s
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

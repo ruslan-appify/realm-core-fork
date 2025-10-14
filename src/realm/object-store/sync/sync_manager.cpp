@@ -31,8 +31,8 @@
 
 #include <realm/exceptions.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 SyncClientTimeouts::SyncClientTimeouts()
     : connect_timeout(sync::Client::default_connect_timeout)

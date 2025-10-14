@@ -20,7 +20,7 @@
 #include <cstdlib>
 #include <realm.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 REALM_TABLE_7(IndexTable, s1, String, n1, Int, n2, Int, n3, Int, n4, Int, n5, Int, s2, String)
 

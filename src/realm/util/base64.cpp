@@ -70,7 +70,7 @@ inline unsigned int index_of_base64_byte(unsigned char c)
 } // unnamed namespace
 
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 size_t base64_encode(Span<const char> in_buffer, Span<char> out_buffer) noexcept
 {
@@ -200,4 +200,4 @@ std::optional<std::vector<char>> base64_decode_to_vector(Span<const char> encode
     return decoded;
 }
 
-} // namespace realm::util.
+} // namespace realm_legacy::util.

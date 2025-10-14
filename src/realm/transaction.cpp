@@ -26,7 +26,7 @@
 
 namespace {
 
-using namespace realm;
+using namespace realm_legacy;
 using ColInfo = std::vector<std::pair<ColKey, Table*>>;
 
 ColInfo get_col_info(const Table* table)
@@ -102,7 +102,7 @@ void generate_properties_for_obj(Replication& repl, const Obj& obj, const ColInf
 
 } // namespace
 
-namespace realm {
+namespace realm_legacy {
 
 std::map<DB::TransactStage, const char*> log_stage = {
     {DB::TransactStage::transact_Frozen, "frozen"},
@@ -1025,4 +1025,4 @@ void Transaction::cow_outliers(std::vector<size_t>& progress, size_t evac_limit,
     progress.clear();
 }
 
-} // namespace realm
+} // namespace realm_legacy

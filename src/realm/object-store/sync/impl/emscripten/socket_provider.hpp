@@ -21,7 +21,7 @@
 #include <realm/sync/socket_provider.hpp>
 #include <realm/object-store/util/emscripten/scheduler.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 class EmscriptenSocketProvider final : public sync::SyncSocketProvider {
 public:
@@ -44,4 +44,4 @@ private:
     util::EmscriptenScheduler m_scheduler;
 };
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

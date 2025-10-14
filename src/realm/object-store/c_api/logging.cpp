@@ -19,9 +19,9 @@
 #include "types.hpp"
 #include "util.hpp"
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 namespace {
-using Logger = realm::util::Logger;
+using Logger = realm_legacy::util::Logger;
 
 static_assert(realm_log_level_e(Logger::Level::all) == RLM_LOG_LEVEL_ALL);
 static_assert(realm_log_level_e(Logger::Level::trace) == RLM_LOG_LEVEL_TRACE);
@@ -33,7 +33,7 @@ static_assert(realm_log_level_e(Logger::Level::error) == RLM_LOG_LEVEL_ERROR);
 static_assert(realm_log_level_e(Logger::Level::fatal) == RLM_LOG_LEVEL_FATAL);
 static_assert(realm_log_level_e(Logger::Level::off) == RLM_LOG_LEVEL_OFF);
 
-class CLogger : public realm::util::Logger {
+class CLogger : public realm_legacy::util::Logger {
 public:
     CLogger(UserdataPtr userdata, realm_log_func_t log_callback, Logger::Level level)
         : Logger(level)
@@ -60,13 +60,13 @@ RLM_API void realm_set_log_callback(realm_log_func_t callback, realm_log_level_e
     std::shared_ptr<util::Logger> logger;
     if (callback) {
         logger = std::make_shared<CLogger>(UserdataPtr{userdata, userdata_free}, callback,
-                                           realm::util::Logger::Level(level));
+                                           realm_legacy::util::Logger::Level(level));
     }
     util::Logger::set_default_logger(std::move(logger));
 }
 
 RLM_API void realm_set_log_level(realm_log_level_e level) noexcept
 {
-    util::Logger::set_default_level_threshold(realm::util::Logger::Level(level));
+    util::Logger::set_default_level_threshold(realm_legacy::util::Logger::Level(level));
 }
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

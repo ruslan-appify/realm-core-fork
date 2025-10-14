@@ -5,8 +5,8 @@
 
 #include <thread>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 namespace {
 

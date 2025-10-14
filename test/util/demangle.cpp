@@ -28,7 +28,7 @@
 
 #include "demangle.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -41,7 +41,7 @@ struct Free {
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

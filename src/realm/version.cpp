@@ -21,7 +21,7 @@
 #include <realm/string_data.hpp>
 #include <sstream>
 
-using namespace realm;
+using namespace realm_legacy;
 
 std::string Version::get_version()
 {

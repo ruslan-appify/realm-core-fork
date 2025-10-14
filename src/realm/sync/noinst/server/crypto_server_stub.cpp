@@ -1,7 +1,7 @@
 #include <realm/sync/noinst/server/crypto_server.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 struct PKey::Impl {};
 

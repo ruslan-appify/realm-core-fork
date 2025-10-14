@@ -25,7 +25,7 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 inline std::string cfstring_to_std_string(CFStringRef cf_str)
@@ -47,7 +47,7 @@ inline std::string cfstring_to_std_string(CFStringRef cf_str)
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_PLATFORM_APPLE
 

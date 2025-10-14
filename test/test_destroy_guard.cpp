@@ -23,8 +23,8 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 
 // Test independence and thread-safety

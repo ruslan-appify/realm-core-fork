@@ -44,7 +44,7 @@
 #include "realm/table_view.hpp"
 #include "realm/util/base64.hpp"
 
-namespace realm {
+namespace realm_legacy {
 
 /********************************* Obj **********************************/
 
@@ -767,7 +767,7 @@ void Obj::traverse_path(Visitor v, PathSizer ps, size_t path_length) const
         void on_list_of_links(LnkLst& ll) final
         {
             auto i = ll.find_first(m_dest_obj.get_key());
-            REALM_ASSERT(i != realm::npos);
+            REALM_ASSERT(i != realm_legacy::npos);
             m_index = Mixed(int64_t(i));
         }
         void on_dictionary(Dictionary& dict) final
@@ -1182,7 +1182,7 @@ void Obj::to_json(std::ostream& out, size_t link_depth, const std::map<std::stri
                             out << table_info << obj_key.value << table_info_close;
                             return;
                         }
-                        if ((link_depth == realm::npos &&
+                        if ((link_depth == realm_legacy::npos &&
                              std::find(followed.begin(), followed.end(), link) != followed.end())) {
                             // We have detected a cycle in links
                             out << "{ \"table\": \"" << tt->get_name() << "\", \"key\": " << obj_key.value << " }";
@@ -1890,7 +1890,7 @@ inline void nullify_linklist(Obj& obj, ColKey origin_col_key, T target)
     Lst<T> link_list(obj, origin_col_key);
     size_t ndx = link_list.find_first(target);
 
-    REALM_ASSERT(ndx != realm::npos); // There has to be one
+    REALM_ASSERT(ndx != realm_legacy::npos); // There has to be one
 
     if (Replication* repl = obj.get_replication()) {
         if constexpr (std::is_same_v<T, ObjKey>) {
@@ -1913,7 +1913,7 @@ inline void nullify_set(Obj& obj, ColKey origin_col_key, T target)
     Set<T> set(obj, origin_col_key);
     size_t ndx = set.find_first(target);
 
-    REALM_ASSERT(ndx != realm::npos); // There has to be one
+    REALM_ASSERT(ndx != realm_legacy::npos); // There has to be one
 
     if (Replication* repl = obj.get_replication()) {
         repl->set_erase(set, ndx, target); // Throws
@@ -2097,13 +2097,13 @@ struct EmbeddedObjectLinkMigrator : public LinkTranslator {
     void on_list_of_links(LnkLst& list) final
     {
         auto n = list.find_first(m_dest_orig.get_key());
-        REALM_ASSERT(n != realm::npos);
+        REALM_ASSERT(n != realm_legacy::npos);
         list.set(n, m_dest_replace.get_key());
     }
     void on_dictionary(Dictionary& dict) final
     {
         auto pos = dict.find_any(m_dest_orig.get_link());
-        REALM_ASSERT(pos != realm::npos);
+        REALM_ASSERT(pos != realm_legacy::npos);
         Mixed key = dict.get_key(pos);
         dict.insert(key, m_dest_replace.get_link());
     }
@@ -2134,13 +2134,13 @@ struct EmbeddedObjectLinkMigrator : public LinkTranslator {
     void on_list_of_mixed(Lst<Mixed>& list) final
     {
         auto n = list.find_any(m_dest_orig.get_link());
-        REALM_ASSERT(n != realm::npos);
+        REALM_ASSERT(n != realm_legacy::npos);
         list.insert_any(n, m_dest_replace.get_link());
     }
     void on_list_of_typedlink(Lst<ObjLink>& list) final
     {
         auto n = list.find_any(m_dest_orig.get_link());
-        REALM_ASSERT(n != realm::npos);
+        REALM_ASSERT(n != realm_legacy::npos);
         list.insert_any(n, m_dest_replace.get_link());
     }
     void on_mixed_property(ColKey col) final
@@ -2251,13 +2251,13 @@ void Obj::assign_pk_and_backlinks(Obj& other)
         void on_list_of_mixed(Lst<Mixed>& list) final
         {
             auto n = list.find_first(m_dest_orig.get_link());
-            REALM_ASSERT(n != realm::npos);
+            REALM_ASSERT(n != realm_legacy::npos);
             list.set(n, m_dest_replace.get_link());
         }
         void on_list_of_typedlink(Lst<ObjLink>& list) final
         {
             auto n = list.find_first(m_dest_orig.get_link());
-            REALM_ASSERT(n != realm::npos);
+            REALM_ASSERT(n != realm_legacy::npos);
             list.set(n, m_dest_replace.get_link());
         }
         void on_set_of_links(LnkSet&) final
@@ -2362,8 +2362,8 @@ template util::Optional<ObjectId> Obj::get<util::Optional<ObjectId>>(ColKey col_
 template ObjKey Obj::get<ObjKey>(ColKey col_key) const;
 template Decimal128 Obj::get<Decimal128>(ColKey col_key) const;
 template ObjLink Obj::get<ObjLink>(ColKey col_key) const;
-template Mixed Obj::get<Mixed>(realm::ColKey) const;
-template UUID Obj::get<UUID>(realm::ColKey) const;
+template Mixed Obj::get<Mixed>(realm_legacy::ColKey) const;
+template UUID Obj::get<UUID>(realm_legacy::ColKey) const;
 template util::Optional<UUID> Obj::get<util::Optional<UUID>>(ColKey col_key) const;
 
 template <class T>
@@ -2494,4 +2494,4 @@ ref_type Obj::Internal::get_ref(const Obj& obj, ColKey col_key)
     return to_ref(obj._get<int64_t>(col_key.get_index()));
 }
 
-} // namespace realm
+} // namespace realm_legacy

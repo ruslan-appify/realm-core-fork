@@ -22,7 +22,7 @@
 #include <realm/array_blob.hpp>
 #include <realm/impl/destroy_guard.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 void ArraySmallBlobs::init_from_mem(MemRef mem) noexcept
 {

@@ -22,7 +22,7 @@
 #include <cstddef>
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 std::string number_name(size_t n);

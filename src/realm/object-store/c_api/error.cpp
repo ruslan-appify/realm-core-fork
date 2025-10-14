@@ -10,7 +10,7 @@
 #include <pthread.h>
 #endif
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 ErrorStorage::ErrorStorage(std::exception_ptr ptr) noexcept
     : m_err(none)
@@ -237,11 +237,11 @@ RLM_API bool realm_get_async_error(const realm_async_error_t* async_err, realm_e
     return async_err->error_storage.get_as_realm_error_t(out_err);
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api
 
 RLM_EXPORT bool realm_wrap_exceptions(void (*func)()) noexcept
 {
-    return realm::c_api::wrap_err([=]() {
+    return realm_legacy::c_api::wrap_err([=]() {
         (func)();
         return true;
     });
@@ -249,5 +249,5 @@ RLM_EXPORT bool realm_wrap_exceptions(void (*func)()) noexcept
 
 RLM_API void realm_register_user_code_callback_error(void* user_code_error) noexcept
 {
-    realm::c_api::ErrorStorage::get_thread_local()->set_user_code_error(user_code_error);
+    realm_legacy::c_api::ErrorStorage::get_thread_local()->set_user_code_error(user_code_error);
 }

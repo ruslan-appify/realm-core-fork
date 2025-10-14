@@ -29,10 +29,10 @@
 
 #include <realm/util/any.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
-namespace realm::sectioned_results_fixtures {
+namespace realm_legacy::sectioned_results_fixtures {
 
 template <PropertyType prop_type, typename T>
 struct Base {
@@ -245,22 +245,22 @@ struct Date : Base<PropertyType::Date, Timestamp> {
     constexpr static size_t expected_size = 2;
 };
 
-struct MixedVal : Base<PropertyType::Mixed, realm::Mixed> {
-    static std::vector<realm::Mixed> values()
+struct MixedVal : Base<PropertyType::Mixed, realm_legacy::Mixed> {
+    static std::vector<realm_legacy::Mixed> values()
     {
-        return {Mixed{realm::UUID()},      Mixed{int64_t(1)},
+        return {Mixed{realm_legacy::UUID()},      Mixed{int64_t(1)},
                 Mixed{util::none},         Mixed{"hello world"},
                 Mixed{Timestamp(1, 1)},    Mixed{Decimal128("300")},
                 Mixed{double(2.2)},        Mixed{float(3.3)},
                 Mixed{BinaryData("a", 1)}, Mixed{ObjectId("bbbbbbbbbbbbbbbbbbbbbbbb")}};
     }
 
-    static std::vector<realm::Mixed> expected_sorted()
+    static std::vector<realm_legacy::Mixed> expected_sorted()
     {
         return {Mixed{util::none},    Mixed{int64_t(1)},        Mixed{double(2.2)},
                 Mixed{float(3.3)},    Mixed{Decimal128("300")}, Mixed{BinaryData("a", 1)},
                 Mixed{"hello world"}, Mixed{Timestamp(1, 1)},   Mixed{ObjectId("bbbbbbbbbbbbbbbbbbbbbbbb")},
-                Mixed{realm::UUID()}};
+                Mixed{realm_legacy::UUID()}};
     }
 
     static std::vector<Mixed> expected_keys()
@@ -317,32 +317,32 @@ struct OID : Base<PropertyType::ObjectId, ObjectId> {
     constexpr static size_t expected_size = 2;
 };
 
-struct UUID : Base<PropertyType::UUID, realm::UUID> {
-    static std::vector<realm::UUID> values()
+struct UUID : Base<PropertyType::UUID, realm_legacy::UUID> {
+    static std::vector<realm_legacy::UUID> values()
     {
         return {
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
-            realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
-            realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
+            realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
+            realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
         };
     }
 
-    static std::vector<realm::UUID> expected_sorted()
+    static std::vector<realm_legacy::UUID> expected_sorted()
     {
         return {
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
-            realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
-            realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
-            realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999")};
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
+            realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
+            realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"),
+            realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999"), realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999")};
     }
 
     static std::vector<Mixed> expected_keys()
     {
-        return {realm::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
-                realm::UUID("1b241101-a2b3-4255-8caf-4136c566a999")};
+        return {realm_legacy::UUID("1a241101-e2bb-4255-8caf-4136c566a962"),
+                realm_legacy::UUID("1b241101-a2b3-4255-8caf-4136c566a999")};
     }
 
     static Mixed comparison_value(Mixed value)
@@ -435,7 +435,7 @@ struct UnboxedOptional : BaseT {
         auto ret = BaseT::values();
         if constexpr (std::is_same_v<BaseT, sectioned_results_fixtures::Decimal>) {
             // The default Decimal128 ctr is 0, but we want a null value
-            ret.push_back(Decimal128(realm::null()));
+            ret.push_back(Decimal128(realm_legacy::null()));
         }
         else {
             ret.push_back(typename BaseT::Type());
@@ -449,7 +449,7 @@ struct UnboxedOptional : BaseT {
         auto ret = BaseT::expected_sorted();
         if constexpr (std::is_same_v<BaseT, sectioned_results_fixtures::Decimal>) {
             // The default Decimal128 ctr is 0, but we want a null value
-            ret.insert(ret.begin(), Decimal128(realm::null()));
+            ret.insert(ret.begin(), Decimal128(realm_legacy::null()));
         }
         else {
             ret.insert(ret.begin(), typename BaseT::Type());
@@ -464,7 +464,7 @@ struct UnboxedOptional : BaseT {
         return exp_keys;
     }
 };
-} // namespace realm::sectioned_results_fixtures
+} // namespace realm_legacy::sectioned_results_fixtures
 
 TEST_CASE("sectioned results", "[sectioned results]") {
     _impl::RealmCoordinator::assert_no_open_realms();
@@ -1583,7 +1583,7 @@ TEST_CASE("sectioned results link notification bug", "[sectioned results]") {
     REQUIRE_INDICES(changes.modifications[0], 0);
 }
 
-namespace cf = realm::sectioned_results_fixtures;
+namespace cf = realm_legacy::sectioned_results_fixtures;
 
 TEMPLATE_TEST_CASE("sectioned results primitive types", "[sectioned results]", cf::MixedVal, cf::Int, cf::Bool,
                    cf::Float, cf::Double, cf::String, cf::Binary, cf::Date, cf::OID, cf::Decimal, cf::UUID,

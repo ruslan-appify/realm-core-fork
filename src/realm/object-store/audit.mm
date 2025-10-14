@@ -44,9 +44,9 @@
 #include <external/mpark/variant.hpp>
 #include <sys/time.h>
 
-using namespace realm;
+using namespace realm_legacy;
 
-namespace realm {
+namespace realm_legacy {
 static void to_json(nlohmann::json& j, Timestamp const& ts) noexcept
 {
     if (ts.is_null()) {
@@ -67,7 +67,7 @@ static void to_json(nlohmann::json& j, StringData s) noexcept
     else
         j = nullptr;
 }
-} // namespace realm
+} // namespace realm_legacy
 
 namespace {
 namespace audit_event {
@@ -85,7 +85,7 @@ struct Write {
 struct Object {
     // Fields which are always set
     Timestamp timestamp;
-    realm::VersionID version;
+    realm_legacy::VersionID version;
     TableKey table;
     ObjKey obj;
 
@@ -738,7 +738,7 @@ void AuditRealmPool::write(util::FunctionRef<void(Transaction&)> func)
                 // Otherwise keep it open and upload it.
                 util::CheckedLockGuard lock(m_mutex);
                 if (m_upload_sessions.empty() ||
-                    sync_session->connection_state() == realm::SyncSession::ConnectionState::Connected) {
+                    sync_session->connection_state() == realm_legacy::SyncSession::ConnectionState::Connected) {
                     wait_for_upload(sync_session);
                 }
                 else {
@@ -1427,7 +1427,7 @@ bool AuditObjectSerializer::accessed_link(uint_fast64_t version, const Obj& obj,
     return it != m_accessed_links.end() && !cmp(link, *it) && it->event_ndx > m_index;
 }
 
-namespace realm {
+namespace realm_legacy {
 std::shared_ptr<AuditInterface> make_audit_context(std::shared_ptr<DB> db, RealmConfig const& config)
 {
     REALM_ASSERT(config.audit_config);
@@ -1451,4 +1451,4 @@ void set_clock(util::UniqueFunction<Timestamp()>&& clock)
     g_audit_clock = std::move(clock);
 }
 } // namespace audit_test_hooks
-} // namespace realm
+} // namespace realm_legacy

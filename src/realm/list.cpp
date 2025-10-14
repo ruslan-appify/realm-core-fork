@@ -36,7 +36,7 @@
 #include "realm/group.hpp"
 #include "realm/replication.hpp"
 
-namespace realm {
+namespace realm_legacy {
 
 // FIXME: This method belongs in obj.cpp.
 LstBasePtr Obj::get_listbase_ptr(ColKey col_key) const
@@ -445,7 +445,7 @@ void LnkLst::replace_link(ObjKey old_val, ObjKey new_val)
     update_if_needed();
     auto tree = m_list.m_tree.get();
     auto n = tree->find_first(old_val);
-    REALM_ASSERT(n != realm::npos);
+    REALM_ASSERT(n != realm_legacy::npos);
     if (Replication* repl = get_obj().get_replication()) {
         repl->list_set(m_list, n, new_val);
     }
@@ -482,4 +482,4 @@ template class Lst<util::Optional<double>>;
 template class Lst<util::Optional<ObjectId>>;
 template class Lst<util::Optional<UUID>>;
 
-} // namespace realm
+} // namespace realm_legacy

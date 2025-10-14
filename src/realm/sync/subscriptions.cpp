@@ -34,7 +34,7 @@
 #include <initializer_list>
 #include <stdexcept>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace {
 // Schema version history:
 //   v2: Initial public beta.
@@ -982,4 +982,4 @@ int64_t SubscriptionStore::mark_active_as_complete(Transaction& wt)
     return version;
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

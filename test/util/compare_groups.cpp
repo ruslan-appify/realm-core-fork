@@ -12,7 +12,7 @@
 #include <realm/dictionary.hpp>
 #include <realm/set.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -870,7 +870,7 @@ bool compare_objects(Mixed& pk, const Table& table_1, const Table& table_2, cons
 
 } // anonymous namespace
 
-namespace realm::test_util {
+namespace realm_legacy::test_util {
 
 bool compare_tables(const Table& table_1, const Table& table_2)
 {
@@ -1002,4 +1002,4 @@ bool compare_groups(const Transaction& group_1, const Transaction& group_2,
     return equal;
 }
 
-} // namespace realm::test_util
+} // namespace realm_legacy::test_util

@@ -7,7 +7,7 @@
 #include <realm/sync/noinst/client_history_impl.hpp>
 
 namespace {
-using namespace realm;
+using namespace realm_legacy;
 
 void print_tables(const Group& group)
 {

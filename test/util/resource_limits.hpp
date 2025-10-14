@@ -19,7 +19,7 @@
 #ifndef REALM_TEST_UTIL_RESOURCE_LIMITS_HPP
 #define REALM_TEST_UTIL_RESOURCE_LIMITS_HPP
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

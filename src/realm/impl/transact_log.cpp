@@ -18,7 +18,7 @@
 
 #include <realm/impl/transact_log.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 
 bool TransactLogEncoder::select_table(TableKey key)
@@ -40,4 +40,4 @@ void TransactLogParser::parser_error() const
     throw Exception(ErrorCodes::BadChangeset, "Bad transaction log");
 }
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

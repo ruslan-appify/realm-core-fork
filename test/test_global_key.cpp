@@ -23,7 +23,7 @@
 #include <realm/mixed.hpp>
 #include <realm/string_data.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST(GlobalKey_ToString)
 {

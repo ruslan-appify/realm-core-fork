@@ -63,7 +63,7 @@
 #include <uv.h>
 #endif
 
-namespace realm {
+namespace realm_legacy {
 class TestHelper {
 public:
     static DBRef& get_db(SharedRealm const& shared_realm)
@@ -83,7 +83,7 @@ static bool operator==(IndexSet const& a, IndexSet const& b)
 }
 } // namespace realm
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 class Observer : public BindingContext {
@@ -247,7 +247,7 @@ TEST_CASE("SharedRealm: get_shared_realm()") {
 #ifndef _WIN32
     SECTION("should be able to set a FIFO fallback path") {
         std::string fallback_dir = util::make_temp_dir() + "/fallback/";
-        realm::util::try_make_dir(fallback_dir);
+        realm_legacy::util::try_make_dir(fallback_dir);
         TestFile config;
         config.fifo_files_fallback_path = fallback_dir;
         config.schema_version = 1;
@@ -255,18 +255,18 @@ TEST_CASE("SharedRealm: get_shared_realm()") {
             {"object", {{"value", PropertyType::Int}}},
         };
 
-        realm::util::make_dir(config.path + ".note");
+        realm_legacy::util::make_dir(config.path + ".note");
         auto realm = Realm::get_shared_realm(config);
         auto fallback_file = util::format("%1realm_%2.note", fallback_dir,
                                           std::hash<std::string>()(config.path)); // Mirror internal implementation
         REQUIRE(util::File::exists(fallback_file));
-        realm::util::remove_dir(config.path + ".note");
-        REQUIRE(realm::util::try_remove_dir_recursive(fallback_dir));
+        realm_legacy::util::remove_dir(config.path + ".note");
+        REQUIRE(realm_legacy::util::try_remove_dir_recursive(fallback_dir));
     }
 
     SECTION("automatically append dir separator to end of fallback path") {
         std::string fallback_dir = util::make_temp_dir() + "/fallback";
-        realm::util::try_make_dir(fallback_dir);
+        realm_legacy::util::try_make_dir(fallback_dir);
         TestFile config;
         config.fifo_files_fallback_path = fallback_dir;
         config.schema_version = 1;
@@ -274,13 +274,13 @@ TEST_CASE("SharedRealm: get_shared_realm()") {
             {"object", {{"value", PropertyType::Int}}},
         };
 
-        realm::util::make_dir(config.path + ".note");
+        realm_legacy::util::make_dir(config.path + ".note");
         auto realm = Realm::get_shared_realm(config);
         auto fallback_file = util::format("%1/realm_%2.note", fallback_dir,
                                           std::hash<std::string>()(config.path)); // Mirror internal implementation
         REQUIRE(util::File::exists(fallback_file));
-        realm::util::remove_dir(config.path + ".note");
-        REQUIRE(realm::util::try_remove_dir_recursive(fallback_dir));
+        realm_legacy::util::remove_dir(config.path + ".note");
+        REQUIRE(realm_legacy::util::try_remove_dir_recursive(fallback_dir));
     }
 #endif
 
@@ -1165,8 +1165,8 @@ TEST_CASE("Get Realm using Async Open", "[sync][pbs][async open]") {
     SECTION("cancels download and reports an error on auth error") {
         struct Transport : UnitTestTransport {
             void send_request_to_server(
-                const realm::app::Request& req,
-                realm::util::UniqueFunction<void(const realm::app::Response&)>&& completion) override
+                const realm_legacy::app::Request& req,
+                realm_legacy::util::UniqueFunction<void(const realm_legacy::app::Response&)>&& completion) override
             {
                 if (req.url.find("/auth/session") != std::string::npos) {
                     completion(app::Response{403});
@@ -1650,7 +1650,7 @@ TEST_CASE("SharedRealm: async writes") {
                 options.encryption_key = config.encryption_key.data();
                 // Acquire the write lock with a different DB instance so that we'll
                 // be stuck in the Requesting stage
-                realm::test_util::BowlOfStonesSemaphore sema;
+                realm_legacy::test_util::BowlOfStonesSemaphore sema;
                 JoiningThread thread([&] {
                     auto db = DB::create(make_in_realm_history(), config.path, options);
                     auto write = db->start_write();
@@ -3076,7 +3076,7 @@ TEST_CASE("ShareRealm: in-memory mode from buffer") {
         OwnedBinaryData realm_buffer = realm->write_copy();
 
         // Open the buffer as a new (immutable in-memory) Realm
-        realm::Realm::Config config2;
+        realm_legacy::Realm::Config config2;
         config2.in_memory = true;
         config2.schema_mode = SchemaMode::Immutable;
         config2.realm_data = realm_buffer.get();
@@ -3094,7 +3094,7 @@ TEST_CASE("ShareRealm: in-memory mode from buffer") {
         REQUIRE(it->persisted_properties[0].column_key == table->get_column_key("value"));
 
         // Test invalid configs
-        realm::Realm::Config config3;
+        realm_legacy::Realm::Config config3;
         config3.realm_data = realm_buffer.get();
         REQUIRE_EXCEPTION(Realm::get_shared_realm(config3), IllegalCombination,
                           "In-memory realms initialized from memory buffers can only be opened in read-only mode");
@@ -4166,7 +4166,7 @@ TEST_CASE("Immutable Realms") {
 
 TEST_CASE("KeyPathMapping generation") {
     TestFile config;
-    realm::query_parser::KeyPathMapping mapping;
+    realm_legacy::query_parser::KeyPathMapping mapping;
 
     SECTION("class aliasing") {
         Schema schema = {
@@ -4180,7 +4180,7 @@ TEST_CASE("KeyPathMapping generation") {
         schema.validate();
         config.schema = schema;
         auto realm = Realm::get_shared_realm(config);
-        realm::populate_keypath_mapping(mapping, *realm);
+        realm_legacy::populate_keypath_mapping(mapping, *realm);
         REQUIRE(mapping.has_table_mapping("AlternativeName"));
         REQUIRE("class_PersistedName" == mapping.get_table_mapping("AlternativeName"));
 

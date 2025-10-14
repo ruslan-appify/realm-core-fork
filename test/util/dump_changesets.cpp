@@ -9,7 +9,7 @@
 
 #include "unit_test.hpp"
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 std::unique_ptr<TestDirNameGenerator> get_changeset_dump_dir_generator(const unit_test::TestContext& test_context,

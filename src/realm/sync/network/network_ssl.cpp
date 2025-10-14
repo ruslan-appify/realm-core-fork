@@ -19,10 +19,10 @@
 #include <vector>
 #endif
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::sync::network;
-using namespace realm::sync::network::ssl;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::sync::network;
+using namespace realm_legacy::sync::network::ssl;
 
 
 namespace {
@@ -129,7 +129,7 @@ OpensslInit::~OpensslInit()
 } // unnamed namespace
 
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 namespace network {
 namespace ssl {
@@ -365,7 +365,7 @@ public:
 
     BioMethod()
     {
-        const char* name = "realm::util::Stream::BioMethod";
+        const char* name = "realm_legacy::util::Stream::BioMethod";
         bio_method = BIO_meth_new(BIO_get_new_index(), name);
         if (!bio_method)
             throw util::bad_alloc();
@@ -1455,4 +1455,4 @@ bool Stream::ssl_shutdown(std::error_code&, Want&) noexcept
 } // namespace ssl
 } // namespace network
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy

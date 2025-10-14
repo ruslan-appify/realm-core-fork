@@ -67,7 +67,7 @@ inline unsigned long long _xgetbv(unsigned index)
 } // anonymous namespace
 
 
-namespace realm {
+namespace realm_legacy {
 
 signed char sse_support = -1;
 signed char avx_support = -1;
@@ -130,7 +130,7 @@ void cpuid_init()
 
 #endif
 }
-} // namespace realm
+} // namespace realm_legacy
 
 
 // popcount, counts number of set (1) bits in argument. Intrinsics has been disabled because it's just 10-20% faster
@@ -140,7 +140,7 @@ void cpuid_init()
 #if 0 // defined(_MSC_VER) && _MSC_VER >= 1500
 #include <intrin.h>
 
-namespace realm {
+namespace realm_legacy {
 
 int fast_popcount32(int32_t x)
 {
@@ -158,12 +158,12 @@ int fast_popcount64(int64_t x)
 }
 #endif
 
-} // namespace realm
+} // namespace realm_legacy
 
 #elif 0 // defined(__GNUC__) && __GNUC__ >= 4 || defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 900
 #define fast_popcount32 __builtin_popcount
 
-namespace realm {
+namespace realm_legacy {
 
 #if ULONG_MAX == 0xffffffff
 int fast_popcount64(int64_t x)
@@ -177,7 +177,7 @@ int fast_popcount64(int64_t x)
 }
 #endif
 
-} // namespace realm
+} // namespace realm_legacy
 
 #else
 
@@ -195,7 +195,7 @@ const char a_popcount_bits[256] = {
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 // Masking away bits might be faster than bit shifting (which can be slow). Note that the compiler may optimize this
 // automatically. Todo, investigate.
@@ -330,6 +330,6 @@ int64_t platform_timegm(tm time)
 }
 
 
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // select best popcount implementations

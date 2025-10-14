@@ -32,8 +32,8 @@
 #include <system_error>
 #include <unistd.h>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 namespace {
 // Write a byte to a pipe to notify anyone waiting for data on the pipe
@@ -122,16 +122,16 @@ ExternalCommitHelper::ExternalCommitHelper(RealmCoordinator& parent, const Realm
     std::string temp_dir = util::normalize_dir(config.fifo_files_fallback_path);
     std::string sys_temp_dir = util::normalize_dir(DBOptions::get_sys_tmp_dir());
     path = DB::get_core_file(config.path, DB::CoreFileType::Note);
-    bool fifo_created = realm::util::try_create_fifo(path, !temp_dir.empty() || !sys_temp_dir.empty());
+    bool fifo_created = realm_legacy::util::try_create_fifo(path, !temp_dir.empty() || !sys_temp_dir.empty());
     if (!fifo_created && !temp_dir.empty()) {
         path = DB::get_core_file(util::format("%1realm_%2", temp_dir, std::hash<std::string>()(config.path)),
                                  DB::CoreFileType::Note);
-        fifo_created = realm::util::try_create_fifo(path, !sys_temp_dir.empty());
+        fifo_created = realm_legacy::util::try_create_fifo(path, !sys_temp_dir.empty());
     }
     if (!fifo_created && !sys_temp_dir.empty()) {
         path = DB::get_core_file(util::format("%1realm_%2", sys_temp_dir, std::hash<std::string>()(config.path)),
                                  DB::CoreFileType::Note);
-        realm::util::create_fifo(path);
+        realm_legacy::util::create_fifo(path);
     }
 
     m_notify_fd = open(path.c_str(), O_RDWR);

@@ -3,7 +3,7 @@
 #include <realm/util/from_chars.hpp>
 #include <realm/sync/noinst/protocol_codec.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 using OutputBuffer = util::ResettableExpandableBufferOutputStream;
 
@@ -320,4 +320,4 @@ util::Optional<StringData> parse_authorization_header(const std::string& authori
     return StringData{authorization_header.data() + prefix.size(), token_size};
 }
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

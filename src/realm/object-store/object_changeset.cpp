@@ -18,7 +18,7 @@
 
 #include <realm/object-store/object_changeset.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 void ObjectChangeSet::insertions_add(ObjKey obj)
 {

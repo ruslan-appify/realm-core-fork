@@ -11,13 +11,13 @@
 #define REALM_HAS_DEFAULT_SCHEDULER 0
 #endif
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 // LCOV_EXCL_START
 
 struct realm_work_queue : InvocationQueue {};
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 namespace {
 
 struct CAPIScheduler : Scheduler {
@@ -203,6 +203,6 @@ RLM_API bool realm_scheduler_set_default_factory(realm_userdata_t userdata, real
     });
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api
 
 // LCOV_EXCL_STOP

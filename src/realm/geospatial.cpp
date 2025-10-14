@@ -53,7 +53,7 @@
 
 namespace {
 
-static bool type_is_valid(realm::StringData str_type)
+static bool type_is_valid(realm_legacy::StringData str_type)
 {
     return str_type.size() == 5 && (str_type[0] == 'P' || str_type[0] == 'p') &&
            (str_type[1] == 'o' || str_type[1] == 'O') && (str_type[2] == 'i' || str_type[2] == 'I') &&
@@ -62,7 +62,7 @@ static bool type_is_valid(realm::StringData str_type)
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 
 GeoPolygon GeoBox::to_polygon() const
 {
@@ -557,4 +557,4 @@ Status GeoRegion::get_conversion_status() const noexcept
     return m_status;
 }
 
-} // namespace realm
+} // namespace realm_legacy

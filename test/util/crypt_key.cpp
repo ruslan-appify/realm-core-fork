@@ -28,7 +28,7 @@ bool g_always_encrypt = false;
 } // unnamed namespace
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 const char* crypt_key(bool always)

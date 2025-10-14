@@ -21,7 +21,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST(Decimal_Basics)
 {
@@ -276,9 +276,9 @@ TEST(Decimal_Query)
         CHECK_EQUAL(q1.count(), 24);
         q1 = table->where().less_equal(col, Decimal128(25));
         CHECK_EQUAL(q1.count(), 25);
-        Query q2 = table->column<Decimal>(col) == realm::null();
+        Query q2 = table->column<Decimal>(col) == realm_legacy::null();
         CHECK_EQUAL(q2.count(), 1);
-        q2 = table->where().equal(col, realm::null());
+        q2 = table->where().equal(col, realm_legacy::null());
         CHECK_EQUAL(q2.count(), 1);
         q2 = table->where().between(col, Decimal128(25), Decimal128(60));
         CHECK_EQUAL(q2.count(), 36);

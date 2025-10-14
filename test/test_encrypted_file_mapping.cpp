@@ -57,8 +57,8 @@
 
 #if REALM_ENABLE_ENCRYPTION
 
-using namespace realm::util;
-using realm::FileDesc;
+using namespace realm_legacy::util;
+using realm_legacy::FileDesc;
 
 namespace {
 const uint8_t test_key[] = "1234567890123456789012345678901123456789012345678901234567890123";
@@ -73,7 +73,7 @@ TEST(EncryptedFile_CryptorBasic)
     const char data[4096] = "test data";
     char buffer[4096];
 
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
     cryptor.write(file.get_descriptor(), 0, data, sizeof(data));
     cryptor.read(file.get_descriptor(), 0, buffer, sizeof(buffer));
     CHECK(memcmp(buffer, data, strlen(data)) == 0);
@@ -87,7 +87,7 @@ TEST(EncryptedFile_CryptorRepeatedWrites)
 
     const char data[4096] = "test data";
     char raw_buffer_1[8192] = {0}, raw_buffer_2[8192] = {0};
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
 
     cryptor.write(file.get_descriptor(), 0, data, sizeof(data));
     file.seek(0);
@@ -109,7 +109,7 @@ TEST(EncryptedFile_SeparateCryptors)
     const char data[4096] = "test data";
     char buffer[4096];
 
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
     {
         AESCryptor cryptor(test_key);
         cryptor.set_file_size(16);
@@ -130,7 +130,7 @@ TEST(EncryptedFile_InterruptedWrite)
 
     const char data[4096] = "test data";
 
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
     {
         AESCryptor cryptor(test_key);
         cryptor.set_file_size(16);
@@ -168,7 +168,7 @@ TEST(EncryptedFile_LargePages)
     cryptor.set_file_size(sizeof(data));
     char buffer[sizeof(data)];
 
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
     cryptor.write(file.get_descriptor(), 0, data, sizeof(data));
     cryptor.read(file.get_descriptor(), 0, buffer, sizeof(buffer));
     CHECK(memcmp(buffer, data, sizeof(data)) == 0);
@@ -176,7 +176,7 @@ TEST(EncryptedFile_LargePages)
 
 TEST(EncryptedFile_IVRefreshing)
 {
-    using IVPageStates = realm::util::FlatMap<size_t, IVRefreshState>;
+    using IVPageStates = realm_legacy::util::FlatMap<size_t, IVRefreshState>;
     constexpr size_t block_size = 4096;
     constexpr size_t blocks_per_metadata_block = 64;
     const size_t pages_per_metadata_block = block_size * blocks_per_metadata_block / page_size();
@@ -207,7 +207,7 @@ TEST(EncryptedFile_IVRefreshing)
 
     AESCryptor cryptor(test_key);
     cryptor.set_file_size(off_t(data_size));
-    File file(path, realm::util::File::mode_Write);
+    File file(path, realm_legacy::util::File::mode_Write);
     const FileDesc fd = file.get_descriptor();
 
     auto make_external_write_at_pos = [&](off_t data_pos) -> size_t {

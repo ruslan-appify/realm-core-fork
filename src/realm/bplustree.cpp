@@ -20,9 +20,9 @@
 #include <realm/impl/destroy_guard.hpp>
 #include <realm/array_unsigned.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
-namespace realm {
+namespace realm_legacy {
 
 bool BPlusTreeNode::get_context_flag() const noexcept
 {

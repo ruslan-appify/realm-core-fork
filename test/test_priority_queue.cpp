@@ -21,7 +21,7 @@
 
 #include <realm/util/priority_queue.hpp>
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 TEST(PriorityQueue_Push)
 {

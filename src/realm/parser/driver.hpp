@@ -15,7 +15,7 @@ YY_DECL;
 #undef TRUE
 #undef IN
 
-namespace realm {
+namespace realm_legacy {
 
 namespace query_parser {
 
@@ -223,7 +223,7 @@ public:
     template <typename... Ts>
     GeospatialNode(Ts&&...)
     {
-        throw realm::LogicError(ErrorCodes::NotSupported, "Support for Geospatial queries is not enabled");
+        throw realm_legacy::LogicError(ErrorCodes::NotSupported, "Support for Geospatial queries is not enabled");
     }
     template <typename Point>
     void add_point_to_loop(Point&&)
@@ -507,7 +507,7 @@ public:
     template <typename... Ts>
     GeoWithinNode(Ts&&...)
     {
-        throw realm::LogicError(ErrorCodes::NotSupported, "Support for Geospatial queries is not enabled");
+        throw realm_legacy::LogicError(ErrorCodes::NotSupported, "Support for Geospatial queries is not enabled");
     }
     Query visit(ParserDriver*) override
     {
@@ -692,5 +692,5 @@ Query ParserDriver::simple_query(CompareType op, ColKey col_key, T val)
 std::string check_escapes(const char* str);
 
 } // namespace query_parser
-} // namespace realm
+} // namespace realm_legacy
 #endif // ! DRIVER_HH

@@ -26,7 +26,7 @@
 
 #include <realm/table.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 /* The nice syntax is not supported by MSVC */
 CreatePolicy CreatePolicy::Skip = {/*.create =*/false, /*.copy =*/false, /*.update =*/false, /*.diff =*/false};

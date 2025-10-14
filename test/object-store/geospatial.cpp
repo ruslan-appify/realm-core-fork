@@ -43,7 +43,7 @@
 
 #include <cstdint>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::any_cast;
 
 namespace {
@@ -60,7 +60,7 @@ struct TestContext : CppContext {
     std::map<std::string, AnyDict> defaults;
 
     using CppContext::CppContext;
-    TestContext(TestContext& parent, realm::Obj& obj, realm::Property const& prop)
+    TestContext(TestContext& parent, realm_legacy::Obj& obj, realm_legacy::Property const& prop)
         : CppContext(parent, obj, prop)
         , defaults(parent.defaults)
     {

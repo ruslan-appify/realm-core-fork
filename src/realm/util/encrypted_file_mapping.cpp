@@ -53,7 +53,7 @@
 #include <pthread.h>
 #endif
 
-namespace realm::util {
+namespace realm_legacy::util {
 SharedFileInfo::SharedFileInfo(const uint8_t* key)
     : cryptor(key)
 {
@@ -570,7 +570,7 @@ EncryptedFileMapping::EncryptedFileMapping(SharedFileInfo& file, size_t file_off
                                            File::AccessMode access, util::WriteObserver* observer,
                                            util::WriteMarker* marker)
     : m_file(file)
-    , m_page_shift(log2(realm::util::page_size()))
+    , m_page_shift(log2(realm_legacy::util::page_size()))
     , m_blocks_per_page(static_cast<size_t>(1ULL << m_page_shift) / block_size)
     , m_num_decrypted(0)
     , m_access(access)
@@ -1069,10 +1069,10 @@ File::SizeType data_size_to_encrypted_size(File::SizeType size) noexcept
     size_t ps = page_size();
     return real_offset((size + ps - 1) & ~(ps - 1));
 }
-} // namespace realm::util
+} // namespace realm_legacy::util
 #else
 
-namespace realm::util {
+namespace realm_legacy::util {
 File::SizeType encrypted_size_to_data_size(File::SizeType size) noexcept
 {
     return size;
@@ -1082,5 +1082,5 @@ File::SizeType data_size_to_encrypted_size(File::SizeType size) noexcept
 {
     return size;
 }
-} // namespace realm::util
+} // namespace realm_legacy::util
 #endif // REALM_ENABLE_ENCRYPTION

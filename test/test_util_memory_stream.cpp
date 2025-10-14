@@ -20,7 +20,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 // Test independence and thread-safety
 // -----------------------------------
@@ -55,7 +55,7 @@ namespace {
 
 TEST(MemoryStream_InputBasic)
 {
-    realm::util::MemoryInputStream in;
+    realm_legacy::util::MemoryInputStream in;
     in.set_c_string("123 4567");
     in.unsetf(std::ios_base::skipws);
 
@@ -91,7 +91,7 @@ TEST(MemoryStream_InputBasic)
 
 TEST(MemoryStream_InputSeek)
 {
-    realm::util::MemoryInputStream in;
+    realm_legacy::util::MemoryInputStream in;
 
     // No buffer
     CHECK_EQUAL(0, int(in.tellg()));

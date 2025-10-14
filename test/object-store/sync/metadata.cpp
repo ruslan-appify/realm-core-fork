@@ -32,9 +32,9 @@
 
 #include <iostream>
 
-using namespace realm;
-using namespace realm::util;
-using File = realm::util::File;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using File = realm_legacy::util::File;
 using SyncAction = SyncFileActionMetadata::Action;
 
 static const std::string base_path = util::make_temp_dir() + "realm_objectstore_sync_metadata.test-dir";

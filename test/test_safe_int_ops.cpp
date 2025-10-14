@@ -33,8 +33,8 @@
 
 #include "test.hpp"
 
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 
@@ -68,7 +68,7 @@ using unit_test::TestContext;
 // check-testcase` (or one of its friends) from the command line.
 
 
-// FIXME: Test T -> realm::test_util::super_int -> T using min/max
+// FIXME: Test T -> realm_legacy::test_util::super_int -> T using min/max
 // values for each fundamental standard type, and also using 0 and -1
 // for signed types.
 

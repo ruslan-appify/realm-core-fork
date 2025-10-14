@@ -22,7 +22,7 @@
 #include <realm/list.hpp>
 #include <realm/set.hpp>
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 
 void CopyReplication::add_class(TableKey, StringData name, Table::Type table_type)
 {
@@ -172,7 +172,7 @@ void CopyReplication::dictionary_insert(const CollectionBase& coll, size_t, Mixe
         value = handle_link(col_key, value, [&](TableRef dest_target_table) {
             // Check if dictionary obj has embedded obj already
             size_t ndx = dict.find_any_key(key);
-            if (ndx != realm::not_found) {
+            if (ndx != realm_legacy::not_found) {
                 auto val = dict.get_any(ndx);
                 if (val.is_type(type_Link)) {
                     ObjKey key = val.get<ObjKey>();
@@ -274,4 +274,4 @@ Mixed CopyReplication::handle_link(ColKey col_key, Mixed val, util::FunctionRef<
     return {};
 }
 
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

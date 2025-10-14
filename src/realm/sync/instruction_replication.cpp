@@ -3,7 +3,7 @@
 #include <realm/sync/transform.hpp> // TransformError
 #include <realm/list.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 void SyncReplication::reset()
@@ -664,7 +664,7 @@ void SyncReplication::nullify_link(const Table* table, ColKey col_ndx, ObjKey nd
         Instruction::Update instr;
         populate_path_instr(instr, *table, ndx, col_ndx);
         REALM_ASSERT(!instr.is_array_update());
-        instr.value = Instruction::Payload{realm::util::none};
+        instr.value = Instruction::Payload{realm_legacy::util::none};
         instr.is_default = false;
         emit(instr);
     }
@@ -684,7 +684,7 @@ void SyncReplication::link_list_nullify(const Lst<ObjKey>& view, size_t ndx)
 
 void SyncReplication::unsupported_instruction() const
 {
-    throw realm::sync::TransformError{"Unsupported instruction"};
+    throw realm_legacy::sync::TransformError{"Unsupported instruction"};
 }
 
 bool SyncReplication::select_table(const Table& table)
@@ -818,4 +818,4 @@ void SyncReplication::populate_path_instr(Instruction::PathInstruction& instr, c
 }
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy

@@ -33,9 +33,9 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 using namespace test_util;
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 
 namespace {
@@ -851,7 +851,7 @@ TEST(Link_FindNullLink)
     match = table2->column<Link>(col_linklist2).is_null().find();
     CHECK_EQUAL(obj_2_1.get_key(), match);
 
-    // We have not yet defined behaviour of finding realm::null()-links in a linked-to table, so we just throw. Todo.
+    // We have not yet defined behaviour of finding realm_legacy::null()-links in a linked-to table, so we just throw. Todo.
     CHECK_THROW_ANY(table2->link(col_linklist2).column<Link>(col_link1).is_null());
 }
 
@@ -1224,61 +1224,61 @@ TEST(LinkList_QueryLinkNull)
     auto o2 = data_table->create_object();
     o2.set_all("Horse", o1.get_key(), 2, 2.0, Timestamp(0, 2));
 
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<String>(c0) == realm::null()).count());
-    CHECK_EQUAL(2, data_table->where().and_query(data_table->column<String>(c0) != realm::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<String>(c0) == realm_legacy::null()).count());
+    CHECK_EQUAL(2, data_table->where().and_query(data_table->column<String>(c0) != realm_legacy::null()).count());
 
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Int>(c2) == realm::null()).count());
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Double>(c3) == realm::null()).count());
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Timestamp>(c4) == realm::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Int>(c2) == realm_legacy::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Double>(c3) == realm_legacy::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->column<Timestamp>(c4) == realm_legacy::null()).count());
 
-    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<String>(c0) == realm::null()).count());
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<String>(c0) != realm::null()).count());
+    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<String>(c0) == realm_legacy::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<String>(c0) != realm_legacy::null()).count());
     CHECK_EQUAL(o0.get_key(), data_table->where()
-                                  .and_query(data_table->link(c1).column<String>(c0) != realm::null())
+                                  .and_query(data_table->link(c1).column<String>(c0) != realm_legacy::null())
                                   .find_all()
                                   .get_key(0));
 
-    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<Int>(c2) == realm::null()).count());
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<Int>(c2) != realm::null()).count());
+    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<Int>(c2) == realm_legacy::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<Int>(c2) != realm_legacy::null()).count());
 
-    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<Double>(c3) == realm::null()).count());
-    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<Double>(c3) != realm::null()).count());
+    CHECK_EQUAL(2, data_table->where().and_query(data_table->link(c1).column<Double>(c3) == realm_legacy::null()).count());
+    CHECK_EQUAL(1, data_table->where().and_query(data_table->link(c1).column<Double>(c3) != realm_legacy::null()).count());
 
     CHECK_EQUAL(2,
-                data_table->where().and_query(data_table->link(c1).column<Timestamp>(c4) == realm::null()).count());
+                data_table->where().and_query(data_table->link(c1).column<Timestamp>(c4) == realm_legacy::null()).count());
     CHECK_EQUAL(1,
-                data_table->where().and_query(data_table->link(c1).column<Timestamp>(c4) != realm::null()).count());
+                data_table->where().and_query(data_table->link(c1).column<Timestamp>(c4) != realm_legacy::null()).count());
 
     CHECK_EQUAL(2,
-                data_table->where().and_query(data_table->link(c1).column<String>(c0).equal(realm::null())).count());
+                data_table->where().and_query(data_table->link(c1).column<String>(c0).equal(realm_legacy::null())).count());
     CHECK_EQUAL(
-        1, data_table->where().and_query(data_table->link(c1).column<String>(c0).not_equal(realm::null())).count());
+        1, data_table->where().and_query(data_table->link(c1).column<String>(c0).not_equal(realm_legacy::null())).count());
 
     CHECK_EQUAL(2, data_table->where()
                        .Not()
-                       .and_query(data_table->link(c1).column<String>(c0).not_equal(realm::null()))
+                       .and_query(data_table->link(c1).column<String>(c0).not_equal(realm_legacy::null()))
                        .count());
     CHECK_EQUAL(o1.get_key(), data_table->where()
                                   .Not()
-                                  .and_query(data_table->link(c1).column<String>(c0).not_equal(realm::null()))
+                                  .and_query(data_table->link(c1).column<String>(c0).not_equal(realm_legacy::null()))
                                   .find_all()
                                   .get_key(0));
     CHECK_EQUAL(o2.get_key(), data_table->where()
                                   .Not()
-                                  .and_query(data_table->link(c1).column<String>(c0).not_equal(realm::null()))
+                                  .and_query(data_table->link(c1).column<String>(c0).not_equal(realm_legacy::null()))
                                   .find_all()
                                   .get_key(1));
 
     CHECK_EQUAL(
-        1, data_table->where().Not().and_query(data_table->link(c1).column<String>(c0).equal(realm::null())).count());
+        1, data_table->where().Not().and_query(data_table->link(c1).column<String>(c0).equal(realm_legacy::null())).count());
     CHECK_EQUAL(o0.get_key(), data_table->where()
                                   .Not()
-                                  .and_query(data_table->link(c1).column<String>(c0).equal(realm::null()))
+                                  .and_query(data_table->link(c1).column<String>(c0).equal(realm_legacy::null()))
                                   .find_all()
                                   .get_key(0));
 
-    CHECK_EQUAL(1, (data_table->column<Link>(c1) == realm::null()).count());
-    CHECK_EQUAL(2, (data_table->column<Link>(c1) != realm::null()).count());
+    CHECK_EQUAL(1, (data_table->column<Link>(c1) == realm_legacy::null()).count());
+    CHECK_EQUAL(2, (data_table->column<Link>(c1) != realm_legacy::null()).count());
 }
 
 TEST(LinkList_QueryOnIndexedPropertyOfLinkListMultipleMatches)

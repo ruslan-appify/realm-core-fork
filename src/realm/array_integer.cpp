@@ -22,7 +22,7 @@
 #include <realm/impl/destroy_guard.hpp>
 #include <realm/column_integer.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 Mixed ArrayInteger::get_any(size_t ndx) const
 {

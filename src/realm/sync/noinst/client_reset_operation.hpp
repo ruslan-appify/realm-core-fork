@@ -26,11 +26,11 @@
 #include <realm/sync/config.hpp>
 #include <realm/sync/protocol.hpp>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 class SubscriptionStore;
 }
 
-namespace realm::_impl::client_reset {
+namespace realm_legacy::_impl::client_reset {
 using CallbackBeforeType = util::UniqueFunction<VersionID()>;
 using CallbackAfterType = util::UniqueFunction<void(VersionID, bool)>;
 
@@ -42,6 +42,6 @@ bool perform_client_reset(util::Logger& logger, DB& target_db, DB& fresh_db, Cli
                           sync::SaltedFileIdent new_file_ident, sync::SubscriptionStore*,
                           util::FunctionRef<void(int64_t)> on_flx_version, bool recovery_is_allowed);
 
-} // namespace realm::_impl::client_reset
+} // namespace realm_legacy::_impl::client_reset
 
 #endif // REALM_NOINST_CLIENT_RESET_OPERATION_HPP

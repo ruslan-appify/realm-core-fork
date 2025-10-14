@@ -39,7 +39,7 @@
 #include <locale>
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 
@@ -69,7 +69,7 @@ std::wstring utf8_to_wstring(StringData str)
 } // unnamed namespace
 
 
-namespace realm {
+namespace realm_legacy {
 
 // Highest character currently supported for *sorting* strings in Realm, when using STRING_COMPARE_CPP11.
 constexpr size_t last_latin_extended_2_unicode = 591;
@@ -334,7 +334,7 @@ util::Optional<std::string> case_map(StringData source, bool upper)
             return util::none;
 
         if (n3 != n) {
-            realm::safe_copy_n(begin, n, output); // Cannot handle different size, copy source
+            realm_legacy::safe_copy_n(begin, n, output); // Cannot handle different size, copy source
         }
 
         begin += n;
@@ -518,7 +518,7 @@ bool string_like_ins(StringData text, StringData pattern) noexcept
     return StringData::matchlike_ins(text, lower.c_str(), upper.c_str());
 }
 
-} // namespace realm
+} // namespace realm_legacy
 
 
 /*

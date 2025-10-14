@@ -21,7 +21,7 @@
 #include <realm/object-store/sync/generic_network_transport.hpp>
 #include <realm/util/base64.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 static std::string_view split_token(std::string_view jwt) noexcept
 {
@@ -86,4 +86,4 @@ bool RealmJWT::validate(std::string_view token)
     return bson::accept(*json_str);
 }
 
-} // namespace realm
+} // namespace realm_legacy

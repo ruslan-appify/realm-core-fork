@@ -26,7 +26,7 @@
 #include <realm/object-store/results.hpp>
 #include <realm/object-store/shared_realm.hpp>
 
-namespace realm::object_store {
+namespace realm_legacy::object_store {
 
 Collection::Collection(PropertyType type) noexcept
     : m_type(type)
@@ -261,4 +261,4 @@ size_t Collection::hash() const noexcept
     return hash_combine(impl.get_owner_key().value, impl.get_table()->get_key().value, impl.get_col_key().value);
 }
 
-} // namespace realm::object_store
+} // namespace realm_legacy::object_store

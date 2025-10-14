@@ -20,8 +20,8 @@
 
 #include <realm/object-store/shared_realm.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 ObjectNotifier::ObjectNotifier(std::shared_ptr<Realm> realm, const Obj& obj)
     : CollectionNotifier(std::move(realm))

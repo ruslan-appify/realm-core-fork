@@ -12,8 +12,8 @@
 #include <sys/resource.h>
 #endif
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 
 #if REALM_HAVE_POSIX_RLIMIT

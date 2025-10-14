@@ -14,9 +14,9 @@
 #include "test.hpp"
 #include "util/semaphore.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety
@@ -48,7 +48,7 @@ using namespace realm::test_util;
 // `experiments/testcase.cpp` and then run `sh build.sh
 // check-testcase` (or one of its friends) from the command line.
 
-using namespace realm::sync;
+using namespace realm_legacy::sync;
 
 namespace {
 
@@ -511,7 +511,7 @@ TEST(Network_AsyncReadWriteLargeAmount)
         std::unique_ptr<char[]> buffer(new char[buffer_size]);
         size_t offset_in_chunk = 0;
         int chunk_index = 0;
-        realm::util::UniqueFunction<void()> read_chunk = [&] {
+        realm_legacy::util::UniqueFunction<void()> read_chunk = [&] {
             auto handler = [&](std::error_code ec, size_t n) {
                 bool equal = true;
                 for (size_t i = 0; i < n; ++i) {
@@ -1766,7 +1766,7 @@ TEST(Network_RepeatedCancelAndRestartRead)
         char read_buffer[read_buffer_size];
         size_t num_bytes_read = 0;
         bool end_of_input_seen = false;
-        realm::util::UniqueFunction<void()> initiate_read = [&] {
+        realm_legacy::util::UniqueFunction<void()> initiate_read = [&] {
             auto handler = [&](std::error_code ec, size_t n) {
                 num_bytes_read += n;
                 if (ec == MiscExtErrors::end_of_input) {
@@ -1857,7 +1857,7 @@ TEST(Network_StressTest)
         std::uint_fast64_t microseconds_per_cancellation = 10;
         bool progress = false;
         bool read_done = false, write_done = false;
-        realm::util::UniqueFunction<void()> shedule_cancellation = [&] {
+        realm_legacy::util::UniqueFunction<void()> shedule_cancellation = [&] {
             if (progress) {
                 microseconds_per_cancellation /= 2;
                 progress = false;
@@ -1883,7 +1883,7 @@ TEST(Network_StressTest)
         char* read_begin = read_buffer.get();
         char* read_end = read_buffer.get() + original_size;
         int num_read_cycles = 0;
-        realm::util::UniqueFunction<void()> read = [&] {
+        realm_legacy::util::UniqueFunction<void()> read = [&] {
             if (read_begin == read_end) {
                 //                log("<R%1>", id);
                 CHECK(std::equal(read_original, read_original + original_size, read_buffer.get()));
@@ -1929,7 +1929,7 @@ TEST(Network_StressTest)
         const char* write_begin = write_original;
         const char* write_end = write_original + original_size;
         int num_write_cycles = 0;
-        realm::util::UniqueFunction<void()> write = [&] {
+        realm_legacy::util::UniqueFunction<void()> write = [&] {
             if (write_begin == write_end) {
                 //                log("<W%1>", id);
                 ++num_write_cycles;
@@ -2004,7 +2004,7 @@ TEST(Sync_Trigger_Basics)
 
     // Check that triggering works
     bool was_triggered = false;
-    auto func = [&](realm::Status) {
+    auto func = [&](realm_legacy::Status) {
         was_triggered = true;
     };
     Trigger<network::Service> trigger(&service, std::move(func));
@@ -2025,8 +2025,8 @@ TEST(Sync_Trigger_Basics)
     CHECK(was_triggered);
 
     // Check that retriggering from triggered function works
-    realm::util::UniqueFunction<void()> func_2;
-    Trigger<network::Service> trigger_2(&service, [&](realm::Status) {
+    realm_legacy::util::UniqueFunction<void()> func_2;
+    Trigger<network::Service> trigger_2(&service, [&](realm_legacy::Status) {
         func_2();
     });
     was_triggered = false;
@@ -2048,7 +2048,7 @@ TEST(Sync_Trigger_Basics)
     // object
     was_triggered = false;
     {
-        auto func_3 = [&](realm::Status) {
+        auto func_3 = [&](realm_legacy::Status) {
             was_triggered = true;
         };
         Trigger<network::Service> trigger_3(&service, std::move(func_3));
@@ -2060,10 +2060,10 @@ TEST(Sync_Trigger_Basics)
     // Check that two functions can be triggered in an overlapping fashion
     bool was_triggered_4 = false;
     bool was_triggered_5 = false;
-    auto func_4 = [&](realm::Status) {
+    auto func_4 = [&](realm_legacy::Status) {
         was_triggered_4 = true;
     };
-    auto func_5 = [&](realm::Status) {
+    auto func_5 = [&](realm_legacy::Status) {
         was_triggered_5 = true;
     };
     Trigger<network::Service> trigger_4(&service, std::move(func_4));
@@ -2083,7 +2083,7 @@ TEST(Sync_Trigger_ThreadSafety)
     keep_alive.async_wait(std::chrono::hours(10000), [](Status) {});
     long n_1 = 0, n_2 = 0;
     std::atomic<bool> flag{false};
-    auto func = [&](realm::Status) {
+    auto func = [&](realm_legacy::Status) {
         ++n_1;
         if (flag)
             ++n_2;

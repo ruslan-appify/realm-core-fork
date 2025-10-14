@@ -22,7 +22,7 @@
 
 #include <catch2/catch_all.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("progress notification", "[sync][session][progress]") {
     using NotifierType = SyncSession::ProgressDirection;

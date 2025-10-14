@@ -46,7 +46,7 @@
 /// TestList::run(). This allows you to base the condition on global
 /// variables which can then be adjusted before calling
 /// TestList::run().
-#define TEST_IF(name, enabled) TEST_EX(name, realm::test_util::unit_test::get_default_test_list(), enabled, true)
+#define TEST_IF(name, enabled) TEST_EX(name, realm_legacy::test_util::unit_test::get_default_test_list(), enabled, true)
 
 /// Add a test that must neither execute concurrently with other tests, nor with
 /// itself. These tests will always be executed by the thread that calls
@@ -54,21 +54,21 @@
 #define NONCONCURRENT_TEST(name) NONCONCURRENT_TEST_IF(name, true)
 
 #define NONCONCURRENT_TEST_IF(name, enabled)                                                                         \
-    TEST_EX(name, realm::test_util::unit_test::get_default_test_list(), enabled, false)
+    TEST_EX(name, realm_legacy::test_util::unit_test::get_default_test_list(), enabled, false)
 
 #define TEST_EX(name, list, enabled, allow_concur)                                                                   \
-    struct Realm_UnitTest__##name : realm::test_util::unit_test::TestBase {                                          \
+    struct Realm_UnitTest__##name : realm_legacy::test_util::unit_test::TestBase {                                          \
         static bool test_enabled()                                                                                   \
         {                                                                                                            \
             return bool(enabled);                                                                                    \
         }                                                                                                            \
-        Realm_UnitTest__##name(realm::test_util::unit_test::TestContext& c)                                          \
+        Realm_UnitTest__##name(realm_legacy::test_util::unit_test::TestContext& c)                                          \
             : TestBase(c)                                                                                            \
         {                                                                                                            \
         }                                                                                                            \
         void test_run();                                                                                             \
     };                                                                                                               \
-    realm::test_util::unit_test::RegisterTest<Realm_UnitTest__##name> realm_unit_test_reg__##name(                   \
+    realm_legacy::test_util::unit_test::RegisterTest<Realm_UnitTest__##name> realm_unit_test_reg__##name(                   \
         (list), (allow_concur), "DefaultSuite", #name, __FILE__, __LINE__);                                          \
     void Realm_UnitTest__##name::test_run()
 
@@ -237,7 +237,7 @@ constexpr bool testing_supports_spawn_process = !running_with_valgrind;
 //@}
 
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 namespace unit_test {
 
@@ -770,7 +770,7 @@ struct SetPrecision<T, true> {
 template <typename T>
 constexpr static bool realm_serializable_types =
     is_any_v<T, StringData, BinaryData, Timestamp, ObjectId, std::optional<ObjectId>, ObjKey, ObjLink, UUID,
-             std::optional<UUID>, bool, float, std::optional<float>, double, std::optional<double>, realm::null>;
+             std::optional<UUID>, bool, float, std::optional<float>, double, std::optional<double>, realm_legacy::null>;
 
 template <class T>
 void to_string(const T& value, std::string& str)

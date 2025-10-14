@@ -45,7 +45,7 @@ realm_sync_user_subscription_token::~realm_sync_user_subscription_token()
     user->unsubscribe(token);
 }
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 static_assert(realm_sync_client_metadata_mode_e(SyncClientConfig::MetadataMode::NoEncryption) ==
               RLM_SYNC_CLIENT_METADATA_MODE_PLAINTEXT);
@@ -92,7 +92,7 @@ static_assert(realm_sync_progress_direction_e(SyncSession::ProgressDirection::do
 
 
 namespace {
-using namespace realm::sync;
+using namespace realm_legacy::sync;
 static_assert(realm_sync_error_action_e(ProtocolErrorInfo::Action::NoAction) == RLM_SYNC_ERROR_ACTION_NO_ACTION);
 static_assert(realm_sync_error_action_e(ProtocolErrorInfo::Action::ProtocolViolation) ==
               RLM_SYNC_ERROR_ACTION_PROTOCOL_VIOLATION);
@@ -244,7 +244,7 @@ RLM_API realm_sync_config_t* realm_sync_config_new(const realm_user_t* user, con
 
 RLM_API realm_sync_config_t* realm_flx_sync_config_new(const realm_user_t* user) noexcept
 {
-    return new realm_sync_config(*user, realm::SyncConfig::FLXSyncEnabled{});
+    return new realm_sync_config(*user, realm_legacy::SyncConfig::FLXSyncEnabled{});
 }
 
 RLM_API void realm_sync_config_set_session_stop_policy(realm_sync_config_t* config,
@@ -786,7 +786,7 @@ realm_sync_session_register_connection_state_change_callback(realm_sync_session_
                                                              realm_userdata_t userdata,
                                                              realm_free_userdata_func_t userdata_free) noexcept
 {
-    std::function<realm::SyncSession::ConnectionStateChangeCallback> cb =
+    std::function<realm_legacy::SyncSession::ConnectionStateChangeCallback> cb =
         [callback, userdata = SharedUserdata(userdata, FreeUserdata(userdata_free))](auto old_state, auto new_state) {
             callback(userdata.get(), realm_sync_connection_state_e(old_state),
                      realm_sync_connection_state_e(new_state));
@@ -799,7 +799,7 @@ RLM_API realm_sync_session_connection_state_notification_token_t* realm_sync_ses
     realm_sync_session_t* session, realm_sync_progress_func_t notifier, realm_sync_progress_direction_e direction,
     bool is_streaming, realm_userdata_t userdata, realm_free_userdata_func_t userdata_free) noexcept
 {
-    std::function<realm::SyncSession::ProgressNotifierCallback> cb =
+    std::function<realm_legacy::SyncSession::ProgressNotifierCallback> cb =
         [notifier, userdata = SharedUserdata(userdata, FreeUserdata(userdata_free))](uint64_t transferred,
                                                                                      uint64_t transferrable) {
             notifier(userdata.get(), transferred, transferrable);
@@ -855,4 +855,4 @@ RLM_API void realm_sync_session_handle_error_for_testing(const realm_sync_sessio
         sync::SessionErrorInfo{Status{static_cast<ErrorCodes::Error>(error_code), error_str}, !is_fatal});
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

@@ -9,7 +9,7 @@
 #include <realm/util/uri.hpp>
 #include <realm/util/backtrace.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 // reserved    = gen-delims sub-delims

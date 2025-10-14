@@ -34,9 +34,9 @@
 #include <unistd.h>
 #endif
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety
@@ -135,15 +135,15 @@ TEST(File_Map)
         f.resize(len);
 
         File::Map<char> map(f, File::access_ReadWrite, len);
-        realm::util::encryption_read_barrier(map, 0, len);
+        realm_legacy::util::encryption_read_barrier(map, 0, len);
         memcpy(map.get_addr(), data, len);
-        realm::util::encryption_write_barrier(map, 0, len);
+        realm_legacy::util::encryption_write_barrier(map, 0, len);
     }
     {
         File f(path, File::mode_Read);
         f.set_encryption_key(crypt_key());
         File::Map<char> map(f, File::access_ReadOnly, len);
-        realm::util::encryption_read_barrier(map, 0, len);
+        realm_legacy::util::encryption_read_barrier(map, 0, len);
         CHECK(memcmp(map.get_addr(), data, len) == 0);
     }
 }
@@ -161,16 +161,16 @@ TEST(File_MapMultiplePages)
         f.resize(count * sizeof(size_t));
 
         File::Map<size_t> map(f, File::access_ReadWrite, count * sizeof(size_t));
-        realm::util::encryption_read_barrier(map, 0, count);
+        realm_legacy::util::encryption_read_barrier(map, 0, count);
         for (size_t i = 0; i < count; ++i)
             map.get_addr()[i] = i;
-        realm::util::encryption_write_barrier(map, 0, count);
+        realm_legacy::util::encryption_write_barrier(map, 0, count);
     }
     {
         File f(path, File::mode_Read);
         f.set_encryption_key(crypt_key());
         File::Map<size_t> map(f, File::access_ReadOnly, count * sizeof(size_t));
-        realm::util::encryption_read_barrier(map, 0, count);
+        realm_legacy::util::encryption_read_barrier(map, 0, count);
         for (size_t i = 0; i < count; ++i) {
             CHECK_EQUAL(map.get_addr()[i], i);
             if (map.get_addr()[i] != i)
@@ -197,10 +197,10 @@ TEST(File_ReaderAndWriter)
     File::Map<size_t> read(reader, File::access_ReadOnly, count * sizeof(size_t));
 
     for (size_t i = 0; i < count; i += 100) {
-        realm::util::encryption_read_barrier(write, i, 1);
+        realm_legacy::util::encryption_read_barrier(write, i, 1);
         write.get_addr()[i] = i;
-        realm::util::encryption_write_barrier(write, i);
-        realm::util::encryption_read_barrier(read, i);
+        realm_legacy::util::encryption_write_barrier(write, i);
+        realm_legacy::util::encryption_read_barrier(read, i);
         CHECK_EQUAL(read.get_addr()[i], i);
         if (read.get_addr()[i] != i)
             return;
@@ -223,9 +223,9 @@ TEST(File_Offset)
         for (size_t i = 0; i < page_count; ++i) {
             File::Map<size_t> map(f, i * size, File::access_ReadWrite, size);
             for (size_t j = 0; j < count_per_page; ++j) {
-                realm::util::encryption_read_barrier(map, j, 1);
+                realm_legacy::util::encryption_read_barrier(map, j, 1);
                 map.get_addr()[j] = i * size + j;
-                realm::util::encryption_write_barrier(map, j);
+                realm_legacy::util::encryption_write_barrier(map, j);
             }
         }
     }
@@ -235,7 +235,7 @@ TEST(File_Offset)
         for (size_t i = 0; i < page_count; ++i) {
             File::Map<size_t> map(f, i * size, File::access_ReadOnly, size);
             for (size_t j = 0; j < count_per_page; ++j) {
-                realm::util::encryption_read_barrier(map, j);
+                realm_legacy::util::encryption_read_barrier(map, j);
                 CHECK_EQUAL(map.get_addr()[j], i * size + j);
                 if (map.get_addr()[j] != i * size + j)
                     return;
@@ -270,18 +270,18 @@ TEST(File_MultipleWriters)
 
         // Place zeroes in selected places
         for (size_t i = 0; i < count; i += increments) {
-            realm::util::encryption_read_barrier(map1, i);
+            realm_legacy::util::encryption_read_barrier(map1, i);
             map1.get_addr()[i] = 0;
-            realm::util::encryption_write_barrier(map1, i);
+            realm_legacy::util::encryption_write_barrier(map1, i);
         }
 
         for (size_t i = 0; i < count; i += increments) {
-            realm::util::encryption_read_barrier(map1, i, 1);
+            realm_legacy::util::encryption_read_barrier(map1, i, 1);
             ++map1.get_addr()[i];
-            realm::util::encryption_write_barrier(map1, i);
-            realm::util::encryption_read_barrier(map2, i, 1);
+            realm_legacy::util::encryption_write_barrier(map1, i);
+            realm_legacy::util::encryption_read_barrier(map2, i, 1);
             ++map2.get_addr()[i];
-            realm::util::encryption_write_barrier(map2, i);
+            realm_legacy::util::encryption_write_barrier(map2, i);
         }
     }
 
@@ -289,7 +289,7 @@ TEST(File_MultipleWriters)
     reader.set_encryption_key(crypt_key());
 
     File::Map<size_t> read(reader, File::access_ReadOnly, count * sizeof(size_t));
-    realm::util::encryption_read_barrier(read, 0, count);
+    realm_legacy::util::encryption_read_barrier(read, 0, count);
     for (size_t i = 0; i < count; i += increments) {
         CHECK_EQUAL(read.get_addr()[i], 2);
         if (read.get_addr()[i] != 2)
@@ -341,9 +341,9 @@ TEST(File_Resize)
     {
         File::Map<unsigned char> m(f, File::access_ReadWrite, page_size() * 2);
         for (unsigned int i = 0; i < page_size() * 2; ++i) {
-            realm::util::encryption_read_barrier(m, i, 1);
+            realm_legacy::util::encryption_read_barrier(m, i, 1);
             m.get_addr()[i] = static_cast<unsigned char>(i);
-            realm::util::encryption_write_barrier(m, i);
+            realm_legacy::util::encryption_write_barrier(m, i);
         }
 
         // Resizing away the first write is indistinguishable in encrypted files
@@ -352,9 +352,9 @@ TEST(File_Resize)
         // encrypted data there, so flush and write a second time
         m.sync();
         for (unsigned int i = 0; i < page_size() * 2; ++i) {
-            realm::util::encryption_read_barrier(m, i, 1);
+            realm_legacy::util::encryption_read_barrier(m, i, 1);
             m.get_addr()[i] = static_cast<unsigned char>(i);
-            realm::util::encryption_write_barrier(m, i);
+            realm_legacy::util::encryption_write_barrier(m, i);
         }
     }
 
@@ -363,7 +363,7 @@ TEST(File_Resize)
     {
         File::Map<unsigned char> m(f, File::access_ReadOnly, page_size());
         for (unsigned int i = 0; i < page_size(); ++i) {
-            realm::util::encryption_read_barrier(m, i);
+            realm_legacy::util::encryption_read_barrier(m, i);
             CHECK_EQUAL(static_cast<unsigned char>(i), m.get_addr()[i]);
             if (static_cast<unsigned char>(i) != m.get_addr()[i])
                 return;
@@ -375,15 +375,15 @@ TEST(File_Resize)
     {
         File::Map<unsigned char> m(f, File::access_ReadWrite, page_size() * 2);
         for (unsigned int i = 0; i < page_size() * 2; ++i) {
-            realm::util::encryption_read_barrier(m, i, 1);
+            realm_legacy::util::encryption_read_barrier(m, i, 1);
             m.get_addr()[i] = static_cast<unsigned char>(i);
-            realm::util::encryption_write_barrier(m, i);
+            realm_legacy::util::encryption_write_barrier(m, i);
         }
     }
     {
         File::Map<unsigned char> m(f, File::access_ReadOnly, page_size() * 2);
         for (unsigned int i = 0; i < page_size() * 2; ++i) {
-            realm::util::encryption_read_barrier(m, i);
+            realm_legacy::util::encryption_read_barrier(m, i);
             CHECK_EQUAL(static_cast<unsigned char>(i), m.get_addr()[i]);
             if (static_cast<unsigned char>(i) != m.get_addr()[i])
                 return;
@@ -526,7 +526,7 @@ TEST(File_parent_dir)
         std::string actual = File::parent_dir(input);
         CHECK_EQUAL(actual, expected);
         if (actual != expected) {
-            realm::util::format(std::cout, "unexpected result '%1' for input '%2'", actual, input);
+            realm_legacy::util::format(std::cout, "unexpected result '%1' for input '%2'", actual, input);
         }
     }
 }

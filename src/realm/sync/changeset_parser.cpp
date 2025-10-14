@@ -11,8 +11,8 @@
 
 #include <unordered_set>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 namespace {
 
@@ -631,7 +631,7 @@ StringData State::read_string()
 {
     uint64_t size = read_int<uint64_t>(); // Throws
 
-    if (size > realm::Table::max_string_size)
+    if (size > realm_legacy::Table::max_string_size)
         parser_error("string too long"); // Throws
     if (size > std::numeric_limits<size_t>::max())
         parser_error("invalid length"); // Throws
@@ -671,7 +671,7 @@ void State::parser_error(std::string_view complaints)
 
 } // anonymous namespace
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 
 void parse_changeset(util::InputStream& input, Changeset& out_log)
 {
@@ -715,4 +715,4 @@ OwnedMixed parse_base64_encoded_primary_key(std::string_view str)
     }
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

@@ -8,10 +8,10 @@
 #include <cctype>   // std::isxdigit
 #include <stdlib.h> // strtoull
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
-std::ostream& realm::sync::operator<<(std::ostream& os, format_pk fmt)
+std::ostream& realm_legacy::sync::operator<<(std::ostream& os, format_pk fmt)
 {
     const auto& key = fmt.pk;
     auto formatter = util::overload{

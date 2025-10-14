@@ -36,7 +36,7 @@
 
 #include "timer.hpp"
 
-using namespace realm::test_util;
+using namespace realm_legacy::test_util;
 
 
 #ifdef _WIN32

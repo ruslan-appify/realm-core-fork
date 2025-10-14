@@ -21,7 +21,7 @@
 #include <realm/array.hpp>
 #include <realm/array_blob.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 BinaryData ArrayBlob::get_at(size_t& pos) const noexcept
 {
@@ -161,12 +161,12 @@ ref_type ArrayBlob::replace(size_t begin, size_t end, const char* data, size_t d
         }
         else if (add_size < remove_size) { // shrink gap
             char* new_begin = modify_begin + add_size;
-            realm::safe_copy_n(old_begin, old_end - old_begin, new_begin);
+            realm_legacy::safe_copy_n(old_begin, old_end - old_begin, new_begin);
         }
     }
 
     // Insert the data
-    modify_begin = realm::safe_copy_n(data, data_size, modify_begin);
+    modify_begin = realm_legacy::safe_copy_n(data, data_size, modify_begin);
     if (add_zero_term)
         *modify_begin = 0;
 

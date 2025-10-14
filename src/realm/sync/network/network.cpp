@@ -69,8 +69,8 @@
 #endif
 #endif
 
-using namespace realm::util;
-using namespace realm::sync::network;
+using namespace realm_legacy::util;
+using namespace realm_legacy::sync::network;
 
 
 namespace {
@@ -2525,7 +2525,7 @@ bool ReadAheadBuffer::read(char*& begin, char* end, int delim, std::error_code& 
 }
 
 
-namespace realm::sync::network {
+namespace realm_legacy::sync::network {
 
 std::string host_name()
 {
@@ -2634,4 +2634,4 @@ std::error_code make_error_code(ResolveErrors err)
     return std::error_code(int(err), resolve_error_category());
 }
 
-} // namespace realm::sync::network
+} // namespace realm_legacy::sync::network

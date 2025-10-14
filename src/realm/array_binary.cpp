@@ -19,7 +19,7 @@
 #include <realm/array_binary.hpp>
 #include <realm/mixed.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 ArrayBinary::ArrayBinary(Allocator& a)
     : m_alloc(a)

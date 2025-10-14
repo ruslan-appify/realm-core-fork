@@ -3,9 +3,9 @@
 
 #include <iterator> // std::distance, std::advance
 
-using namespace realm::sync;
+using namespace realm_legacy::sync;
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 #if REALM_DEBUG
@@ -64,7 +64,7 @@ void ChangesetIndex::scan_changeset(Changeset& changeset)
     }
 #endif // REALM_DEBUG LCOV_EXCL_STOP
 
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
 
     for (auto it = changeset.begin(); it != changeset.end(); ++it) {
         if (!*it)
@@ -157,7 +157,7 @@ void ChangesetIndex::add_changeset(Changeset& log)
     if (m_contains_destructive_schema_changes)
         return; // Just add to everything.
 
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
 
     // Iterate over all instructions (skipping tombstones), and add them to the
     // index.
@@ -207,7 +207,7 @@ size_t get_object_ids_in_instruction(const Changeset& changeset, const sync::Ins
 {
     REALM_ASSERT_RELEASE(max_num_ids >= 2);
 
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
 
     if (auto obj_instr = instr.get_if<Instruction::ObjectInstruction>()) {
         ids[0] = {changeset.get_string(obj_instr->table), changeset.get_key(obj_instr->object)};
@@ -443,7 +443,7 @@ void ChangesetIndex::verify() const
     for (auto changeset : changesets) {
         auto& log = *changeset;
 
-        using Instruction = realm::sync::Instruction;
+        using Instruction = realm_legacy::sync::Instruction;
 
         // Iterate over all instructions (skipping tombstones), and verify that
         // the index covers any objects mentioned in that instruction.
@@ -540,4 +540,4 @@ void ChangesetIndex::add_instruction_at(Ranges& ranges, Changeset& changeset, Ch
 
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy

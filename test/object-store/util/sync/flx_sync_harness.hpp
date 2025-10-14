@@ -25,7 +25,7 @@
 
 #include <vector>
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 class FLXSyncTestHarness {
 public:
@@ -80,7 +80,7 @@ public:
         ServerSchema server_schema;
         std::shared_ptr<GenericNetworkTransport> transport = instance_of<SynchronousTestTransport>;
         ReconnectMode reconnect_mode = ReconnectMode::testing;
-        std::shared_ptr<realm::sync::SyncSocketProvider> custom_socket_provider = nullptr;
+        std::shared_ptr<realm_legacy::sync::SyncSocketProvider> custom_socket_provider = nullptr;
     };
 
     explicit FLXSyncTestHarness(Config&& config)
@@ -91,9 +91,9 @@ public:
     }
     FLXSyncTestHarness(const std::string& test_name, ServerSchema server_schema = default_server_schema(),
                        std::shared_ptr<GenericNetworkTransport> transport = instance_of<SynchronousTestTransport>,
-                       std::shared_ptr<realm::sync::SyncSocketProvider> custom_socket_provider = nullptr)
+                       std::shared_ptr<realm_legacy::sync::SyncSocketProvider> custom_socket_provider = nullptr)
         : m_test_session(make_app_from_server_schema(test_name, server_schema), std::move(transport), true,
-                         realm::ReconnectMode::normal, custom_socket_provider)
+                         realm_legacy::ReconnectMode::normal, custom_socket_provider)
         , m_schema(std::move(server_schema.schema))
     {
     }
@@ -146,13 +146,13 @@ public:
 
     SyncTestFile make_test_file() const
     {
-        return SyncTestFile(app()->current_user(), schema(), realm::SyncConfig::FLXSyncEnabled{});
+        return SyncTestFile(app()->current_user(), schema(), realm_legacy::SyncConfig::FLXSyncEnabled{});
     }
 
 private:
     TestAppSession m_test_session;
     Schema m_schema;
 };
-} // namespace realm::app
+} // namespace realm_legacy::app
 
 #endif // REALM_ENABLE_AUTH_TESTS

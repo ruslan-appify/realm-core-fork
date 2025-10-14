@@ -30,7 +30,7 @@
 #include <condition_variable>
 namespace fs = std::filesystem;
 
-namespace realm {
+namespace realm_legacy {
 template <typename E>
 class TestingStateMachine {
 public:
@@ -236,12 +236,12 @@ void chmod(const std::string& path, int permissions);
 #define REQUIRE_THROWS_CONTAINING(expr, msg) REQUIRE_THROWS_WITH(expr, Catch::Matchers::ContainsSubstring(msg))
 
 #define REQUIRE_EXCEPTION(expr, c, msg)                                                                              \
-    REQUIRE_THROWS_MATCHES(expr, realm::Exception, _impl::make_exception_matcher(realm::ErrorCodes::c, msg))
+    REQUIRE_THROWS_MATCHES(expr, realm_legacy::Exception, _impl::make_exception_matcher(realm_legacy::ErrorCodes::c, msg))
 #define REQUIRE_THROWS_OUT_OF_BOUNDS(expr, index, size, msg)                                                         \
     REQUIRE_THROWS_MATCHES(expr, OutOfBounds, OutOfBoundsMatcher(index, size, msg));
 #define REQUIRE_THROW_LOGIC_ERROR_WITH_CODE(expr, err)                                                               \
     REQUIRE_THROWS_MATCHES(expr, LogicError, LogicErrorMatcher(err))
 
-#define ENCODE_FAKE_JWT(in) realm::encode_fake_jwt(in)
+#define ENCODE_FAKE_JWT(in) realm_legacy::encode_fake_jwt(in)
 
 #endif // REALM_TEST_UTILS_HPP

@@ -3,7 +3,7 @@
 
 #include <realm/util/overload.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 RLM_API bool realm_get_num_objects(const realm_t* realm, realm_class_key_t key, size_t* out_count)
 {
@@ -412,4 +412,4 @@ RLM_API char* realm_object_to_string(realm_object_t* object)
     });
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

@@ -22,18 +22,18 @@
 #include "unit_test.hpp"
 
 #define ONLY(name)                                                                                                   \
-    realm::test_util::SetTestOnly realm_set_test_only__##name(#name);                                                \
+    realm_legacy::test_util::SetTestOnly realm_set_test_only__##name(#name);                                                \
     TEST(name)
 
 #define NONCONCURRENT_ONLY(name)                                                                                     \
-    realm::test_util::SetTestOnly realm_set_test_only__##name(#name);                                                \
+    realm_legacy::test_util::SetTestOnly realm_set_test_only__##name(#name);                                                \
     NONCONCURRENT_TEST(name)
 
 #define ONLY_TYPES(name, ...)                                                                                        \
-    realm::test_util::SetTestOnly realm_set_test_only__##name(#name "*");                                            \
+    realm_legacy::test_util::SetTestOnly realm_set_test_only__##name(#name "*");                                            \
     TEST_TYPES(name, __VA_ARGS__)
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 struct SetTestOnly {

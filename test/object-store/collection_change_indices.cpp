@@ -24,7 +24,7 @@
 
 #include <limits>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("collection_change: insert()", "[collection change]") {
     _impl::CollectionChangeBuilder c;

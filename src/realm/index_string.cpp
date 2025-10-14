@@ -32,8 +32,8 @@
 #include <realm/unicode.hpp>
 #include <realm/tokenizer.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 namespace {
 
@@ -191,7 +191,7 @@ int64_t IndexArray::from_list<index_FindAll_nocopy>(Mixed value, InternalFindRes
 template <IndexMethod method>
 int64_t IndexArray::index_string(Mixed value, InternalFindResult& result_ref, const ClusterColumn& column) const
 {
-    // Return`realm::not_found`, or an index to the (any) match
+    // Return`realm_legacy::not_found`, or an index to the (any) match
     constexpr bool first(method == index_FindFirst);
     // Return 0, or the number of items that match the specified `value`
     constexpr bool get_count(method == index_Count);

@@ -8,9 +8,9 @@
 #include <realm/sync/noinst/server/permissions.hpp>
 #include <realm/sync/noinst/server/access_token.hpp>
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::sync;
 
 namespace {
 

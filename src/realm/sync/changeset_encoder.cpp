@@ -1,8 +1,8 @@
 #include <realm/sync/noinst/integer_codec.hpp>
 #include <realm/sync/changeset_encoder.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 void ChangesetEncoder::operator()(const Instruction::AddTable& instr)
 {

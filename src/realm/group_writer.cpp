@@ -30,10 +30,10 @@
 #include <realm/impl/simulated_failure.hpp>
 #include <realm/util/safe_int_ops.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
-namespace realm {
+namespace realm_legacy {
 class InMemoryWriter : public _impl::ArrayWriterBase {
 public:
     InMemoryWriter(GroupWriter& owner)
@@ -63,7 +63,7 @@ private:
     GroupWriter& m_owner;
     SlabAlloc& m_alloc;
 };
-} // namespace realm
+} // namespace realm_legacy
 
 
 // Class controlling a memory mapped window into a file
@@ -194,12 +194,12 @@ char* WriteWindowMgr::MapWindow::translate(ref_type ref)
 
 void WriteWindowMgr::MapWindow::encryption_read_barrier(void* start_addr, size_t size)
 {
-    realm::util::encryption_read_barrier_for_write(start_addr, size, m_map.get_encrypted_mapping());
+    realm_legacy::util::encryption_read_barrier_for_write(start_addr, size, m_map.get_encrypted_mapping());
 }
 
 void WriteWindowMgr::MapWindow::encryption_write_barrier(void* start_addr, size_t size)
 {
-    realm::util::encryption_write_barrier(start_addr, size, m_map.get_encrypted_mapping());
+    realm_legacy::util::encryption_write_barrier(start_addr, size, m_map.get_encrypted_mapping());
 }
 
 WriteWindowMgr::WriteWindowMgr(SlabAlloc& alloc, Durability dura, WriteMarker* write_marker)
@@ -1027,7 +1027,7 @@ size_t GroupWriter::recreate_freelist(size_t reserve_pos)
         m_size_map.size() + m_not_free_in_file.size() + m_under_evacuation.size() + new_free_space.size();
     free_in_file.reserve(nb_elements);
 
-    size_t reserve_ndx = realm::npos;
+    size_t reserve_ndx = realm_legacy::npos;
 
     for (const auto& entry : m_size_map) {
         free_in_file.emplace_back(entry.second, entry.first, 0);
@@ -1097,7 +1097,7 @@ size_t GroupWriter::recreate_freelist(size_t reserve_pos)
             prev_ref = free_space.ref;
             prev_size = free_space.size;
         }
-        REALM_ASSERT_RELEASE(reserve_ndx != realm::npos);
+        REALM_ASSERT_RELEASE(reserve_ndx != realm_legacy::npos);
 
         m_free_space_size = free_space_size;
     }

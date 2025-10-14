@@ -23,7 +23,7 @@
 
 #include <sstream>
 
-namespace realm::app {
+namespace realm_legacy::app {
 using bson::Bson;
 
 namespace {
@@ -608,4 +608,4 @@ TEST_CASE("WatchStream buffer processing", "[sync][mongo]") {
     }
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app

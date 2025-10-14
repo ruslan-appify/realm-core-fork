@@ -23,10 +23,10 @@
 
 #include <functional>
 
-namespace realm {
+namespace realm_legacy {
 namespace query_parser {
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 std::size_t TableAndColHash::operator()(const std::pair<TableKey, std::string>& p) const
 {
@@ -139,4 +139,4 @@ std::string KeyPathMapping::translate(const LinkChain& link_chain, const std::st
 }
 
 } // namespace query_parser
-} // namespace realm
+} // namespace realm_legacy

@@ -21,11 +21,11 @@
 #include <realm/util/value_reset_guard.hpp>
 #include <realm/version.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 namespace {
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 
 // clang-format off
@@ -1022,7 +1022,7 @@ SyncClientHookAction SessionImpl::call_debug_hook(const SyncClientHookData& data
 
     auto action = m_wrapper.m_debug_hook(data);
     switch (action) {
-        case realm::SyncClientHookAction::SuspendWithRetryableError: {
+        case realm_legacy::SyncClientHookAction::SuspendWithRetryableError: {
             SessionErrorInfo err_info(Status{ErrorCodes::RuntimeError, "hook requested error"}, IsFatal{false});
             err_info.server_requests_action = ProtocolErrorInfo::Action::Transient;
 
@@ -1030,7 +1030,7 @@ SyncClientHookAction SessionImpl::call_debug_hook(const SyncClientHookData& data
             REALM_ASSERT_EX(err_processing_err.is_ok(), err_processing_err);
             return SyncClientHookAction::EarlyReturn;
         }
-        case realm::SyncClientHookAction::TriggerReconnect: {
+        case realm_legacy::SyncClientHookAction::TriggerReconnect: {
             get_connection().voluntary_disconnect();
             return SyncClientHookAction::EarlyReturn;
         }
@@ -2171,4 +2171,4 @@ std::ostream& operator<<(std::ostream& os, ProxyConfig::Type proxyType)
 }
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy

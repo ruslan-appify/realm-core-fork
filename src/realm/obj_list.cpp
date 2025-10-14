@@ -18,8 +18,8 @@
 
 #include <realm/obj_list.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 ObjList::~ObjList() {}
 
-} // namespace realm
+} // namespace realm_legacy

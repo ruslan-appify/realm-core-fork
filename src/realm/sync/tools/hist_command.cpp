@@ -25,7 +25,7 @@
 #include <realm/sync/noinst/server/server_history.hpp>
 #include <realm/sync/protocol.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::TimestampFormatter;
 using IntegerBpTree = BPlusTree<std::int64_t>; // FIXME: Avoid use of optional type `std::int64_t`
 using sync::file_ident_type;

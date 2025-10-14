@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <iostream>
 
-using namespace realm;
+using namespace realm_legacy;
 
 int main(int argc, char* argv[])
 {

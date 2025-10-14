@@ -33,7 +33,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 SpawnedProcess::SpawnedProcess(const std::string& test_name, const std::string& ident)

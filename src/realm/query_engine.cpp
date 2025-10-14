@@ -23,7 +23,7 @@
 #include <realm/db.hpp>
 #include <realm/utilities.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 ParentNode::ParentNode(const ParentNode& from)
     : m_child(from.m_child ? from.m_child->clone() : nullptr)
@@ -852,7 +852,7 @@ size_t LinksToNode<Equal>::find_first_local(size_t start, size_t end)
     else if (m_list) {
         for (auto& key : m_target_keys) {
             auto pos = m_list->find_first(key, start, end);
-            if (pos != realm::npos) {
+            if (pos != realm_legacy::npos) {
                 return pos;
             }
         }
@@ -919,4 +919,4 @@ size_t LinksToNode<NotEqual>::find_first_local(size_t start, size_t end)
     return not_found;
 }
 
-} // namespace realm
+} // namespace realm_legacy

@@ -11,7 +11,7 @@
 #include <realm/sync/changeset.hpp>
 #include <realm/sync/changeset_parser.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 #if REALM_DEBUG
 namespace {
 

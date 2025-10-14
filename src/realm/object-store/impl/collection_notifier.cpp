@@ -27,8 +27,8 @@
 #include <realm/list.hpp>
 #include <realm/set.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 bool CollectionNotifier::any_related_table_was_modified(TransactionChangeInfo const& info) const noexcept
 {

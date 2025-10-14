@@ -6,7 +6,7 @@
 #include <realm/util/encrypted_file_mapping.hpp>
 #include "hex_util.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 constexpr size_t block_size = 4096;
 

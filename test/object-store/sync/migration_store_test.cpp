@@ -25,7 +25,7 @@
 
 #if REALM_ENABLE_SYNC && REALM_ENABLE_AUTH_TESTS
 
-using namespace realm;
+using namespace realm_legacy;
 
 const std::string migrated_partition("migrated_partition");
 const std::string rql_string("subscription_rql_string");

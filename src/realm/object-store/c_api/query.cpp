@@ -7,7 +7,7 @@
 #include <realm/parser/query_parser.hpp>
 #include <realm/parser/keypath_mapping.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 namespace {
 struct QueryArgumentsAdapter : query_parser::Arguments {
@@ -177,7 +177,7 @@ static Query parse_and_apply_query(const std::shared_ptr<Realm>& realm, ConstTab
                                    size_t num_args, const realm_query_arg_t* args)
 {
     query_parser::KeyPathMapping mapping;
-    realm::populate_keypath_mapping(mapping, *realm);
+    realm_legacy::populate_keypath_mapping(mapping, *realm);
     QueryArgumentsAdapter arguments{num_args, args};
     Query query = table->query(query_string, arguments, mapping);
     return query;
@@ -407,7 +407,7 @@ RLM_API bool realm_results_get(realm_results_t* results, size_t index, realm_val
 RLM_API bool realm_results_find(realm_results_t* results, realm_value_t* value, size_t* out_index, bool* out_found)
 {
     if (out_index)
-        *out_index = realm::not_found;
+        *out_index = realm_legacy::not_found;
     if (out_found)
         *out_found = false;
 
@@ -415,7 +415,7 @@ RLM_API bool realm_results_find(realm_results_t* results, realm_value_t* value, 
         auto val = from_capi(*value);
         if (out_index) {
             *out_index = results->index_of(val);
-            if (out_found && *out_index != realm::not_found) {
+            if (out_found && *out_index != realm_legacy::not_found) {
                 *out_found = true;
             }
         }
@@ -446,14 +446,14 @@ RLM_API bool realm_results_find_object(realm_results_t* results, realm_object_t*
                                        bool* out_found)
 {
     if (out_index)
-        *out_index = realm::not_found;
+        *out_index = realm_legacy::not_found;
     if (out_found)
         *out_found = false;
 
     return wrap_err([&]() {
         if (out_index) {
             *out_index = results->index_of(value->get_obj());
-            if (out_found && *out_index != realm::not_found)
+            if (out_found && *out_index != realm_legacy::not_found)
                 *out_found = true;
         }
         return true;
@@ -600,4 +600,4 @@ RLM_API realm_results_t* realm_results_resolve_in(realm_results_t* from_results,
     });
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

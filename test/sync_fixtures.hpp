@@ -18,10 +18,10 @@
 
 #include "test.hpp"
 
-namespace realm::fixtures {
+namespace realm_legacy::fixtures {
 
-using namespace realm::sync;
-using namespace realm::test_util;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::test_util;
 
 // This public key must match the private key used to sign the token
 // below (test.pem).
@@ -1081,4 +1081,4 @@ inline void RealmFixture::setup_error_handler(util::UniqueFunction<ErrorHandler>
     };
     m_session.set_connection_state_change_listener(std::move(listener));
 }
-} // namespace realm::fixtures
+} // namespace realm_legacy::fixtures

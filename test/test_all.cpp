@@ -73,9 +73,9 @@
 #include <fcntl.h>
 #endif
 
-using namespace realm;
-using namespace realm::test_util;
-using namespace realm::test_util::unit_test;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
+using namespace realm_legacy::test_util::unit_test;
 
 // Random seed for various random number generators used by fuzzying unit tests.
 unsigned int unit_test_random_seed;
@@ -220,7 +220,7 @@ void set_always_encrypt()
         if (str == "1" || str == "on" || str == "yes") {
             enable_always_encrypt();
             // ask for a very aggressive page reclaimer to maximize chance of triggering a bug.
-            realm::util::set_page_reclaim_governor(&aggressive_governor);
+            realm_legacy::util::set_page_reclaim_governor(&aggressive_governor);
         }
     }
 }
@@ -255,9 +255,9 @@ void display_build_config()
     const char* compiler_avx = "No";
 #endif
 
-    const char* cpu_sse = realm::sseavx<42>() ? "4.2" : (realm::sseavx<30>() ? "3.0" : "None");
+    const char* cpu_sse = realm_legacy::sseavx<42>() ? "4.2" : (realm_legacy::sseavx<30>() ? "3.0" : "None");
 
-    const char* cpu_avx = realm::sseavx<1>() ? "Yes" : "No";
+    const char* cpu_avx = realm_legacy::sseavx<1>() ? "Yes" : "No";
 
     std::cout << std::endl
               << "Realm version: " << Version::get_version() << " with Debug " << with_debug << "\n"
@@ -369,7 +369,7 @@ void put_time(std::ostream& out, const std::tm& tm, const char* format)
 }
 
 
-bool run_tests(const std::shared_ptr<realm::util::Logger>& logger = nullptr)
+bool run_tests(const std::shared_ptr<realm_legacy::util::Logger>& logger = nullptr)
 {
     {
         const char* str = getenv("UNITTEST_KEEP_FILES");
@@ -530,7 +530,7 @@ bool run_tests(const std::shared_ptr<realm::util::Logger>& logger = nullptr)
 } // anonymous namespace
 
 
-int test_all(const std::shared_ptr<realm::util::Logger>& logger)
+int test_all(const std::shared_ptr<realm_legacy::util::Logger>& logger)
 {
     // General note: Some Github clients on Windows will interfere with the .realm files created by unit tests (the
     // git client will attempt to access the files when it sees that new files have been created). This may cause

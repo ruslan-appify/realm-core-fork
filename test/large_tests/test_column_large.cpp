@@ -33,8 +33,8 @@
 #define LL_MAX (9223372036854775807LL)
 #define LL_MIN (-LL_MAX - 1)
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety

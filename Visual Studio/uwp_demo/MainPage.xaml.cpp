@@ -1,4 +1,4 @@
-﻿//
+//
 // MainPage.xaml.cpp
 // Implementation of the MainPage class.
 //
@@ -7,7 +7,7 @@
 #include "MainPage.xaml.h"
 #include "realm.hpp"
 using namespace App1;
-using namespace realm;
+using namespace realm_legacy;
 
 using namespace Platform;
 using namespace Windows::Foundation;

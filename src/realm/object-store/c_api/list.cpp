@@ -19,7 +19,7 @@
 #include <realm/object-store/c_api/types.hpp>
 #include <realm/object-store/c_api/util.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 RLM_API bool realm_list_size(const realm_list_t* list, size_t* out_size)
 {
@@ -54,7 +54,7 @@ RLM_API bool realm_list_get(const realm_list_t* list, size_t index, realm_value_
 RLM_API bool realm_list_find(const realm_list_t* list, const realm_value_t* value, size_t* out_index, bool* out_found)
 {
     if (out_index)
-        *out_index = realm::not_found;
+        *out_index = realm_legacy::not_found;
     if (out_found)
         *out_found = false;
 
@@ -199,4 +199,4 @@ RLM_API bool realm_list_is_valid(const realm_list_t* list)
     return list->is_valid();
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

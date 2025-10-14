@@ -22,8 +22,8 @@
 
 #include <realm/transaction.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 ListNotifier::ListNotifier(std::shared_ptr<Realm> realm, CollectionBase const& list, PropertyType type)
     : CollectionNotifier(std::move(realm))

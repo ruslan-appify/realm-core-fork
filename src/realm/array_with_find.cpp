@@ -18,7 +18,7 @@
 
 #include <realm/array_with_find.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 void ArrayWithFind::find_all(IntegerColumn* result, int64_t value, size_t col_offset, size_t begin, size_t end) const
 {
@@ -80,4 +80,4 @@ size_t ArrayWithFind::first_set_bit64(int64_t v) const
 }
 
 
-} // namespace realm
+} // namespace realm_legacy

@@ -85,7 +85,7 @@ const size_t print_width = 25;
 #include <vector>
 #include <realm.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 class Importer {
 public:
@@ -126,6 +126,6 @@ private:
     size_t m_row;             // current row in .csv file, including field-embedded line breaks. Used for err msg only
 };
 
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_IMPORTER_HPP

@@ -26,7 +26,7 @@
 
 #include <ostream>
 
-namespace realm {
+namespace realm_legacy {
 
 std::ostream& operator<<(std::ostream& os, const ClientResyncMode& mode);
 
@@ -83,6 +83,6 @@ bool perform_client_reset_diff(DB& db, DB& db_remote, sync::SaltedFileIdent clie
                                util::FunctionRef<void(int64_t)> on_flx_version_complete);
 
 } // namespace _impl::client_reset
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_CLIENT_RESET_HPP

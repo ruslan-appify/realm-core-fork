@@ -46,7 +46,7 @@
 #include <sys/clonefile.h>
 #endif
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 namespace {
 size_t get_page_size()
@@ -68,10 +68,10 @@ size_t get_page_size()
 // It could also have been a static local variable, but Valgrind/Helgrind gives a false error on that.
 size_t cached_page_size = get_page_size();
 
-bool for_each_helper(const std::string& path, const std::string& dir, realm::util::File::ForEachHandler& handler)
+bool for_each_helper(const std::string& path, const std::string& dir, realm_legacy::util::File::ForEachHandler& handler)
 {
-    using File = realm::util::File;
-    realm::util::DirScanner ds{path}; // Throws
+    using File = realm_legacy::util::File;
+    realm_legacy::util::DirScanner ds{path}; // Throws
     std::string name;
     while (ds.next(name)) {                              // Throws
         std::string subpath = File::resolve(name, path); // Throws
@@ -149,10 +149,10 @@ void throwIfCreateDirectoryError(std::error_code error, const std::string& path)
     // create_directory doesn't raise an error if the path already exists
     using std::errc;
     if (error == errc::permission_denied || error == errc::read_only_file_system) {
-        throw realm::FileAccessError(realm::ErrorCodes::PermissionDenied, error.message(), path);
+        throw realm_legacy::FileAccessError(realm_legacy::ErrorCodes::PermissionDenied, error.message(), path);
     }
     else {
-        throw realm::FileAccessError(realm::ErrorCodes::FileOperationFailed, error.message(), path);
+        throw realm_legacy::FileAccessError(realm_legacy::ErrorCodes::FileOperationFailed, error.message(), path);
     }
 }
 
@@ -165,10 +165,10 @@ void throwIfFileError(std::error_code error, const std::string& path)
     if (error == errc::permission_denied || error == errc::read_only_file_system ||
         error == errc::device_or_resource_busy || error == errc::operation_not_permitted ||
         error == errc::file_exists || error == errc::directory_not_empty) {
-        throw realm::FileAccessError(realm::ErrorCodes::PermissionDenied, error.message(), path);
+        throw realm_legacy::FileAccessError(realm_legacy::ErrorCodes::PermissionDenied, error.message(), path);
     }
     else {
-        throw realm::FileAccessError(realm::ErrorCodes::FileOperationFailed, error.message(), path);
+        throw realm_legacy::FileAccessError(realm_legacy::ErrorCodes::FileOperationFailed, error.message(), path);
     }
 }
 #endif
@@ -176,7 +176,7 @@ void throwIfFileError(std::error_code error, const std::string& path)
 } // anonymous namespace
 
 
-namespace realm::util {
+namespace realm_legacy::util {
 namespace {
 
 /// Thrown if create_Always was specified and the file did already
@@ -662,7 +662,7 @@ size_t File::read(char* data, size_t size)
         REALM_ASSERT(!int_cast_has_overflow<size_t>(pos_original));
         size_t pos = size_t(pos_original);
         Map<char> read_map(*this, access_ReadOnly, static_cast<size_t>(pos + size));
-        realm::util::encryption_read_barrier(read_map, pos, size);
+        realm_legacy::util::encryption_read_barrier(read_map, pos, size);
         memcpy(data, read_map.get_addr() + pos, size);
         uint64_t cur = File::get_file_pos(m_fd);
         seek_static(m_fd, cur + size);
@@ -731,9 +731,9 @@ void File::write(const char* data, size_t size)
         REALM_ASSERT(!int_cast_has_overflow<size_t>(pos_original));
         size_t pos = size_t(pos_original);
         Map<char> write_map(*this, access_ReadWrite, static_cast<size_t>(pos + size));
-        realm::util::encryption_read_barrier(write_map, pos, size);
+        realm_legacy::util::encryption_read_barrier(write_map, pos, size);
         memcpy(write_map.get_addr() + pos, data, size);
-        realm::util::encryption_write_barrier(write_map, pos, size);
+        realm_legacy::util::encryption_write_barrier(write_map, pos, size);
         uint64_t cur = get_file_pos(m_fd);
         seek(cur + size);
         return;
@@ -878,8 +878,8 @@ void File::prealloc(size_t size)
         REALM_ASSERT(size == static_cast<size_t>(encrypted_size_to_data_size(new_size)));
         if (new_size < size) {
             throw RuntimeError(ErrorCodes::RangeError, "File size overflow: data_size_to_encrypted_size(" +
-                                                           realm::util::to_string(size) +
-                                                           ") == " + realm::util::to_string(new_size));
+                                                           realm_legacy::util::to_string(size) +
+                                                           ") == " + realm_legacy::util::to_string(new_size));
         }
     }
 
@@ -932,12 +932,12 @@ void File::prealloc(size_t size)
     size_t allocated_size;
     if (int_cast_with_overflow_detect(statbuf.st_blocks, allocated_size)) {
         throw RuntimeError(ErrorCodes::RangeError,
-                           "Overflow on block conversion to size_t " + realm::util::to_string(statbuf.st_blocks));
+                           "Overflow on block conversion to size_t " + realm_legacy::util::to_string(statbuf.st_blocks));
     }
     if (int_multiply_with_overflow_detect(allocated_size, S_BLKSIZE)) {
         throw RuntimeError(ErrorCodes::RangeError, "Overflow computing existing file space allocation blocks: " +
-                                                       realm::util::to_string(allocated_size) +
-                                                       " block size: " + realm::util::to_string(S_BLKSIZE));
+                                                       realm_legacy::util::to_string(allocated_size) +
+                                                       " block size: " + realm_legacy::util::to_string(S_BLKSIZE));
     }
 
     // Only attempt to preallocate space if there's not already sufficient free space in the file.
@@ -1348,7 +1348,7 @@ void File::rw_unlock() noexcept
 
 void* File::map(AccessMode a, size_t size, int /*map_flags*/, size_t offset) const
 {
-    return realm::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset);
+    return realm_legacy::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset);
 }
 
 void* File::map_fixed(AccessMode a, void* address, size_t size, int /* map_flags */, size_t offset) const
@@ -1364,20 +1364,20 @@ void* File::map_fixed(AccessMode a, void* address, size_t size, int /* map_flags
     return nullptr;
 #else
     // unencrypted - mmap part of already reserved space
-    return realm::util::mmap_fixed(m_fd, address, size, a, offset, m_encryption_key.get());
+    return realm_legacy::util::mmap_fixed(m_fd, address, size, a, offset, m_encryption_key.get());
 #endif
 }
 
 void* File::map_reserve(AccessMode a, size_t size, size_t offset) const
 {
     static_cast<void>(a); // FIXME: Consider removing this argument
-    return realm::util::mmap_reserve(m_fd, size, offset);
+    return realm_legacy::util::mmap_reserve(m_fd, size, offset);
 }
 
 #if REALM_ENABLE_ENCRYPTION
 void* File::map(AccessMode a, size_t size, EncryptedFileMapping*& mapping, int /*map_flags*/, size_t offset) const
 {
-    return realm::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset, mapping);
+    return realm_legacy::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset, mapping);
 }
 
 void* File::map_fixed(AccessMode a, void* address, size_t size, EncryptedFileMapping* mapping, int /* map_flags */,
@@ -1389,7 +1389,7 @@ void* File::map_fixed(AccessMode a, void* address, size_t size, EncryptedFileMap
     }
 #ifndef _WIN32
     // no encryption. On Unixes, map relevant part of reserved virtual address range
-    return realm::util::mmap_fixed(m_fd, address, size, a, offset, nullptr, mapping);
+    return realm_legacy::util::mmap_fixed(m_fd, address, size, a, offset, nullptr, mapping);
 #else
     // no encryption - unsupported on windows
     REALM_ASSERT(false);
@@ -1401,11 +1401,11 @@ void* File::map_reserve(AccessMode a, size_t size, size_t offset, EncryptedFileM
 {
     if (m_encryption_key.get()) {
         // encrypted file - just mmap it, the encryption layer handles if the mapping extends beyond eof
-        return realm::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset, mapping);
+        return realm_legacy::util::mmap({m_fd, m_path, a, m_encryption_key.get()}, size, offset, mapping);
     }
 #ifndef _WIN32
     // not encrypted, do a proper reservation on Unixes'
-    return realm::util::mmap_reserve({m_fd, m_path, a, nullptr}, size, offset, mapping);
+    return realm_legacy::util::mmap_reserve({m_fd, m_path, a, nullptr}, size, offset, mapping);
 #else
     // on windows, this is a no-op
     return nullptr;
@@ -1416,20 +1416,20 @@ void* File::map_reserve(AccessMode a, size_t size, size_t offset, EncryptedFileM
 
 void File::unmap(void* addr, size_t size) noexcept
 {
-    realm::util::munmap(addr, size);
+    realm_legacy::util::munmap(addr, size);
 }
 
 
 void* File::remap(void* old_addr, size_t old_size, AccessMode a, size_t new_size, int /*map_flags*/,
                   size_t file_offset) const
 {
-    return realm::util::mremap({m_fd, m_path, a, m_encryption_key.get()}, file_offset, old_addr, old_size, new_size);
+    return realm_legacy::util::mremap({m_fd, m_path, a, m_encryption_key.get()}, file_offset, old_addr, old_size, new_size);
 }
 
 
 void File::sync_map(FileDesc fd, void* addr, size_t size)
 {
-    realm::util::msync(fd, addr, size);
+    realm_legacy::util::msync(fd, addr, size);
 }
 
 
@@ -1949,7 +1949,7 @@ void File::MapBase::flush()
     REALM_ASSERT(m_addr);
 #if REALM_ENABLE_ENCRYPTION
     if (m_encrypted_mapping) {
-        realm::util::encryption_flush(m_encrypted_mapping);
+        realm_legacy::util::encryption_flush(m_encrypted_mapping);
     }
 #endif
 }
@@ -2105,4 +2105,4 @@ bool DirScanner::next(std::string&)
 
 #endif
 
-} // namespace realm::util
+} // namespace realm_legacy::util

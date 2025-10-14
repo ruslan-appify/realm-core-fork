@@ -6,7 +6,7 @@
 #include <realm/sync/noinst/server/crypto_server.hpp>
 #include <realm/sync/noinst/server/permissions.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 struct AccessControl {
@@ -49,6 +49,6 @@ private:
 };
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_SYNC_ACCESS_CONTROL_HPP

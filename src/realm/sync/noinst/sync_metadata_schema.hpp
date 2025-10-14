@@ -26,12 +26,12 @@
 #include <string_view>
 #include <vector>
 
-namespace realm {
+namespace realm_legacy {
 class Transaction;
 using TransactionRef = std::shared_ptr<Transaction>;
-} // namespace realm
+} // namespace realm_legacy
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace internal_schema_groups {
 constexpr static std::string_view c_flx_subscription_store("flx_subscription_store");
 constexpr static std::string_view c_pending_bootstraps("pending_bootstraps");
@@ -142,4 +142,4 @@ public:
     void set_version_for(const TransactionRef& tr, std::string_view schema_group_name, int64_t version);
 };
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

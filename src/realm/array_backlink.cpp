@@ -24,7 +24,7 @@
 #include <realm/set.hpp>
 #include <realm/dictionary.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 // nullify forward links corresponding to any backward links at index 'ndx'.
 void ArrayBacklink::nullify_fwd_links(size_t ndx, CascadeState& state)

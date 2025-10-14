@@ -50,7 +50,7 @@
 #include <iostream>
 
 struct ThreadSafeSyncError {
-    void operator=(const realm::SyncError& e)
+    void operator=(const realm_legacy::SyncError& e)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_error = e;
@@ -60,7 +60,7 @@ struct ThreadSafeSyncError {
         std::lock_guard<std::mutex> lock(m_mutex);
         return bool(m_error);
     }
-    realm::util::Optional<realm::SyncError> value() const
+    realm_legacy::util::Optional<realm_legacy::SyncError> value() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_error;
@@ -68,7 +68,7 @@ struct ThreadSafeSyncError {
 
 private:
     mutable std::mutex m_mutex;
-    realm::util::Optional<realm::SyncError> m_error;
+    realm_legacy::util::Optional<realm_legacy::SyncError> m_error;
 };
 
 namespace Catch {
@@ -80,15 +80,15 @@ struct StringMaker<ThreadSafeSyncError> {
         if (!value) {
             return "No SyncError";
         }
-        return realm::util::format("SyncError(%1), is_fatal: %2, with message: '%3'", value->status.code_string(),
+        return realm_legacy::util::format("SyncError(%1), is_fatal: %2, with message: '%3'", value->status.code_string(),
                                    value->is_fatal, value->status.reason());
     }
 };
 } // namespace Catch
 
-using namespace realm;
+using namespace realm_legacy;
 
-namespace realm {
+namespace realm_legacy {
 class TestHelper {
 public:
     static DBRef& get_db(SharedRealm const& shared_realm)
@@ -107,7 +107,7 @@ TableRef get_table(Realm& realm, StringData object_type)
 
 #if REALM_ENABLE_AUTH_TESTS
 
-namespace cf = realm::collection_fixtures;
+namespace cf = realm_legacy::collection_fixtures;
 using reset_utils::create_object;
 
 TEST_CASE("sync: large reset with recovery is restartable", "[sync][pbs][client reset][baas]") {
@@ -365,7 +365,7 @@ TEST_CASE("sync: client reset", "[sync][pbs][client reset][baas]") {
 
     local_config.cache = false;
     local_config.automatic_change_notifications = false;
-    const std::string fresh_path = realm::_impl::client_reset::get_fresh_path_for(local_config.path);
+    const std::string fresh_path = realm_legacy::_impl::client_reset::get_fresh_path_for(local_config.path);
     size_t before_callback_invocations = 0;
     size_t after_callback_invocations = 0;
     std::mutex mtx;
@@ -903,7 +903,7 @@ TEST_CASE("sync: client reset", "[sync][pbs][client reset][baas]") {
                     session = local->sync_session();
                 })
                 ->run();
-            auto local_coordinator = realm::_impl::RealmCoordinator::get_existing_coordinator(local_config.path);
+            auto local_coordinator = realm_legacy::_impl::RealmCoordinator::get_existing_coordinator(local_config.path);
             REQUIRE(!local_coordinator);
             REQUIRE(before_callback_invocations == 0);
             REQUIRE(after_callback_invocations == 0);
@@ -1055,7 +1055,7 @@ TEST_CASE("sync: client reset", "[sync][pbs][client reset][baas]") {
             local_config.sync_config->error_handler = [&](std::shared_ptr<SyncSession>, SyncError error) {
                 err = error;
             };
-            std::string fresh_path = realm::_impl::client_reset::get_fresh_path_for(local_config.path);
+            std::string fresh_path = realm_legacy::_impl::client_reset::get_fresh_path_for(local_config.path);
             util::File f(fresh_path, util::File::Mode::mode_Write);
             f.write("a non empty file");
             f.sync();
@@ -1072,7 +1072,7 @@ TEST_CASE("sync: client reset", "[sync][pbs][client reset][baas]") {
             local_config.sync_config->error_handler = [&](std::shared_ptr<SyncSession>, SyncError error) {
                 err = error;
             };
-            std::string fresh_path = realm::_impl::client_reset::get_fresh_path_for(local_config.path);
+            std::string fresh_path = realm_legacy::_impl::client_reset::get_fresh_path_for(local_config.path);
             // create a non-empty directory that we'll fail to delete
             util::make_dir(fresh_path);
             util::File(util::File::resolve("file", fresh_path), util::File::mode_Write);
@@ -1789,7 +1789,7 @@ TEST_CASE("sync: client reset", "[sync][pbs][client reset][baas]") {
         }
     } // end cycle detection
     SECTION("The server can prohibit recovery") {
-        const realm::AppSession& app_session = test_app_session.app_session();
+        const realm_legacy::AppSession& app_session = test_app_session.app_session();
         auto sync_service = app_session.admin_api.get_sync_service(app_session.server_app_id);
         auto sync_config = app_session.admin_api.get_config(app_session.server_app_id, sync_service);
         REQUIRE(!sync_config.recovery_is_disabled);
@@ -1932,7 +1932,7 @@ TEST_CASE("sync: Client reset during async open", "[sync][pbs][client reset][baa
 
 #endif // REALM_ENABLE_AUTH_TESTS
 
-namespace cf = realm::collection_fixtures;
+namespace cf = realm_legacy::collection_fixtures;
 TEMPLATE_TEST_CASE("client reset types", "[sync][pbs][client reset]", cf::MixedVal, cf::Int, cf::Bool, cf::Float,
                    cf::Double, cf::String, cf::Binary, cf::Date, cf::OID, cf::Decimal, cf::UUID,
                    cf::BoxedOptional<cf::Int>, cf::BoxedOptional<cf::Bool>, cf::BoxedOptional<cf::Float>,
@@ -2012,7 +2012,7 @@ TEMPLATE_TEST_CASE("client reset types", "[sync][pbs][client reset]", cf::MixedV
         for (auto& value : expected) {
             auto ndx = set->find_any(value);
             CAPTURE(value);
-            REQUIRE(ndx != realm::not_found);
+            REQUIRE(ndx != realm_legacy::not_found);
         }
     };
 
@@ -2602,8 +2602,8 @@ TEMPLATE_TEST_CASE("client reset collections of links", "[sync][pbs][client rese
     const auto partition = random_string(100);
     const std::string collection_prop_name = "collection";
     TestType test_type(collection_prop_name, "dest");
-    constexpr bool test_type_is_array = realm::is_any_v<TestType, cf::ListOfObjects, cf::ListOfMixedLinks>;
-    constexpr bool test_type_is_set = realm::is_any_v<TestType, cf::SetOfObjects, cf::SetOfMixedLinks>;
+    constexpr bool test_type_is_array = realm_legacy::is_any_v<TestType, cf::ListOfObjects, cf::ListOfMixedLinks>;
+    constexpr bool test_type_is_set = realm_legacy::is_any_v<TestType, cf::SetOfObjects, cf::SetOfMixedLinks>;
     Schema schema = {
         {"source",
          {{valid_pk_name, PropertyType::Int | PropertyType::Nullable, true},
@@ -2637,10 +2637,10 @@ TEMPLATE_TEST_CASE("client reset collections of links", "[sync][pbs][client rese
         reset_utils::make_fake_local_client_reset(config, config2);
 
     CppContext c;
-    auto create_one_source_object = [&](realm::SharedRealm r, int64_t val, std::vector<ObjLink> links = {}) {
+    auto create_one_source_object = [&](realm_legacy::SharedRealm r, int64_t val, std::vector<ObjLink> links = {}) {
         auto object = Object::create(
             c, r, "source",
-            std::any(realm::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
+            std::any(realm_legacy::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
             CreatePolicy::ForceCreate);
 
         for (auto link : links) {
@@ -2648,14 +2648,14 @@ TEMPLATE_TEST_CASE("client reset collections of links", "[sync][pbs][client rese
         }
     };
 
-    auto create_one_dest_object = [&](realm::SharedRealm r, util::Optional<int64_t> val) -> ObjLink {
+    auto create_one_dest_object = [&](realm_legacy::SharedRealm r, util::Optional<int64_t> val) -> ObjLink {
         std::any v;
         if (val) {
             v = std::any(*val);
         }
         auto obj = Object::create(
             c, r, "dest",
-            std::any(realm::AnyDict{{valid_pk_name, std::move(v)}, {"realm_id", std::string(partition)}}),
+            std::any(realm_legacy::AnyDict{{valid_pk_name, std::move(v)}, {"realm_id", std::string(partition)}}),
             CreatePolicy::ForceCreate);
         return ObjLink{obj.get_obj().get_table()->get_key(), obj.get_obj().get_key()};
     };
@@ -3280,7 +3280,7 @@ TEST_CASE("client reset with embedded object", "[sync][pbs][client reset][embedd
                     set.erase(set.get(ndx));
                 }
                 for (auto oid : set_of_objects) {
-                    if (set.find(oid) == realm::npos) {
+                    if (set.find(oid) == realm_legacy::npos) {
                         set.insert(oid);
                     }
                 }

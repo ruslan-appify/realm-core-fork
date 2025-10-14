@@ -45,7 +45,7 @@ int run_object_store_tests(int argc, const char** argv)
 {
     auto t1 = std::chrono::steady_clock::now();
 
-    realm::test_util::initialize_test_path(1, argv);
+    realm_legacy::test_util::initialize_test_path(1, argv);
 
     Catch::ConfigData config;
 
@@ -54,7 +54,7 @@ int run_object_store_tests(int argc, const char** argv)
         // If the output file already exists, make a copy so these results can be appended to it
         std::map<std::string, std::string> custom_options;
         if (std::filesystem::exists(str)) {
-            std::string results_copy = realm::util::format("%1.bak", str);
+            std::string results_copy = realm_legacy::util::format("%1.bak", str);
             std::filesystem::copy(str, results_copy, std::filesystem::copy_options::overwrite_existing);
             custom_options["json_file"] = results_copy;
             std::cout << "Existing results file copied to " << results_copy << std::endl;
@@ -77,7 +77,7 @@ int run_object_store_tests(int argc, const char** argv)
             c = tolower(c);
         }
         if (str == "1" || str == "on" || str == "yes") {
-            realm::test_util::enable_always_encrypt();
+            realm_legacy::test_util::enable_always_encrypt();
         }
     }
 
@@ -86,8 +86,8 @@ int run_object_store_tests(int argc, const char** argv)
 #endif
 
 #if TEST_SCHEDULER_UV
-    realm::util::Scheduler::set_default_factory([]() {
-        return std::make_shared<realm::util::UvMainLoopScheduler>();
+    realm_legacy::util::Scheduler::set_default_factory([]() {
+        return std::make_shared<realm_legacy::util::UvMainLoopScheduler>();
     });
 #endif
 

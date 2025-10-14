@@ -6,10 +6,10 @@
 #include "test.hpp"
 #include "util/semaphore.hpp"
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::test_util;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::test_util;
+using namespace realm_legacy::util;
 
 // Test independence and thread-safety
 // -----------------------------------

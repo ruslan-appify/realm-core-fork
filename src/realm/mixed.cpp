@@ -25,7 +25,7 @@
 #include <realm/query_value.hpp>
 #include <realm/util/serializer.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace {
 static const int sorting_rank[19] = {
     // Observe! Changing these values breaks the file format for Set<Mixed>
@@ -642,7 +642,7 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
         case type_Int: {
             int64_t i = get_int();
             const char* c = reinterpret_cast<const char*>(&i);
-            realm::safe_copy_n(c, sizeof(int64_t), buffer.data());
+            realm_legacy::safe_copy_n(c, sizeof(int64_t), buffer.data());
             return StringData{buffer.data(), sizeof(int64_t)};
         }
         case type_Bool: {
@@ -656,7 +656,7 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
                 return Mixed(i).get_index_data(buffer);
             }
             const char* src = reinterpret_cast<const char*>(&v2);
-            realm::safe_copy_n(src, sizeof(float), buffer.data());
+            realm_legacy::safe_copy_n(src, sizeof(float), buffer.data());
             return StringData{buffer.data(), sizeof(float)};
         }
         case type_Double: {
@@ -666,7 +666,7 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
                 return Mixed(i).get_index_data(buffer);
             }
             const char* src = reinterpret_cast<const char*>(&v2);
-            realm::safe_copy_n(src, sizeof(double), buffer.data());
+            realm_legacy::safe_copy_n(src, sizeof(double), buffer.data());
             return StringData{buffer.data(), sizeof(double)};
         }
         case type_String:
@@ -682,8 +682,8 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
             constexpr size_t index_size = sizeof(s) + sizeof(ns);
             const char* s_buf = reinterpret_cast<const char*>(&s);
             const char* ns_buf = reinterpret_cast<const char*>(&ns);
-            realm::safe_copy_n(s_buf, sizeof(s), buffer.data());
-            realm::safe_copy_n(ns_buf, sizeof(ns), buffer.data() + sizeof(s));
+            realm_legacy::safe_copy_n(s_buf, sizeof(s), buffer.data());
+            realm_legacy::safe_copy_n(ns_buf, sizeof(ns), buffer.data() + sizeof(s));
             return StringData{buffer.data(), index_size};
         }
         case type_ObjectId: {
@@ -698,7 +698,7 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
                 return Mixed(i).get_index_data(buffer);
             }
             const char* src = reinterpret_cast<const char*>(&v2);
-            realm::safe_copy_n(src, sizeof(v2), buffer.data());
+            realm_legacy::safe_copy_n(src, sizeof(v2), buffer.data());
             return StringData{buffer.data(), sizeof(v2)};
         }
         case type_UUID: {
@@ -712,9 +712,9 @@ StringData Mixed::get_index_data(std::array<char, 16>& buffer) const noexcept
             uint32_t k1 = link.get_table_key().value;
             int64_t k2 = link.get_obj_key().value;
             const char* src = reinterpret_cast<const char*>(&k1);
-            realm::safe_copy_n(src, sizeof(k1), buffer.data());
+            realm_legacy::safe_copy_n(src, sizeof(k1), buffer.data());
             src = reinterpret_cast<const char*>(&k2);
-            realm::safe_copy_n(src, sizeof(k2), buffer.data() + sizeof(k1));
+            realm_legacy::safe_copy_n(src, sizeof(k2), buffer.data() + sizeof(k1));
             return StringData{buffer.data(), sizeof(k1) + sizeof(k2)};
         }
         case type_Mixed:
@@ -799,4 +799,4 @@ std::ostream& operator<<(std::ostream& out, const Mixed& m)
 // LCOV_EXCL_STOP
 
 
-} // namespace realm
+} // namespace realm_legacy

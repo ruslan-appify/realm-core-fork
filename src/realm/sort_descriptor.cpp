@@ -24,7 +24,7 @@
 #include <realm/list.hpp>
 #include <realm/dictionary.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 ConstTableRef ExtendedColumnKey::get_target_table(const Table* table) const
 {
@@ -585,9 +585,9 @@ bool DescriptorOrdering::will_apply_filter() const
     });
 }
 
-realm::util::Optional<size_t> DescriptorOrdering::get_min_limit() const
+realm_legacy::util::Optional<size_t> DescriptorOrdering::get_min_limit() const
 {
-    realm::util::Optional<size_t> min_limit;
+    realm_legacy::util::Optional<size_t> min_limit;
     for (auto it = m_descriptors.begin(); it != m_descriptors.end(); it++) {
         if ((*it)->get_type() == DescriptorType::Limit) {
             const LimitDescriptor* limit = static_cast<const LimitDescriptor*>(it->get());

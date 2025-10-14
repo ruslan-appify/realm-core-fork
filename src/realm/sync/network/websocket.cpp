@@ -6,8 +6,8 @@
 #include <realm/util/base64.hpp>
 #include <realm/util/sha_crypto.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 using HttpError = websocket::HttpError;
 using WebSocketError = websocket::WebSocketError;
 
@@ -1123,7 +1123,7 @@ class HttpErrorCategory : public std::error_category {
 public:
     const char* name() const noexcept override final
     {
-        return "realm::sync::websocket::HttpError";
+        return "realm_legacy::sync::websocket::HttpError";
     }
     std::string message(int error_code) const override final
     {
@@ -1137,7 +1137,7 @@ public:
 
 } // unnamed namespace
 
-namespace realm::sync::websocket {
+namespace realm_legacy::sync::websocket {
 
 std::ostream& operator<<(std::ostream& os, WebSocketError code)
 {
@@ -1210,7 +1210,7 @@ std::ostream& operator<<(std::ostream& os, WebSocketError code)
     return os;
 }
 
-} // namespace realm::sync::websocket
+} // namespace realm_legacy::sync::websocket
 
 bool websocket::Config::websocket_text_message_received(const char*, size_t)
 {

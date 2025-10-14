@@ -23,7 +23,7 @@
 #include <vector>
 #include <chrono>
 
-namespace realm {
+namespace realm_legacy {
 
 /*
  * IMPORTANT: The following two arrays must be kept updated
@@ -201,4 +201,4 @@ void BackupHandler::backup_realm_if_needed(int current_file_format_version, int 
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

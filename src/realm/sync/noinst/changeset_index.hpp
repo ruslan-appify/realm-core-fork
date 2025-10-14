@@ -8,7 +8,7 @@
 
 #include <realm/sync/changeset.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 /// The ChangesetIndex is responsible for keeping track of exactly which
@@ -21,9 +21,9 @@ namespace _impl {
 /// instructions pertaining to both objects will be merged with any instruction
 /// that touches either.
 struct ChangesetIndex {
-    using Changeset = realm::sync::Changeset;
-    using GlobalID = realm::sync::GlobalID;
-    using PrimaryKey = realm::sync::PrimaryKey;
+    using Changeset = realm_legacy::sync::Changeset;
+    using GlobalID = realm_legacy::sync::GlobalID;
+    using PrimaryKey = realm_legacy::sync::PrimaryKey;
 
     struct CompareChangesetPointersByVersion {
         bool operator()(const Changeset* a, const Changeset* b) const noexcept
@@ -289,13 +289,13 @@ private:
 
 inline bool is_schema_change(const sync::Instruction& instr) noexcept
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     return instr.get_if<Instruction::ObjectInstruction>() == nullptr;
 }
 
 inline bool is_container_instruction(const sync::Instruction& instr) noexcept
 {
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
     auto& v = instr.m_instr;
 
     return mpark::holds_alternative<Instruction::ArrayInsert>(v) ||
@@ -304,6 +304,6 @@ inline bool is_container_instruction(const sync::Instruction& instr) noexcept
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_CHANGESET_INDEX_HPP

@@ -36,7 +36,7 @@ TestOnly& access_test_only()
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 SetTestOnly::SetTestOnly(const char* test_name)

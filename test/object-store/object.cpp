@@ -40,7 +40,7 @@
 
 #include <cstdint>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::any_cast;
 
 namespace {
@@ -57,7 +57,7 @@ struct TestContext : CppContext {
     std::map<std::string, AnyDict> defaults;
 
     using CppContext::CppContext;
-    TestContext(TestContext& parent, realm::Obj& obj, realm::Property const& prop)
+    TestContext(TestContext& parent, realm_legacy::Obj& obj, realm_legacy::Property const& prop)
         : CppContext(parent, obj, prop)
         , defaults(parent.defaults)
     {
@@ -1194,7 +1194,7 @@ TEST_CASE("object") {
 
     SECTION("create does not complain about missing values for nullable fields") {
         r->begin_transaction();
-        realm::Object obj;
+        realm_legacy::Object obj;
         REQUIRE_NOTHROW(obj = Object::create(d, r, *r->schema().find("all optional types"), std::any(AnyDict{})));
         r->commit_transaction();
 
@@ -1589,7 +1589,7 @@ TEST_CASE("object") {
                 {"data array", AnyVec{std::any()}},
                 {"date array", AnyVec{Timestamp()}},
                 {"object id array", AnyVec{std::any()}},
-                {"decimal array", AnyVec{Decimal128(realm::null())}},
+                {"decimal array", AnyVec{Decimal128(realm_legacy::null())}},
                 {"uuid array", AnyVec{std::any()}},
             };
             Object::create(d, r, *r->schema().find("all optional types"), std::any(null_values), policy);
@@ -1613,7 +1613,7 @@ TEST_CASE("object") {
             REQUIRE(d.get<List>(obj, "data array").get<BinaryData>(0) == BinaryData());
             REQUIRE(d.get<List>(obj, "date array").get<Timestamp>(0) == Timestamp());
             REQUIRE(d.get<List>(obj, "object id array").get<util::Optional<ObjectId>>(0) == util::none);
-            REQUIRE(d.get<List>(obj, "decimal array").get<Decimal>(0) == Decimal128(realm::null()));
+            REQUIRE(d.get<List>(obj, "decimal array").get<Decimal>(0) == Decimal128(realm_legacy::null()));
             REQUIRE(d.get<List>(obj, "uuid array").get<util::Optional<UUID>>(0) == util::none);
 
             // Set all lists to null

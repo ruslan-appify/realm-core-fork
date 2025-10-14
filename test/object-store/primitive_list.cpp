@@ -42,9 +42,9 @@
 
 #include <numeric>
 
-using namespace realm;
-using namespace realm::util;
-namespace cf = realm::collection_fixtures;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+namespace cf = realm_legacy::collection_fixtures;
 
 struct StringifyingContext {
     template <typename T>

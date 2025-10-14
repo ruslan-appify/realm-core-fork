@@ -26,7 +26,7 @@
 #include <realm/table.hpp>
 #include <realm/array_basic.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 using test_util::unit_test::TestContext;
 
 

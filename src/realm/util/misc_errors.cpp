@@ -20,7 +20,7 @@
 #include <realm/util/assert.hpp>
 #include <realm/util/misc_errors.hpp>
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 
 namespace {
@@ -48,7 +48,7 @@ std::string misc_category::message(int value) const
 } // anonymous namespace
 
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 namespace error {
 
@@ -65,4 +65,4 @@ const std::error_category& misc_error_category()
 
 } // namespace error
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

@@ -52,8 +52,8 @@
 #include <list>
 #include <mutex>
 
-using namespace realm;
-using namespace realm::app;
+using namespace realm_legacy;
+using namespace realm_legacy::app;
 using util::any_cast;
 using util::Optional;
 
@@ -90,7 +90,7 @@ AppError failed_log_in(std::shared_ptr<App> app, AppCredentials credentials = Ap
 
 } // namespace
 
-namespace realm {
+namespace realm_legacy {
 class TestHelper {
 public:
     static DBRef get_db(Realm& realm)
@@ -812,7 +812,7 @@ TEST_CASE("app: UsernamePasswordProviderClient integration", "[sync][app][user][
 
     SECTION("cannot login with wrong password") {
         app->log_in_with_credentials(AppCredentials::username_password(email, "boogeyman"),
-                                     [&](std::shared_ptr<realm::SyncUser> user, Optional<AppError> error) {
+                                     [&](std::shared_ptr<realm_legacy::SyncUser> user, Optional<AppError> error) {
                                          CHECK(!user);
                                          REQUIRE(error);
                                          REQUIRE(error->code() == ErrorCodes::InvalidPassword);
@@ -2526,7 +2526,7 @@ TEST_CASE("app: make distributable client file", "[sync][pbs][app][baas]") {
         realm->begin_transaction();
         CppContext c;
         Object::create(c, realm, "Person",
-                       std::any(realm::AnyDict{{"_id", std::any(ObjectId::gen())},
+                       std::any(realm_legacy::AnyDict{{"_id", std::any(ObjectId::gen())},
                                                {"age", INT64_C(64)},
                                                {"firstName", std::string("Paul")},
                                                {"lastName", std::string("McCartney")}}));
@@ -2539,7 +2539,7 @@ TEST_CASE("app: make distributable client file", "[sync][pbs][app][baas]") {
         // Write some additional data
         realm->begin_transaction();
         Object::create(c, realm, "Dog",
-                       std::any(realm::AnyDict{{"_id", std::any(ObjectId::gen())},
+                       std::any(realm_legacy::AnyDict{{"_id", std::any(ObjectId::gen())},
                                                {"breed", std::string("stabyhoun")},
                                                {"name", std::string("albert")},
                                                {"realm_id", std::string("foo")}}));
@@ -2563,7 +2563,7 @@ TEST_CASE("app: make distributable client file", "[sync][pbs][app][baas]") {
         realm->begin_transaction();
         CppContext c;
         Object::create(c, realm, "Dog",
-                       std::any(realm::AnyDict{{"_id", std::any(ObjectId::gen())},
+                       std::any(realm_legacy::AnyDict{{"_id", std::any(ObjectId::gen())},
                                                {"breed", std::string("bulldog")},
                                                {"name", std::string("fido")},
                                                {"realm_id", std::string("foo")}}));
@@ -2782,7 +2782,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
     };
 
     {
-        std::unique_ptr<realm::AppSession> app_session;
+        std::unique_ptr<realm_legacy::AppSession> app_session;
         auto redir_transport = std::make_shared<HookedTransport>();
         AutoVerifiedEmailCredentials creds;
 
@@ -2791,7 +2791,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
 
         SyncClientConfig sc_config;
         sc_config.base_file_path = util::make_temp_dir();
-        sc_config.metadata_mode = realm::SyncManager::MetadataMode::NoEncryption;
+        sc_config.metadata_mode = realm_legacy::SyncManager::MetadataMode::NoEncryption;
 
         // initialize app and sync client
         auto redir_app = app::App::get_app(app::App::CacheMode::Disabled, app_config, sc_config);
@@ -2919,8 +2919,8 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
             };
 
             redir_app->log_in_with_credentials(
-                realm::app::AppCredentials::username_password(creds.email, creds.password),
-                [&](std::shared_ptr<realm::SyncUser> user, util::Optional<app::AppError> error) {
+                realm_legacy::app::AppCredentials::username_password(creds.email, creds.password),
+                [&](std::shared_ptr<realm_legacy::SyncUser> user, util::Optional<app::AppError> error) {
                     REQUIRE(!user);
                     REQUIRE(error);
                     REQUIRE(error->is_client_error());
@@ -2937,8 +2937,8 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
             };
 
             redir_app->log_in_with_credentials(
-                realm::app::AppCredentials::username_password(creds.email, creds.password),
-                [&](std::shared_ptr<realm::SyncUser> user, util::Optional<app::AppError> error) {
+                realm_legacy::app::AppCredentials::username_password(creds.email, creds.password),
+                [&](std::shared_ptr<realm_legacy::SyncUser> user, util::Optional<app::AppError> error) {
                     REQUIRE(!user);
                     REQUIRE(error);
                     REQUIRE(error->is_service_error());
@@ -2950,7 +2950,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
         }
     }
     SECTION("Test app redirect with no metadata") {
-        std::unique_ptr<realm::AppSession> app_session;
+        std::unique_ptr<realm_legacy::AppSession> app_session;
         auto redir_transport = std::make_shared<HookedTransport>();
         AutoVerifiedEmailCredentials creds, creds2;
 
@@ -2959,7 +2959,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
 
         SyncClientConfig sc_config;
         sc_config.base_file_path = util::make_temp_dir();
-        sc_config.metadata_mode = realm::SyncManager::MetadataMode::NoMetadata;
+        sc_config.metadata_mode = realm_legacy::SyncManager::MetadataMode::NoMetadata;
 
         // initialize app and sync client
         auto redir_app = app::App::get_app(app::App::CacheMode::Disabled, app_config, sc_config);
@@ -3054,7 +3054,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
 
         auto server_app_config = minimal_app_config("websocket_redirect", schema);
         TestAppSession test_session(create_app(server_app_config), redir_transport, DeleteApp{true},
-                                    realm::ReconnectMode::normal, redir_provider);
+                                    realm_legacy::ReconnectMode::normal, redir_provider);
         auto partition = random_string(100);
         auto user1 = test_session.app()->current_user();
         SyncTestFile r_config(user1, partition, schema);
@@ -3302,7 +3302,7 @@ TEST_CASE("app: sync integration", "[sync][pbs][app][baas]") {
             create_one_dog(r);
 
             REQUIRE(get_dogs(r).size() == 1);
-            sync::AccessToken::ParseError error_state = realm::sync::AccessToken::ParseError::none;
+            sync::AccessToken::ParseError error_state = realm_legacy::sync::AccessToken::ParseError::none;
             sync::AccessToken::parse(user->access_token(), token, error_state, nullptr);
             REQUIRE(error_state == sync::AccessToken::ParseError::none);
             REQUIRE(token.timestamp);
@@ -3919,10 +3919,10 @@ TEST_CASE("app: base_url", "[sync][app][base_url]") {
         }
     };
 
-    std::unique_ptr<realm::AppSession> app_session;
+    std::unique_ptr<realm_legacy::AppSession> app_session;
     auto redir_transport = std::make_shared<BaseUrlTransport>();
     AutoVerifiedEmailCredentials creds;
-    util::Logger::set_default_level_threshold(realm::util::Logger::Level::TEST_LOGGING_LEVEL);
+    util::Logger::set_default_level_threshold(realm_legacy::util::Logger::Level::TEST_LOGGING_LEVEL);
     auto logger = util::Logger::get_default_logger();
 
     App::Config app_config = {"fake-app-id"};
@@ -3930,15 +3930,15 @@ TEST_CASE("app: base_url", "[sync][app][base_url]") {
 
     SyncClientConfig sc_config;
     sc_config.base_file_path = util::make_temp_dir();
-    sc_config.metadata_mode = realm::SyncManager::MetadataMode::NoEncryption;
+    sc_config.metadata_mode = realm_legacy::SyncManager::MetadataMode::NoEncryption;
     sc_config.logger_factory = [](util::Logger::Level) {
         return util::Logger::get_default_logger();
     };
 
     auto do_login = [&](std::shared_ptr<app::App> app) {
         CHECK(app);
-        app->log_in_with_credentials(realm::app::AppCredentials::username_password(creds.email, creds.password),
-                                     [](std::shared_ptr<realm::SyncUser> user, util::Optional<app::AppError> error) {
+        app->log_in_with_credentials(realm_legacy::app::AppCredentials::username_password(creds.email, creds.password),
+                                     [](std::shared_ptr<realm_legacy::SyncUser> user, util::Optional<app::AppError> error) {
                                          REQUIRE(user);
                                          REQUIRE(!error);
                                      });
@@ -4337,7 +4337,7 @@ TEST_CASE("app: jwt login and metadata tests", "[sync][app][user][metadata][func
     }
 }
 
-namespace cf = realm::collection_fixtures;
+namespace cf = realm_legacy::collection_fixtures;
 TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][collections][baas]", cf::ListOfObjects,
                    cf::ListOfMixedLinks, cf::SetOfObjects, cf::SetOfMixedLinks, cf::DictionaryOfObjects,
                    cf::DictionaryOfMixedLinks)
@@ -4357,7 +4357,7 @@ TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][co
     auto server_app_config = minimal_app_config("collections_of_links", schema);
     TestAppSession test_session(create_app(server_app_config));
 
-    auto wait_for_num_objects_to_equal = [](realm::SharedRealm r, const std::string& table_name, size_t count) {
+    auto wait_for_num_objects_to_equal = [](realm_legacy::SharedRealm r, const std::string& table_name, size_t count) {
         timed_sleeping_wait_for([&]() -> bool {
             r->refresh();
             TableRef dest = r->read_group().get_table(table_name);
@@ -4365,7 +4365,7 @@ TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][co
             return cur_count == count;
         });
     };
-    auto wait_for_num_outgoing_links_to_equal = [&](realm::SharedRealm r, Obj obj, size_t count) {
+    auto wait_for_num_outgoing_links_to_equal = [&](realm_legacy::SharedRealm r, Obj obj, size_t count) {
         timed_sleeping_wait_for([&]() -> bool {
             r->refresh();
             return test_type.size_of_collection(obj) == count;
@@ -4373,11 +4373,11 @@ TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][co
     };
 
     CppContext c;
-    auto create_one_source_object = [&](realm::SharedRealm r, int64_t val, std::vector<ObjLink> links = {}) {
+    auto create_one_source_object = [&](realm_legacy::SharedRealm r, int64_t val, std::vector<ObjLink> links = {}) {
         r->begin_transaction();
         auto object = Object::create(
             c, r, "source",
-            std::any(realm::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
+            std::any(realm_legacy::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
             CreatePolicy::ForceCreate);
 
         for (auto link : links) {
@@ -4387,11 +4387,11 @@ TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][co
         r->commit_transaction();
     };
 
-    auto create_one_dest_object = [&](realm::SharedRealm r, int64_t val) -> ObjLink {
+    auto create_one_dest_object = [&](realm_legacy::SharedRealm r, int64_t val) -> ObjLink {
         r->begin_transaction();
         auto obj = Object::create(
             c, r, "dest",
-            std::any(realm::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
+            std::any(realm_legacy::AnyDict{{valid_pk_name, std::any(val)}, {"realm_id", std::string(partition)}}),
             CreatePolicy::ForceCreate);
         r->commit_transaction();
         return ObjLink{obj.get_obj().get_table()->get_key(), obj.get_obj().get_key()};
@@ -4410,13 +4410,13 @@ TEMPLATE_TEST_CASE("app: collections of links integration", "[sync][pbs][app][co
     SECTION("integration testing") {
         auto app = test_session.app();
         SyncTestFile config1(app, partition, schema); // uses the current user created above
-        auto r1 = realm::Realm::get_shared_realm(config1);
-        Results r1_source_objs = realm::Results(r1, r1->read_group().get_table("class_source"));
+        auto r1 = realm_legacy::Realm::get_shared_realm(config1);
+        Results r1_source_objs = realm_legacy::Results(r1, r1->read_group().get_table("class_source"));
 
         create_user_and_log_in(app);
         SyncTestFile config2(app, partition, schema); // uses the user created above
-        auto r2 = realm::Realm::get_shared_realm(config2);
-        Results r2_source_objs = realm::Results(r2, r2->read_group().get_table("class_source"));
+        auto r2 = realm_legacy::Realm::get_shared_realm(config2);
+        Results r2_source_objs = realm_legacy::Results(r2, r2->read_group().get_table("class_source"));
 
         constexpr int64_t source_pk = 0;
         constexpr int64_t dest_pk_1 = 1;
@@ -4507,7 +4507,7 @@ TEMPLATE_TEST_CASE("app: partition types", "[sync][pbs][app][partition][baas]", 
     TestAppSession test_session(create_app(server_app_config));
     auto app = test_session.app();
 
-    auto wait_for_num_objects_to_equal = [](realm::SharedRealm r, const std::string& table_name, size_t count) {
+    auto wait_for_num_objects_to_equal = [](realm_legacy::SharedRealm r, const std::string& table_name, size_t count) {
         timed_sleeping_wait_for([&]() -> bool {
             r->refresh();
             TableRef dest = r->read_group().get_table(table_name);
@@ -4517,11 +4517,11 @@ TEMPLATE_TEST_CASE("app: partition types", "[sync][pbs][app][partition][baas]", 
     };
     using T = typename TestType::Type;
     CppContext c;
-    auto create_object = [&](realm::SharedRealm r, int64_t val, std::any partition) {
+    auto create_object = [&](realm_legacy::SharedRealm r, int64_t val, std::any partition) {
         r->begin_transaction();
         auto object = Object::create(
             c, r, Group::table_name_to_class_name(table_name),
-            std::any(realm::AnyDict{{valid_pk_name, std::any(val)}, {partition_key_col_name, partition}}),
+            std::any(realm_legacy::AnyDict{{valid_pk_name, std::any(val)}, {partition_key_col_name, partition}}),
             CreatePolicy::ForceCreate);
         r->commit_transaction();
     };
@@ -4548,12 +4548,12 @@ TEMPLATE_TEST_CASE("app: partition types", "[sync][pbs][app][partition][baas]", 
         REQUIRE(user1 != user2);
         for (T partition_value : values) {
             SyncTestFile config1(user1, get_bson(partition_value), schema); // uses the current user created above
-            auto r1 = realm::Realm::get_shared_realm(config1);
-            Results r1_source_objs = realm::Results(r1, r1->read_group().get_table(table_name));
+            auto r1 = realm_legacy::Realm::get_shared_realm(config1);
+            Results r1_source_objs = realm_legacy::Results(r1, r1->read_group().get_table(table_name));
 
             SyncTestFile config2(user2, get_bson(partition_value), schema); // uses the user created above
-            auto r2 = realm::Realm::get_shared_realm(config2);
-            Results r2_source_objs = realm::Results(r2, r2->read_group().get_table(table_name));
+            auto r2 = realm_legacy::Realm::get_shared_realm(config2);
+            Results r2_source_objs = realm_legacy::Results(r2, r2->read_group().get_table(table_name));
 
             const int64_t pk_value = random_int();
             {

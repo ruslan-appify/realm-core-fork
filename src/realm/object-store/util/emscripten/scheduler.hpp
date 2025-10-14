@@ -23,8 +23,8 @@
 #error "This scheduler implementation is not compatible with multi-threaded WebAssembly."
 #endif
 
-namespace realm::util {
-class EmscriptenScheduler : public realm::util::Scheduler {
+namespace realm_legacy::util {
+class EmscriptenScheduler : public realm_legacy::util::Scheduler {
 public:
     EmscriptenScheduler() = default;
 
@@ -67,4 +67,4 @@ private:
         scheduler->m_queue.invoke_all();
     }
 };
-} // namespace realm::util
+} // namespace realm_legacy::util

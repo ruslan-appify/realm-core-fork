@@ -23,12 +23,12 @@
 #include <realm/history.hpp>
 #include <realm/replication.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 ExternalCommitHelper::ExternalCommitHelper(RealmCoordinator& parent, const RealmConfig& config)
     : m_parent(parent)
-    , m_sg(DB::create(realm::make_in_realm_history(), config.path,
+    , m_sg(DB::create(realm_legacy::make_in_realm_history(), config.path,
                       DBOptions(parent.is_in_memory() ? DBOptions::Durability::MemOnly : DBOptions::Durability::Full,
                                 parent.get_encryption_key().data())))
     , m_thread(std::async(std::launch::async, [=] {

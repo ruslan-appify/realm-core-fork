@@ -7,7 +7,7 @@
 #include <realm/util/time.hpp>
 #include <realm/util/backtrace.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 std::tm localtime(std::time_t time)
@@ -43,4 +43,4 @@ std::tm gmtime(std::time_t time)
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

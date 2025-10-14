@@ -1,7 +1,7 @@
 #ifndef REALM_UTIL_RESOURCE_LIMITS_HPP
 #define REALM_UTIL_RESOURCE_LIMITS_HPP
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 
@@ -59,6 +59,6 @@ void set_soft_rlimit(Resource, long value);
 
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_RESOURCE_LIMITS_HPP

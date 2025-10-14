@@ -24,9 +24,9 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 TEST(TypedLinks_Single)
 {

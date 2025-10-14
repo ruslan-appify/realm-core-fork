@@ -6,9 +6,9 @@
 #include <sstream>
 #endif // REALM_DEBUG
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::util;
 
 InternString Changeset::intern_string(StringData str)
 {
@@ -179,7 +179,7 @@ std::ostream& Changeset::print_path(std::ostream& os, InternString table, const 
     return os;
 }
 
-std::ostream& realm::sync::operator<<(std::ostream& os, const Changeset& changeset)
+std::ostream& realm_legacy::sync::operator<<(std::ostream& os, const Changeset& changeset)
 {
 #if REALM_DEBUG // LCOV_EXCL_START
     changeset.print(os);

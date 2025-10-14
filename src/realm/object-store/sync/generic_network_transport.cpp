@@ -20,7 +20,7 @@
 
 #include <ostream>
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 namespace {
 std::string http_message(const std::string& prefix, int code)
@@ -79,4 +79,4 @@ std::ostream& operator<<(std::ostream& os, AppError error)
     return os << error.server_error << ": " << error.what();
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app

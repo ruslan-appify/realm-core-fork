@@ -1,8 +1,8 @@
 #include <realm/object-store/c_api/types.hpp>
 #include <realm/object-store/c_api/util.hpp>
 
-using namespace realm;
-using namespace realm::c_api;
+using namespace realm_legacy;
+using namespace realm_legacy::c_api;
 
 RLM_API realm_config_t* realm_config_new()
 {

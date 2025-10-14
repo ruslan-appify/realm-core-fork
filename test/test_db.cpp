@@ -19,7 +19,7 @@
 #include <realm/db.hpp>
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST(DB_getCoreFiles_adding_path)
 {

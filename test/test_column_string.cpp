@@ -28,8 +28,8 @@
 #include "test.hpp"
 #include "test_string_types.hpp"
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 
 // Test independence and thread-safety
 // -----------------------------------
@@ -482,7 +482,7 @@ TEST(ColumnString_Null)
 
         a.add("foo");
         a.add("");
-        a.add(realm::null());
+        a.add(realm_legacy::null());
 
         CHECK_EQUAL(a.is_null(0), false);
         CHECK_EQUAL(a.is_null(1), false);
@@ -502,7 +502,7 @@ TEST(ColumnString_Null)
         TEST_TYPE test_resources;
         typename TEST_TYPE::ColumnTestType& a = test_resources.get_column();
 
-        a.add(realm::null());
+        a.add(realm_legacy::null());
         a.add("");
         a.add("foo");
 
@@ -512,9 +512,9 @@ TEST(ColumnString_Null)
         CHECK(a.get(2) == "foo");
 
         // Test insert
-        a.insert(0, realm::null());
-        a.insert(2, realm::null());
-        a.insert(4, realm::null());
+        a.insert(0, realm_legacy::null());
+        a.insert(2, realm_legacy::null());
+        a.insert(4, realm_legacy::null());
 
         CHECK_EQUAL(a.is_null(0), true);
         CHECK_EQUAL(a.is_null(1), true);
@@ -529,7 +529,7 @@ TEST(ColumnString_Null)
         typename TEST_TYPE::ColumnTestType& a = test_resources.get_column();
 
         a.add("");
-        a.add(realm::null());
+        a.add(realm_legacy::null());
         a.add("foo");
 
         CHECK_EQUAL(a.is_null(0), false);
@@ -567,7 +567,7 @@ TEST(ColumnString_Null)
                 v.erase(v.begin() + del);
             }
             else {
-                // Generate string with good probability of being empty or realm::null()
+                // Generate string with good probability of being empty or realm_legacy::null()
                 static const char str[] =
                     "This string must be longer than 64 bytes in order to test the BinaryBlob type of strings";
                 size_t len;
@@ -581,7 +581,7 @@ TEST(ColumnString_Null)
                 std::string stdstr;
 
                 if (random.draw_int<int>() > 100) {
-                    sd = realm::null();
+                    sd = realm_legacy::null();
                     stdstr = "null";
                 }
                 else {

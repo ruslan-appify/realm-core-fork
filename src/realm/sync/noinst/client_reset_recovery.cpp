@@ -36,9 +36,9 @@
 #include <algorithm>
 #include <vector>
 
-using namespace realm;
-using namespace realm::_impl;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
+using namespace realm_legacy::sync;
 
 namespace {
 
@@ -71,7 +71,7 @@ private:
 struct InternDictKey {
     bool is_null() const
     {
-        return m_pos == realm::npos && m_size == realm::npos;
+        return m_pos == realm_legacy::npos && m_size == realm_legacy::npos;
     }
     constexpr bool operator==(const InternDictKey& other) const noexcept
     {
@@ -94,8 +94,8 @@ struct InternDictKey {
 
 private:
     friend struct InterningBuffer;
-    size_t m_pos = realm::npos;
-    size_t m_size = realm::npos;
+    size_t m_pos = realm_legacy::npos;
+    size_t m_size = realm_legacy::npos;
 };
 
 struct InterningBuffer {
@@ -536,7 +536,7 @@ REALM_NORETURN void RecoverLocalChangesetsHandler::handle_error(const std::strin
     std::string full_message =
         util::format("Unable to automatically recover local changes during client reset: '%1'", message);
     m_logger.error(full_message.c_str());
-    throw realm::_impl::client_reset::ClientResetFailed(full_message);
+    throw realm_legacy::_impl::client_reset::ClientResetFailed(full_message);
 }
 
 util::AppendBuffer<char> RecoverLocalChangesetsHandler::process_changeset(const ChunkedBinaryData& changeset)
@@ -588,7 +588,7 @@ void RecoverLocalChangesetsHandler::copy_lists_with_unrecoverable_changes()
     // final state which would be [B].
     // IDEA: if a unique id were associated with each list element, we could recover lists correctly because
     // we would know where list elements ended up or if they were deleted by the server.
-    using namespace realm::converters;
+    using namespace realm_legacy::converters;
     EmbeddedObjectConverter embedded_object_tracker;
     for (auto& [path, tracker] : m_lists) {
         if (!tracker.requires_manual_copy())
@@ -646,7 +646,7 @@ bool RecoverLocalChangesetsHandler::resolve_path(ListPath& path, Obj remote_obj,
                 REALM_ASSERT(it->type == ListPath::Element::Type::ListIndex);
                 REALM_ASSERT(it != path.end());
                 size_t stable_index_id = it->index;
-                REALM_ASSERT(stable_index_id != realm::npos);
+                REALM_ASSERT(stable_index_id != realm_legacy::npos);
                 // This code path could be implemented, but because it is currently not possible to
                 // excercise in tests, it is marked unreachable. The assumption here is that only the
                 // first embedded object list would ever need to be copied over. If the first embedded

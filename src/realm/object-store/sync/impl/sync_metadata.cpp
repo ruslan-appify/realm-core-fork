@@ -35,7 +35,7 @@
 #include <realm/dictionary.hpp>
 #include <realm/table.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 static const char* const c_sync_userMetadata = "UserMetadata";
@@ -64,9 +64,9 @@ static const char* const c_sync_new_name = "new_name";
 static const char* const c_sync_action = "action";
 static const char* const c_sync_partition = "url";
 
-realm::Schema make_schema()
+realm_legacy::Schema make_schema()
 {
-    using namespace realm;
+    using namespace realm_legacy;
     return Schema{
         {c_sync_identityMetadata,
          ObjectSchema::ObjectType::Embedded,

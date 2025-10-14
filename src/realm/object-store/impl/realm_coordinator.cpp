@@ -50,8 +50,8 @@
 #include <algorithm>
 #include <unordered_map>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 static auto& s_coordinator_mutex = *new std::mutex;
 static auto& s_coordinators_per_path = *new std::unordered_map<std::string, std::weak_ptr<RealmCoordinator>>;
@@ -499,7 +499,7 @@ bool RealmCoordinator::open_db()
             m_db = DB::create(m_config.path, true, options);
         }
     }
-    catch (realm::FileFormatUpgradeRequired const&) {
+    catch (realm_legacy::FileFormatUpgradeRequired const&) {
         if (!schema_mode_reset_file) {
             throw;
         }

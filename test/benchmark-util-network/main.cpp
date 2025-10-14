@@ -10,9 +10,9 @@
 #include "../util/random.hpp"
 #include "../util/benchmark_results.hpp"
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::test_util;
 
 
 namespace {

@@ -34,7 +34,7 @@
 
 ***********************************************************************************/
 
-using namespace realm;
+using namespace realm_legacy;
 
 namespace {
 

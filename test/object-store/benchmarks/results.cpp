@@ -31,7 +31,7 @@
 #include <realm/object-store/sectioned_results.hpp>
 #include <realm/object-store/impl/realm_coordinator.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("Benchmark results", "[benchmark][results]") {
     InMemoryTestFile config;

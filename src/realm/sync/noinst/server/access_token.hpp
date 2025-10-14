@@ -9,7 +9,7 @@
 #include <realm/string_data.hpp>
 #include <realm/binary_data.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 using UserIdent = std::string;
@@ -84,6 +84,6 @@ inline bool AccessToken::expired(std::chrono::system_clock::time_point now) cons
 }
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_SYNC_ACCESS_TOKEN_HPP

@@ -31,7 +31,7 @@
 #include <realm/impl/destroy_guard.hpp>
 #include <realm/column_integer.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 
 namespace {
@@ -65,7 +65,7 @@ bool ArrayStringShort::is_null(size_t ndx) const
 void ArrayStringShort::set_null(size_t ndx)
 {
     REALM_ASSERT_3(ndx, <, m_size);
-    StringData sd = realm::null();
+    StringData sd = realm_legacy::null();
     set(ndx, sd);
 }
 
@@ -134,7 +134,7 @@ void ArrayStringShort::set(size_t ndx, StringData value)
     // Set the value
     char* begin = m_data + (ndx * m_width);
     char* end = begin + (m_width - 1);
-    begin = realm::safe_copy_n(value.data(), value.size(), begin);
+    begin = realm_legacy::safe_copy_n(value.data(), value.size(), begin);
     std::fill(begin, end, 0); // Pad with zero bytes
     static_assert(max_width <= max_width, "Padding size must fit in 7-bits");
 
@@ -182,7 +182,7 @@ void ArrayStringShort::erase(size_t ndx)
         char* new_begin = m_data + ndx * m_width;
         char* old_begin = new_begin + m_width;
         char* old_end = m_data + m_size * m_width;
-        realm::safe_copy_n(old_begin, old_end - old_begin, new_begin);
+        realm_legacy::safe_copy_n(old_begin, old_end - old_begin, new_begin);
     }
 
     --m_size;

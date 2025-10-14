@@ -20,10 +20,10 @@
 #include <realm/util/scope_exit.hpp>
 #include <emscripten/fetch.h>
 
-using namespace realm;
-using namespace realm::app;
+using namespace realm_legacy;
+using namespace realm_legacy::app;
 
-namespace realm::_impl {
+namespace realm_legacy::_impl {
 struct FetchState {
     std::string request_body;
     util::UniqueFunction<void(const Response&)> completion_block;
@@ -127,4 +127,4 @@ void EmscriptenNetworkTransport::send_request_to_server(
     attr.userData = state.release();
     emscripten_fetch(&attr, request.url.c_str());
 }
-} // namespace realm::_impl
+} // namespace realm_legacy::_impl

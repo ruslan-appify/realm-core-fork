@@ -1,6 +1,6 @@
 #include <realm/object-store/c_api/util.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 RLM_API bool realm_set_size(const realm_set_t* set, size_t* out_size)
 {
@@ -46,14 +46,14 @@ RLM_API bool realm_set_find(const realm_set_t* set, realm_value_t value, size_t*
         }
         catch (const NotNullable&) {
             if (out_index)
-                *out_index = realm::not_found;
+                *out_index = realm_legacy::not_found;
             if (out_found)
                 *out_found = false;
             return true;
         }
         catch (const PropertyTypeMismatch&) {
             if (out_index)
-                *out_index = realm::not_found;
+                *out_index = realm_legacy::not_found;
             if (out_found)
                 *out_found = false;
             return true;
@@ -174,4 +174,4 @@ RLM_API bool realm_set_is_valid(const realm_set_t* set)
 }
 
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

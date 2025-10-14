@@ -7,7 +7,7 @@
 
 #include "test.hpp"
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 TEST(Util_FromChars_Base10)
 {

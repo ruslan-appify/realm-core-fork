@@ -13,7 +13,7 @@
 #include <realm/util/optional.hpp>
 #include <realm/sync/noinst/server/server_history.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 /// This class maintains a list of open Realm files ordered according to the
@@ -250,6 +250,6 @@ inline ServerFileAccessCache::File::File(const Slot& slot)
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_SERVER_FILE_ACCESS_CACHE_HPP

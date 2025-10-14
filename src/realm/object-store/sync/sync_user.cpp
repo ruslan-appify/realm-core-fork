@@ -26,7 +26,7 @@
 #include <realm/object-store/sync/sync_manager.hpp>
 #include <realm/object-store/sync/sync_session.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 SyncUserIdentity::SyncUserIdentity(const std::string& id, const std::string& provider_type)
     : id(id)
@@ -414,10 +414,10 @@ bool SyncUser::access_token_refresh_required() const
     return !m_access_token.token.empty() && m_access_token.expires_at < static_cast<int64_t>(threshold);
 }
 
-} // namespace realm
+} // namespace realm_legacy
 
 namespace std {
-size_t hash<realm::SyncUserIdentity>::operator()(const realm::SyncUserIdentity& k) const
+size_t hash<realm_legacy::SyncUserIdentity>::operator()(const realm_legacy::SyncUserIdentity& k) const
 {
     return ((hash<string>()(k.id) ^ (hash<string>()(k.provider_type) << 1)) >> 1);
 }

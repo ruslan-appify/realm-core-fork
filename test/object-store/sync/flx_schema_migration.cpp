@@ -37,9 +37,9 @@
 #include <any>
 
 using namespace std::string_literals;
-using namespace realm::sync;
+using namespace realm_legacy::sync;
 
-namespace realm::app {
+namespace realm_legacy::app {
 
 namespace {
 
@@ -974,7 +974,7 @@ TEST_CASE("Allow resetting the schema version to zero after bad schema version e
     check_realm_schema(config.path, schema_v0, 0);
 }
 
-} // namespace realm::app
+} // namespace realm_legacy::app
 
 #endif // REALM_ENABLE_AUTH_TESTS
 #endif // REALM_ENABLE_SYNC

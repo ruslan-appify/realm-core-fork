@@ -2,7 +2,7 @@
 #include "realm/object-store/dictionary.hpp"
 #include <realm/object-store/c_api/util.hpp>
 
-namespace realm::c_api {
+namespace realm_legacy::c_api {
 
 RLM_API bool realm_dictionary_size(const realm_dictionary_t* dict, size_t* out_size)
 {
@@ -210,4 +210,4 @@ RLM_API bool realm_dictionary_is_valid(const realm_dictionary_t* dictionary)
     return dictionary->is_valid();
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

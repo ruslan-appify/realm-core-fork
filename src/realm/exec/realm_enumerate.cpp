@@ -14,18 +14,18 @@
 #include <fstream>
 #include <iostream>
 
-static void enumerate_strings(realm::SharedRealm realm, double threshold)
+static void enumerate_strings(realm_legacy::SharedRealm realm, double threshold)
 {
     auto& group = realm->read_group();
     auto table_keys = group.get_table_keys();
     for (auto table_key : table_keys) {
-        realm::TableRef t = group.get_table(table_key);
+        realm_legacy::TableRef t = group.get_table(table_key);
         size_t table_size = t->size();
-        realm::util::format(std::cout, "Begin table '%1' of size %2:\n", t->get_name(), table_size);
+        realm_legacy::util::format(std::cout, "Begin table '%1' of size %2:\n", t->get_name(), table_size);
         if (table_size == 0)
             continue;
         bool found_str_col = false;
-        auto do_convert = [&realm, &t](realm::ColKey col) {
+        auto do_convert = [&realm, &t](realm_legacy::ColKey col) {
             auto start = std::chrono::steady_clock::now();
             std::cout << "[converting]" << std::flush;
             realm->begin_transaction();
@@ -34,10 +34,10 @@ static void enumerate_strings(realm::SharedRealm realm, double threshold)
             std::chrono::duration<double> diff = std::chrono::steady_clock::now() - start;
             std::cout << " (" << diff.count() << " seconds)" << std::endl;
         };
-        t->for_each_public_column([&](realm::ColKey col_key) {
-            if (col_key.get_type() == realm::col_type_String && !col_key.is_collection()) {
+        t->for_each_public_column([&](realm_legacy::ColKey col_key) {
+            if (col_key.get_type() == realm_legacy::col_type_String && !col_key.is_collection()) {
                 found_str_col = true;
-                realm::util::format(std::cout, "\tcolumn '%1' ", t->get_column_name(col_key));
+                realm_legacy::util::format(std::cout, "\tcolumn '%1' ", t->get_column_name(col_key));
                 std::cout << std::flush;
                 if (t->is_enumerated(col_key)) {
                     std::cout << "[already enumerated]" << std::endl;
@@ -49,12 +49,12 @@ static void enumerate_strings(realm::SharedRealm realm, double threshold)
                     do_convert(col_key);
                 }
                 else if (threshold < 100 && threshold > 0) {
-                    std::unique_ptr<realm::DescriptorOrdering> distinct =
-                        std::make_unique<realm::DescriptorOrdering>();
-                    distinct->append_distinct(realm::DistinctDescriptor({{col_key}}));
+                    std::unique_ptr<realm_legacy::DescriptorOrdering> distinct =
+                        std::make_unique<realm_legacy::DescriptorOrdering>();
+                    distinct->append_distinct(realm_legacy::DistinctDescriptor({{col_key}}));
                     size_t uniques = t->where().count(*distinct.get());
                     double utilization = uniques / double(table_size);
-                    realm::util::format(std::cout, "contains %1 unique values (%2%%) ", uniques, utilization * 100.0);
+                    realm_legacy::util::format(std::cout, "contains %1 unique values (%2%%) ", uniques, utilization * 100.0);
                     std::cout << std::flush;
                     if (utilization <= threshold / 100) {
                         do_convert(col_key);
@@ -67,7 +67,7 @@ static void enumerate_strings(realm::SharedRealm realm, double threshold)
                     std::cout << "[skipping due to threshold]" << std::endl;
                 }
             }
-            return realm::IteratorControl::AdvanceToNext;
+            return realm_legacy::IteratorControl::AdvanceToNext;
         });
         if (!found_str_col) {
             std::cout << "\tNo string columns found." << std::endl;
@@ -94,22 +94,22 @@ int main(int argc, const char* argv[])
                     curr_arg++;
                 }
                 else {
-                    realm::util::format(std::cout, "File name '%1' for threshold %2%%\n", argv[curr_arg], threshold);
+                    realm_legacy::util::format(std::cout, "File name '%1' for threshold %2%%\n", argv[curr_arg], threshold);
                     auto start = std::chrono::steady_clock::now();
-                    realm::Realm::Config config;
+                    realm_legacy::Realm::Config config;
                     config.path = argv[curr_arg];
                     if (key_ptr) {
                         config.encryption_key.resize(64);
                         memcpy(&config.encryption_key[0], &key_ptr[0], 64);
                     }
-                    realm::SharedRealm realm;
+                    realm_legacy::SharedRealm realm;
                     try {
-                        realm = realm::Realm::get_shared_realm(config);
+                        realm = realm_legacy::Realm::get_shared_realm(config);
                     }
-                    catch (const realm::FileAccessError& e) {
+                    catch (const realm_legacy::FileAccessError& e) {
                         std::cout << "trying to open as a sync Realm\n" << e.what() << "\n" << std::endl;
                         config.force_sync_history = true;
-                        realm = realm::Realm::get_shared_realm(config);
+                        realm = realm_legacy::Realm::get_shared_realm(config);
                     }
                     enumerate_strings(realm, threshold);
                     realm->compact();

@@ -43,9 +43,9 @@ static const mode_t2 MS_MODE_MASK = 0x0000ffff;
 #include "test.hpp"
 #include "test_table_helper.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 // Test independence and thread-safety
 // -----------------------------------
@@ -429,7 +429,7 @@ TEST(Group_ObjUseAfterTableDetach)
         obj.set(col, 42);
         CHECK_EQUAL(obj.get<int64_t>(col), 42);
     }
-    CHECK_THROW(obj.get<int64_t>(col), realm::InvalidTableRef);
+    CHECK_THROW(obj.get<int64_t>(col), realm_legacy::InvalidTableRef);
 }
 
 TEST(Group_RemoveTableWithColumns)

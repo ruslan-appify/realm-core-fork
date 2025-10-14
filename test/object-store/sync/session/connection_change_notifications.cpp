@@ -20,8 +20,8 @@
 #include <util/test_utils.hpp>
 #include <util/sync/session_util.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 TEST_CASE("sync: Connection state changes", "[sync][session][connection change]") {
     if (!EventLoop::has_implementation())

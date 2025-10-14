@@ -3,8 +3,8 @@
 #include <realm/util/json_parser.hpp>
 #include <iostream>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 static const char g_basic_object[] = "{\n"
                                      "    \"access\": [\"download\", \"upload\"],\n"

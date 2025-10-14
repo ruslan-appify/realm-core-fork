@@ -26,22 +26,22 @@
 #include <realm/util/features.h>
 
 #define TEST_PATH_HELPER(class_name, var_name, suffix)                                                               \
-    class_name var_name(realm::test_util::get_test_path(test_context.get_test_name(), "." #var_name "." suffix))
+    class_name var_name(realm_legacy::test_util::get_test_path(test_context.get_test_name(), "." #var_name "." suffix))
 
 #if REALM_PLATFORM_APPLE
 // Apple doesn't support file names with "�"
-#define TEST_PATH(var_name) TEST_PATH_HELPER(realm::test_util::TestPathGuard, var_name, "test");
+#define TEST_PATH(var_name) TEST_PATH_HELPER(realm_legacy::test_util::TestPathGuard, var_name, "test");
 #else
-#define TEST_PATH(var_name) TEST_PATH_HELPER(realm::test_util::TestPathGuard, var_name, "tempor�re");
+#define TEST_PATH(var_name) TEST_PATH_HELPER(realm_legacy::test_util::TestPathGuard, var_name, "tempor�re");
 #endif
 
-#define TEST_DIR(var_name) TEST_PATH_HELPER(realm::test_util::TestDirGuard, var_name, "test-dir");
+#define TEST_DIR(var_name) TEST_PATH_HELPER(realm_legacy::test_util::TestDirGuard, var_name, "test-dir");
 
-#define GROUP_TEST_PATH(var_name) TEST_PATH_HELPER(realm::test_util::TestPathGuard, var_name, "realm");
+#define GROUP_TEST_PATH(var_name) TEST_PATH_HELPER(realm_legacy::test_util::TestPathGuard, var_name, "realm");
 
-#define SHARED_GROUP_TEST_PATH(var_name) TEST_PATH_HELPER(realm::test_util::DBTestPathGuard, var_name, "realm");
+#define SHARED_GROUP_TEST_PATH(var_name) TEST_PATH_HELPER(realm_legacy::test_util::DBTestPathGuard, var_name, "realm");
 
-namespace realm {
+namespace realm_legacy {
 
 class DB;
 

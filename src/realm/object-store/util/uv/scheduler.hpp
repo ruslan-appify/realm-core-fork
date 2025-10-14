@@ -23,7 +23,7 @@
 #include <thread>
 #include <uv.h>
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 class UvMainLoopScheduler final : public util::Scheduler {
 public:
@@ -94,4 +94,4 @@ private:
     std::thread::id m_id = std::this_thread::get_id();
 };
 
-} // namespace realm::util
+} // namespace realm_legacy::util

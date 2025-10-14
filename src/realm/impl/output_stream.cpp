@@ -23,9 +23,9 @@
 #include <realm/util/backtrace.hpp>
 #include <realm/impl/output_stream.hpp>
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::_impl;
 
 
 void OutputStream::write(const char* data, size_t size)

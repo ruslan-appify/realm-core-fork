@@ -18,7 +18,7 @@
 
 #include "compatibility.hpp"
 
-using realm::DB;
+using realm_legacy::DB;
 
 namespace compatibility {
 

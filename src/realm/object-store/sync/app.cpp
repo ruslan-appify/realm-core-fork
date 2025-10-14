@@ -35,8 +35,8 @@
 #include <sstream>
 #include <string>
 
-using namespace realm;
-using namespace realm::app;
+using namespace realm_legacy;
+using namespace realm_legacy::app;
 using namespace bson;
 using util::Optional;
 using util::UniqueFunction;
@@ -184,7 +184,7 @@ std::mutex s_apps_mutex;
 
 } // anonymous namespace
 
-namespace realm {
+namespace realm_legacy {
 namespace app {
 
 App::Config::DeviceInfo::DeviceInfo()
@@ -520,7 +520,7 @@ void App::UserAPIKeyProviderClient::create_api_key(
                                                    UserAPIKeyResponseHandler{std::move(completion)});
 }
 
-void App::UserAPIKeyProviderClient::fetch_api_key(const realm::ObjectId& id, const std::shared_ptr<SyncUser>& user,
+void App::UserAPIKeyProviderClient::fetch_api_key(const realm_legacy::ObjectId& id, const std::shared_ptr<SyncUser>& user,
                                                   UniqueFunction<void(UserAPIKey&&, Optional<AppError>)>&& completion)
 {
     Request req;
@@ -561,7 +561,7 @@ void App::UserAPIKeyProviderClient::fetch_api_keys(
         });
 }
 
-void App::UserAPIKeyProviderClient::delete_api_key(const realm::ObjectId& id, const std::shared_ptr<SyncUser>& user,
+void App::UserAPIKeyProviderClient::delete_api_key(const realm_legacy::ObjectId& id, const std::shared_ptr<SyncUser>& user,
                                                    UniqueFunction<void(Optional<AppError>)>&& completion)
 {
     Request req;
@@ -572,7 +572,7 @@ void App::UserAPIKeyProviderClient::delete_api_key(const realm::ObjectId& id, co
                                                    handle_default_response(std::move(completion)));
 }
 
-void App::UserAPIKeyProviderClient::enable_api_key(const realm::ObjectId& id, const std::shared_ptr<SyncUser>& user,
+void App::UserAPIKeyProviderClient::enable_api_key(const realm_legacy::ObjectId& id, const std::shared_ptr<SyncUser>& user,
                                                    UniqueFunction<void(Optional<AppError>)>&& completion)
 {
     Request req;
@@ -583,7 +583,7 @@ void App::UserAPIKeyProviderClient::enable_api_key(const realm::ObjectId& id, co
                                                    handle_default_response(std::move(completion)));
 }
 
-void App::UserAPIKeyProviderClient::disable_api_key(const realm::ObjectId& id, const std::shared_ptr<SyncUser>& user,
+void App::UserAPIKeyProviderClient::disable_api_key(const realm_legacy::ObjectId& id, const std::shared_ptr<SyncUser>& user,
                                                     UniqueFunction<void(Optional<AppError>)>&& completion)
 {
     Request req;
@@ -748,7 +748,7 @@ void App::log_in_with_credentials(
                 return completion(nullptr, std::move(error));
             }
 
-            std::shared_ptr<realm::SyncUser> sync_user = linking_user;
+            std::shared_ptr<realm_legacy::SyncUser> sync_user = linking_user;
             try {
                 auto json = parse<BsonDocument>(response.body);
                 if (linking_user) {
@@ -1365,4 +1365,4 @@ PushClient App::push_notification_client(const std::string& service_name)
 }
 
 } // namespace app
-} // namespace realm
+} // namespace realm_legacy

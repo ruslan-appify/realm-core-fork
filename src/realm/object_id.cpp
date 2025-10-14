@@ -46,7 +46,7 @@ struct GeneratorState {
 
 
 static const char hex_digits[] = "0123456789abcdef";
-namespace realm {
+namespace realm_legacy {
 
 static_assert(sizeof(ObjectId) == 12, "changing the size of an ObjectId is a file format breaking change");
 
@@ -130,4 +130,4 @@ size_t ObjectId::hash() const noexcept
 }
 
 
-} // namespace realm
+} // namespace realm_legacy

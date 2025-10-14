@@ -45,8 +45,8 @@
 
 #include <realm/parser/driver.hpp>
 #include <realm/table.hpp>
-using namespace realm;
-using namespace realm::query_parser;
+using namespace realm_legacy;
+using namespace realm_legacy::query_parser;
 
 #ifdef _MSC_VER
 // ignore msvc warnings in this file (poped at end)

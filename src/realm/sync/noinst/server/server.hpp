@@ -16,7 +16,7 @@
 #include <realm/sync/noinst/server/crypto_server.hpp>
 #include <realm/sync/client.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace sync {
 
 // FIXME: Currently this exception is only used when the server runs out of
@@ -370,6 +370,6 @@ public:
 };
 
 } // namespace sync
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_SYNC_SERVER_HPP

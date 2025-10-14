@@ -27,9 +27,9 @@
 #include <realm/util/file.hpp>
 #include <realm/util/scope_exit.hpp>
 
-using namespace realm;
-using namespace realm::util;
-using File = realm::util::File;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using File = realm_legacy::util::File;
 
 static const std::string base_path = util::make_temp_dir() + "realm_objectstore_sync_user/";
 static const std::string dummy_device_id = "123400000000000000000000";

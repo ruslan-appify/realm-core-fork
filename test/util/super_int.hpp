@@ -26,7 +26,7 @@
 #include <realm/util/features.h>
 #include <realm/util/safe_int_ops.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

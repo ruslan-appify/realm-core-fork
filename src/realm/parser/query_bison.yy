@@ -14,8 +14,8 @@
   #include <realm/geospatial.hpp>
   #include <array>
   #include <optional>
-  using realm::GeoPoint;
-  namespace realm::query_parser {
+  using realm_legacy::GeoPoint;
+  namespace realm_legacy::query_parser {
     class ParserDriver;
     class ConstantNode;
     class GeospatialNode;
@@ -48,7 +48,7 @@
     };
 
   }
-  using namespace realm::query_parser;
+  using namespace realm_legacy::query_parser;
 
 }
 
@@ -64,8 +64,8 @@
 %code {
 #include <realm/parser/driver.hpp>
 #include <realm/table.hpp>
-using namespace realm;
-using namespace realm::query_parser;
+using namespace realm_legacy;
+using namespace realm_legacy::query_parser;
 
 #ifdef _MSC_VER
 // ignore msvc warnings in this file (poped at end)

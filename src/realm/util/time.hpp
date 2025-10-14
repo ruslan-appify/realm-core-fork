@@ -11,7 +11,7 @@
 #include <sstream>
 
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 /// Thread safe version of std::localtime(). Uses localtime_r() on POSIX.
 std::tm localtime(std::time_t);
@@ -67,7 +67,7 @@ inline std::string format_utc_time(std::time_t time, const char* format)
     return out.str();                // Throws
 }
 
-} // namespace realm::util
+} // namespace realm_legacy::util
 
 #if __cplusplus < 202002L
 // This is a C++17 version of https://en.cppreference.com/w/cpp/chrono/duration/operator_ltlt to make

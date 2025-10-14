@@ -41,7 +41,7 @@ void quoted(std::ostream& out, T&& str, ...)
 }
 }
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 Printable::Printable(StringData value)
@@ -148,4 +148,4 @@ std::string format(const char* fmt, std::initializer_list<Printable> values)
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy

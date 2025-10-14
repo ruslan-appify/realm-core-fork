@@ -22,7 +22,7 @@
 
 #include "test.hpp"
 
-using namespace realm::util;
+using namespace realm_legacy::util;
 
 TEST(Optional_DefaultConstructor)
 {
@@ -32,7 +32,7 @@ TEST(Optional_DefaultConstructor)
 
 TEST(Optional_NoneConstructor)
 {
-    Optional<int> x{realm::none};
+    Optional<int> x{realm_legacy::none};
     CHECK(!bool(x));
 }
 
@@ -161,7 +161,7 @@ TEST(Optional_DestroyOnAssignNone)
     bool b = false;
     {
         Optional<SetBooleanOnDestroy> x{SetBooleanOnDestroy(b)};
-        x = realm::none;
+        x = realm_legacy::none;
         CHECK(b);
     }
     CHECK(b);

@@ -19,7 +19,7 @@
 #include <realm/array_decimal128.hpp>
 #include <realm/mixed.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 void ArrayDecimal128::set(size_t ndx, Decimal128 value)
 {
@@ -86,7 +86,7 @@ size_t ArrayDecimal128::find_first(Decimal128 value, size_t start, size_t end) c
         if (values[i] == value)
             return i;
     }
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 Mixed ArrayDecimal128::get_any(size_t ndx) const
@@ -95,4 +95,4 @@ Mixed ArrayDecimal128::get_any(size_t ndx) const
 }
 
 
-} // namespace realm
+} // namespace realm_legacy

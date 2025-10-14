@@ -4,7 +4,7 @@
 #include <realm/util/enum.hpp>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 EnumMapper::EnumMapper(const util::EnumAssoc* map, bool ignore_case)
@@ -41,4 +41,4 @@ bool EnumMapper::parse(const std::string& string, int& value, bool ignore_case) 
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy

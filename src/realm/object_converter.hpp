@@ -22,7 +22,7 @@
 #include <realm/mixed.hpp>
 #include <realm/obj.hpp>
 
-namespace realm::converters {
+namespace realm_legacy::converters {
 
 struct EmbeddedObjectConverter {
     void track(const Obj& e_src, const Obj& e_dst);
@@ -78,6 +78,6 @@ private:
     std::vector<InterRealmValueConverter> m_columns_cache;
 };
 
-} // namespace realm::converters
+} // namespace realm_legacy::converters
 
 #endif // REALM_OBJECT_CONVERTER_HPP

@@ -18,7 +18,7 @@
 
 #include <realm/array_fixed_bytes.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 // Intuitively the null T value could be a static member variable of the ArrayFixedBytesNull<T>
 // class, but there is a MSVC bug which we would have to make an ugly workaround for, so
@@ -159,7 +159,7 @@ size_t ArrayFixedBytes<ObjectType, ElementSize>::find_first(const ObjectType& va
             return i;
         }
     }
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 template <class ObjectType, int ElementSize>
@@ -200,7 +200,7 @@ size_t ArrayFixedBytesNull<ObjectType, ElementSize>::find_first_null(size_t star
         const auto bit_vec = uint8_t(*bit_ptr >> offset);
         if (bit_vec) {
             ndx += ctz(bit_vec);
-            return ndx >= end ? realm::npos : ndx;
+            return ndx >= end ? realm_legacy::npos : ndx;
         }
 
         ndx += 8 - offset;
@@ -208,7 +208,7 @@ size_t ArrayFixedBytesNull<ObjectType, ElementSize>::find_first_null(size_t star
         offset = 0; // offset only used during first pass of loop.
     }
 
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 // actual definitions forced here
@@ -217,4 +217,4 @@ template class ArrayFixedBytesNull<ObjectId, ObjectId::num_bytes>;
 template class ArrayFixedBytes<UUID, UUID::num_bytes>;
 template class ArrayFixedBytesNull<UUID, UUID::num_bytes>;
 
-} // namespace realm
+} // namespace realm_legacy

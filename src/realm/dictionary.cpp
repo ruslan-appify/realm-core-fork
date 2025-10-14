@@ -25,7 +25,7 @@
 
 #include <algorithm>
 
-namespace realm {
+namespace realm_legacy {
 
 namespace {
 void validate_key_value(const Mixed& key)
@@ -152,7 +152,7 @@ Mixed Dictionary::get_key(size_t ndx) const
 
 size_t Dictionary::find_any(Mixed value) const
 {
-    return size() ? m_values->find_first(value) : realm::not_found;
+    return size() ? m_values->find_first(value) : realm_legacy::not_found;
 }
 
 size_t Dictionary::find_any_key(Mixed key) const noexcept
@@ -161,13 +161,13 @@ size_t Dictionary::find_any_key(Mixed key) const noexcept
         return do_find_key(key);
     }
 
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 template <typename AggregateType>
 void Dictionary::do_accumulate(size_t* return_ndx, AggregateType& agg) const
 {
-    size_t ndx = realm::npos;
+    size_t ndx = realm_legacy::npos;
 
     m_values->traverse([&](BPlusTreeNode* node, size_t offset) {
         auto leaf = static_cast<BPlusTree<Mixed>::LeafNode*>(node);
@@ -303,7 +303,7 @@ util::Optional<Mixed> Dictionary::min(size_t* return_ndx) const
         return do_min(return_ndx);
     }
     if (return_ndx)
-        *return_ndx = realm::not_found;
+        *return_ndx = realm_legacy::not_found;
     return Mixed{};
 }
 
@@ -316,7 +316,7 @@ util::Optional<Mixed> Dictionary::max(size_t* return_ndx) const
         return do_max(return_ndx);
     }
     if (return_ndx)
-        *return_ndx = realm::not_found;
+        *return_ndx = realm_legacy::not_found;
     return Mixed{};
 }
 
@@ -456,7 +456,7 @@ util::Optional<Mixed> Dictionary::try_get(Mixed key) const noexcept
 {
     if (update()) {
         auto ndx = do_find_key(key);
-        if (ndx != realm::npos) {
+        if (ndx != realm_legacy::npos) {
             return do_get(ndx);
         }
     }
@@ -593,13 +593,13 @@ Obj Dictionary::get_object(StringData key)
 
 bool Dictionary::contains(Mixed key) const noexcept
 {
-    return find_any_key(key) != realm::npos;
+    return find_any_key(key) != realm_legacy::npos;
 }
 
 Dictionary::Iterator Dictionary::find(Mixed key) const noexcept
 {
     auto ndx = find_any_key(key);
-    if (ndx != realm::npos) {
+    if (ndx != realm_legacy::npos) {
         return Iterator(this, ndx);
     }
     return end();
@@ -660,7 +660,7 @@ bool Dictionary::try_erase(Mixed key)
         return false;
 
     auto ndx = do_find_key(key);
-    if (ndx == realm::npos) {
+    if (ndx == realm_legacy::npos) {
         return false;
     }
 
@@ -692,7 +692,7 @@ void Dictionary::nullify(Mixed key)
 {
     REALM_ASSERT(m_dictionary_top);
     auto ndx = do_find_key(key);
-    REALM_ASSERT(ndx != realm::npos);
+    REALM_ASSERT(ndx != realm_legacy::npos);
 
     if (Replication* repl = this->m_obj.get_replication()) {
         repl->dictionary_set(*this, ndx, key, Mixed());
@@ -789,7 +789,7 @@ size_t Dictionary::do_find_key(Mixed key) const noexcept
     if (actual_key == key) {
         return ndx;
     }
-    return realm::npos;
+    return realm_legacy::npos;
 }
 
 std::pair<size_t, Mixed> Dictionary::find_impl(Mixed key) const noexcept
@@ -927,8 +927,8 @@ void Dictionary::swap_content(Array& fields1, Array& fields2, size_t index1, siz
 
 Mixed Dictionary::find_value(Mixed value) const noexcept
 {
-    size_t ndx = update() ? m_values->find_first(value) : realm::npos;
-    return (ndx == realm::npos) ? Mixed{} : do_get_key(ndx);
+    size_t ndx = update() ? m_values->find_first(value) : realm_legacy::npos;
+    return (ndx == realm_legacy::npos) ? Mixed{} : do_get_key(ndx);
 }
 
 void Dictionary::verify() const
@@ -1027,4 +1027,4 @@ Obj DictionaryLinkValues::get_object(size_t row_ndx) const
     return {};
 }
 
-} // namespace realm
+} // namespace realm_legacy

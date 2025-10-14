@@ -24,7 +24,7 @@
 
 #include <list>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 struct TestValueGenerator {

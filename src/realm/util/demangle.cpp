@@ -16,7 +16,7 @@
 //
 // FIXME: Could use the Autoconf macro 'ax_cxx_gcc_abi_demangle'. See
 // http://autoconf-archive.cryp.to.
-std::string realm::util::demangle(const std::string& mangled_name)
+std::string realm_legacy::util::demangle(const std::string& mangled_name)
 {
 #ifdef REALM_HAVE_CXXABI_DEMANGLE
     int status = 0;

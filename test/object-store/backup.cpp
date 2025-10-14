@@ -43,7 +43,7 @@
 #include <realm/util/fifo_helper.hpp>
 #include <realm/util/scope_exit.hpp>
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST_CASE("Automated backup", "[backup]") {
     TestFile config;

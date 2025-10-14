@@ -1,8 +1,8 @@
 #include <realm/sync/noinst/compact_changesets.hpp>
 #include <realm/sync/noinst/changeset_index.hpp>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 namespace {
 
@@ -414,7 +414,7 @@ void ChangesetCompactor::remove_redundant_selects() {
 
 } // unnamed namespace
 
-void realm::_impl::compact_changesets(Changeset*, size_t)
+void realm_legacy::_impl::compact_changesets(Changeset*, size_t)
 {
     // FIXME: Implement changeset compaction for embedded objects.
     return;

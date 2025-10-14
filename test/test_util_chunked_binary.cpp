@@ -2,8 +2,8 @@
 
 #include <realm/chunked_binary.hpp>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 TEST(ChunkedBinaryData_From_BinaryData)
 {

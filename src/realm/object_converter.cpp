@@ -24,7 +24,7 @@
 
 #include <realm/util/flat_map.hpp>
 
-namespace realm::converters {
+namespace realm_legacy::converters {
 
 // Takes two lists, src and dst, and makes dst equal src. src is unchanged.
 void InterRealmValueConverter::copy_list(const Obj& src_obj, Obj& dst_obj, bool* update_out)
@@ -483,4 +483,4 @@ void InterRealmObjectConverter::copy(const Obj& src, Obj& dst, bool* update_out)
     }
 }
 
-} // namespace realm::converters
+} // namespace realm_legacy::converters

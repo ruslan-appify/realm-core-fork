@@ -27,7 +27,7 @@
 #include <realm/bplustree.hpp>
 #include <realm/array_string.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace test_util {
 
 

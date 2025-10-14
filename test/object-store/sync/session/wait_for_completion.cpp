@@ -25,8 +25,8 @@
 
 #include <catch2/catch_all.hpp>
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 TEST_CASE("SyncSession: wait_for_download_completion() API", "[sync][pbs][session][completion]") {
     if (!EventLoop::has_implementation())
@@ -168,7 +168,7 @@ TEST_CASE("SyncSession: wait_for_upload_completion() API", "[sync][pbs][session]
     // FIXME: There seems to be a race condition here where the upload completion handler
     // FIXME: isn't actually called with the appropriate error, only the error handler is
     //    SECTION("aborts properly when queued and the session errors out") {
-    //        using ProtocolError = realm::sync::ProtocolError;
+    //        using ProtocolError = realm_legacy::sync::ProtocolError;
     //        auto user = SyncManager::shared().get_user("user-async-wait-upload-4",
     //        ENCODE_FAKE_JWT("not_a_real_token"), ENCODE_FAKE_JWT("not_a_real_token"),
     //        dummy_device_id); std::atomic<int> error_count(0); std::shared_ptr<SyncSession> session =
@@ -177,7 +177,7 @@ TEST_CASE("SyncSession: wait_for_upload_completion() API", "[sync][pbs][session]
     //            ++error_count;
     //        });
     //        std::error_code code = std::error_code{static_cast<int>(ProtocolError::bad_syntax),
-    //        realm::sync::protocol_error_category()};
+    //        realm_legacy::sync::protocol_error_category()};
     //        // Register the upload-completion notification
     //        session->wait_for_upload_completion([&](std::error_code error) {
     //            CHECK(error == code);

@@ -23,7 +23,7 @@
 #include <iomanip>
 #include <memory>
 
-using namespace realm;
+using namespace realm_legacy;
 
 BinaryData BinaryColumn::get_at(size_t ndx, size_t& pos) const noexcept
 {

@@ -38,8 +38,8 @@
 #include <pthread.h>
 #endif
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 #ifdef REALM_ENABLE_SIMULATED_FAILURE
 
@@ -241,7 +241,7 @@ std::string ErrorCategory::message(int value) const
 } // unnamed namespace
 
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 std::error_code make_error_code(SimulatedFailure::FailureType failure_type) noexcept
@@ -250,4 +250,4 @@ std::error_code make_error_code(SimulatedFailure::FailureType failure_type) noex
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy

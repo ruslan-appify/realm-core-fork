@@ -22,13 +22,13 @@
 #include <realm/column_integer.hpp>
 
 
-using namespace realm;
+using namespace realm_legacy;
 
 BinaryData ArrayBigBlobs::get_at(size_t ndx, size_t& pos) const noexcept
 {
     ref_type ref = get_as_ref(ndx);
     if (ref == 0)
-        return {}; // realm::null();
+        return {}; // realm_legacy::null();
 
     ArrayBlob blob(m_alloc);
     blob.init_from_ref(ref);
@@ -195,7 +195,7 @@ void ArrayBigBlobs::verify() const
     REALM_ASSERT(has_refs());
     for (size_t i = 0; i < size(); ++i) {
         ref_type blob_ref = Array::get_as_ref(i);
-        // 0 is used to indicate realm::null()
+        // 0 is used to indicate realm_legacy::null()
         if (blob_ref != 0) {
             ArrayBlob blob(m_alloc);
             blob.init_from_ref(blob_ref);

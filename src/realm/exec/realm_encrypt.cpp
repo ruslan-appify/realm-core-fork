@@ -3,7 +3,7 @@
 #include <realm.hpp>
 #include "hex_util.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 int main(int argc, const char* argv[])
 {

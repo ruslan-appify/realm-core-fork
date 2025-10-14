@@ -9,7 +9,7 @@
 #include <realm/util/signal_blocker.hpp>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 /// Execute a `R::run()` using a managed thread.
@@ -326,6 +326,6 @@ inline ThreadExecGuardWithParent<R, P> make_thread_exec_guard(R& runnable, P& pa
 }
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_THREAD_EXEC_GUARD_HPP

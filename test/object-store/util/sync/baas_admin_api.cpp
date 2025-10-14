@@ -35,7 +35,7 @@
 #include <iostream>
 #include <mutex>
 
-namespace realm {
+namespace realm_legacy {
 namespace {
 std::string property_type_to_bson_type_str(PropertyType type)
 {
@@ -852,26 +852,26 @@ AdminAPIEndpoint AdminAPISession::apps(APIFamily family) const
     REALM_UNREACHABLE();
 }
 
-realm::Schema get_default_schema()
+realm_legacy::Schema get_default_schema()
 {
     const auto dog_schema =
-        ObjectSchema("Dog", {realm::Property("_id", PropertyType::ObjectId | PropertyType::Nullable, true),
-                             realm::Property("breed", PropertyType::String | PropertyType::Nullable),
-                             realm::Property("name", PropertyType::String),
-                             realm::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
+        ObjectSchema("Dog", {realm_legacy::Property("_id", PropertyType::ObjectId | PropertyType::Nullable, true),
+                             realm_legacy::Property("breed", PropertyType::String | PropertyType::Nullable),
+                             realm_legacy::Property("name", PropertyType::String),
+                             realm_legacy::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
     const auto cat_schema =
-        ObjectSchema("Cat", {realm::Property("_id", PropertyType::String | PropertyType::Nullable, true),
-                             realm::Property("breed", PropertyType::String | PropertyType::Nullable),
-                             realm::Property("name", PropertyType::String),
-                             realm::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
+        ObjectSchema("Cat", {realm_legacy::Property("_id", PropertyType::String | PropertyType::Nullable, true),
+                             realm_legacy::Property("breed", PropertyType::String | PropertyType::Nullable),
+                             realm_legacy::Property("name", PropertyType::String),
+                             realm_legacy::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
     const auto person_schema =
-        ObjectSchema("Person", {realm::Property("_id", PropertyType::ObjectId | PropertyType::Nullable, true),
-                                realm::Property("age", PropertyType::Int),
-                                realm::Property("dogs", PropertyType::Object | PropertyType::Array, "Dog"),
-                                realm::Property("firstName", PropertyType::String),
-                                realm::Property("lastName", PropertyType::String),
-                                realm::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
-    return realm::Schema({dog_schema, cat_schema, person_schema});
+        ObjectSchema("Person", {realm_legacy::Property("_id", PropertyType::ObjectId | PropertyType::Nullable, true),
+                                realm_legacy::Property("age", PropertyType::Int),
+                                realm_legacy::Property("dogs", PropertyType::Object | PropertyType::Array, "Dog"),
+                                realm_legacy::Property("firstName", PropertyType::String),
+                                realm_legacy::Property("lastName", PropertyType::String),
+                                realm_legacy::Property("realm_id", PropertyType::String | PropertyType::Nullable)});
+    return realm_legacy::Schema({dog_schema, cat_schema, person_schema});
 }
 
 AppCreateConfig default_app_config()

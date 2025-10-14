@@ -31,7 +31,7 @@
 
 #include <stdexcept>
 
-namespace realm {
+namespace realm_legacy {
 [[noreturn]] static void unsupported_operation(ColKey column, Table const& table, const char* operation)
 {
     auto type = ObjectSchema::from_core_type(column);
@@ -533,7 +533,7 @@ size_t Results::index_of(Mixed const& value)
 
     if (value.is_type(type_TypedLink)) {
         if (m_table && m_table->get_key() != value.get_link().get_table_key()) {
-            return realm::not_found;
+            return realm_legacy::not_found;
         }
     }
 
@@ -560,7 +560,7 @@ size_t Results::index_of(Mixed const& value)
             }
             break;
     }
-    return realm::not_found;
+    return realm_legacy::not_found;
 }
 
 size_t Results::index_of(Query&& q)
@@ -1162,4 +1162,4 @@ bool Results::is_frozen() const
     return !m_realm || m_realm->is_frozen();
 }
 
-} // namespace realm
+} // namespace realm_legacy

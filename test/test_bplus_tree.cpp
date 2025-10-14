@@ -33,8 +33,8 @@
 #define CALLGRIND_STOP_INSTRUMENTATION
 #endif
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 using namespace std::chrono;
 
 // Test independence and thread-safety
@@ -87,7 +87,7 @@ TEST(BPlusTree_Integer)
     CHECK_EQUAL(tree.find_first(7), 8);
     tree.erase(0);
     CHECK_EQUAL(tree.find_first(7), 7);
-    CHECK_EQUAL(tree.find_first(100), realm::npos);
+    CHECK_EQUAL(tree.find_first(100), realm_legacy::npos);
 
     std::vector<Int> all = tree.get_all();
     size_t sz = tree.size();

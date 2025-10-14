@@ -11,8 +11,8 @@
 #include <Security/Security.h>
 #include <TargetConditionals.h>
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 using util::CFPtr;
 using util::adoptCF;

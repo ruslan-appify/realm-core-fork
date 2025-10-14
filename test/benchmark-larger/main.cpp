@@ -29,9 +29,9 @@
 #include "../test.hpp"
 #include "../test_table_helper.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 using unit_test::TestContext;
 
 #ifdef REALM_CLUSTER_IF
@@ -209,7 +209,7 @@ int main()
         }
     };
 
-    REALM_ASSERT_RELEASE(realm::get_disable_sync_to_disk() == false);
+    REALM_ASSERT_RELEASE(realm_legacy::get_disable_sync_to_disk() == false);
     // insertion tests
     run_type(DIRECT);
     run_type(INDEXED_BEST);

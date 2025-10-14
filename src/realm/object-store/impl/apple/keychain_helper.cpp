@@ -25,7 +25,7 @@
 
 #include <string>
 
-using namespace realm;
+using namespace realm_legacy;
 using util::adoptCF;
 using util::CFPtr;
 using util::retainCF;
@@ -156,7 +156,7 @@ CFPtr<CFStringRef> get_service_name(bool& have_bundle_id)
 
 } // anonymous namespace
 
-namespace realm::keychain {
+namespace realm_legacy::keychain {
 
 util::Optional<std::vector<char>> get_existing_metadata_realm_key()
 {
@@ -202,4 +202,4 @@ void delete_metadata_realm_encryption_key()
     }
 }
 
-} // namespace realm::keychain
+} // namespace realm_legacy::keychain

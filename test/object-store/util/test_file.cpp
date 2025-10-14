@@ -63,14 +63,14 @@ inline static int mkstemp(char* _template)
 #include <map>
 #endif
 
-using namespace realm;
+using namespace realm_legacy;
 
 TestFile::TestFile()
 {
     disable_sync_to_disk();
     m_temp_dir = util::make_temp_dir();
     path = (fs::path(m_temp_dir) / "realm.XXXXXX").string();
-    util::Logger::set_default_level_threshold(realm::util::Logger::Level::TEST_LOGGING_LEVEL);
+    util::Logger::set_default_level_threshold(realm_legacy::util::Logger::Level::TEST_LOGGING_LEVEL);
     if (const char* crypt_key = test_util::crypt_key()) {
         encryption_key = std::vector<char>(crypt_key, crypt_key + 64);
     }
@@ -150,7 +150,7 @@ SyncTestFile::SyncTestFile(OfflineAppSession& oas, std::string name)
 SyncTestFile::SyncTestFile(std::shared_ptr<SyncUser> user, bson::Bson partition, util::Optional<Schema> schema)
 {
     REALM_ASSERT(user);
-    sync_config = std::make_shared<realm::SyncConfig>(user, partition);
+    sync_config = std::make_shared<realm_legacy::SyncConfig>(user, partition);
     sync_config->stop_policy = SyncSessionStopPolicy::Immediately;
     sync_config->error_handler = [](std::shared_ptr<SyncSession>, SyncError error) {
         util::format(std::cerr, "An unexpected sync error was caught by the default SyncTestFile handler: '%1'\n",
@@ -163,11 +163,11 @@ SyncTestFile::SyncTestFile(std::shared_ptr<SyncUser> user, bson::Bson partition,
 }
 
 SyncTestFile::SyncTestFile(std::shared_ptr<SyncUser> user, bson::Bson partition,
-                           realm::util::Optional<realm::Schema> schema,
+                           realm_legacy::util::Optional<realm_legacy::Schema> schema,
                            std::function<SyncSessionErrorHandler>&& error_handler)
 {
     REALM_ASSERT(user);
-    sync_config = std::make_shared<realm::SyncConfig>(user, partition);
+    sync_config = std::make_shared<realm_legacy::SyncConfig>(user, partition);
     sync_config->stop_policy = SyncSessionStopPolicy::Immediately;
     sync_config->error_handler = std::move(error_handler);
     schema_version = 1;
@@ -175,10 +175,10 @@ SyncTestFile::SyncTestFile(std::shared_ptr<SyncUser> user, bson::Bson partition,
     schema_mode = SchemaMode::AdditiveExplicit;
 }
 
-SyncTestFile::SyncTestFile(std::shared_ptr<realm::SyncUser> user, realm::Schema _schema, SyncConfig::FLXSyncEnabled)
+SyncTestFile::SyncTestFile(std::shared_ptr<realm_legacy::SyncUser> user, realm_legacy::Schema _schema, SyncConfig::FLXSyncEnabled)
 {
     REALM_ASSERT(user);
-    sync_config = std::make_shared<realm::SyncConfig>(user, SyncConfig::FLXSyncEnabled{});
+    sync_config = std::make_shared<realm_legacy::SyncConfig>(user, SyncConfig::FLXSyncEnabled{});
     sync_config->stop_policy = SyncSessionStopPolicy::Immediately;
     sync_config->error_handler = [](std::shared_ptr<SyncSession> session, SyncError error) {
         util::format(std::cerr,
@@ -334,9 +334,9 @@ TestAppSession::TestAppSession()
 }
 
 TestAppSession::TestAppSession(AppSession session,
-                               std::shared_ptr<realm::app::GenericNetworkTransport> custom_transport,
+                               std::shared_ptr<realm_legacy::app::GenericNetworkTransport> custom_transport,
                                DeleteApp delete_app, ReconnectMode reconnect_mode,
-                               std::shared_ptr<realm::sync::SyncSocketProvider> custom_socket_provider)
+                               std::shared_ptr<realm_legacy::sync::SyncSocketProvider> custom_socket_provider)
     : m_app_session(std::make_unique<AppSession>(session))
     , m_base_file_path(util::make_temp_dir() + random_string(10))
     , m_delete_app(delete_app)
@@ -345,13 +345,13 @@ TestAppSession::TestAppSession(AppSession session,
     if (!m_transport)
         m_transport = instance_of<SynchronousTestTransport>;
     auto app_config = get_config(m_transport, *m_app_session);
-    util::Logger::set_default_level_threshold(realm::util::Logger::Level::TEST_LOGGING_LEVEL);
+    util::Logger::set_default_level_threshold(realm_legacy::util::Logger::Level::TEST_LOGGING_LEVEL);
     set_app_config_defaults(app_config, m_transport);
 
     util::try_make_dir(m_base_file_path);
     SyncClientConfig sc_config;
     sc_config.base_file_path = m_base_file_path;
-    sc_config.metadata_mode = realm::SyncManager::MetadataMode::NoEncryption;
+    sc_config.metadata_mode = realm_legacy::SyncManager::MetadataMode::NoEncryption;
     sc_config.reconnect_mode = reconnect_mode;
     sc_config.socket_provider = custom_socket_provider;
     // With multiplexing enabled, the linger time controls how long a
@@ -461,12 +461,12 @@ TestSyncManager::~TestSyncManager()
     }
 }
 
-std::shared_ptr<realm::SyncUser> TestSyncManager::fake_user(const std::string& name)
+std::shared_ptr<realm_legacy::SyncUser> TestSyncManager::fake_user(const std::string& name)
 {
     return get_fake_user(*m_sync_manager, name);
 }
 
-OfflineAppSession::Config::Config(std::shared_ptr<realm::app::GenericNetworkTransport> t)
+OfflineAppSession::Config::Config(std::shared_ptr<realm_legacy::app::GenericNetworkTransport> t)
     : transport(t)
 {
 }
@@ -498,7 +498,7 @@ OfflineAppSession::OfflineAppSession(OfflineAppSession::Config config)
     sc_config.metadata_mode = config.metadata_mode;
     sc_config.socket_provider = config.socket_provider;
 
-    util::Logger::set_default_level_threshold(realm::util::Logger::Level::TEST_LOGGING_LEVEL);
+    util::Logger::set_default_level_threshold(realm_legacy::util::Logger::Level::TEST_LOGGING_LEVEL);
 
     m_app = app::App::get_app(app::App::CacheMode::Disabled, app_config, sc_config);
 }
@@ -517,7 +517,7 @@ OfflineAppSession::~OfflineAppSession()
     }
 }
 
-std::shared_ptr<realm::SyncUser> OfflineAppSession::make_user() const
+std::shared_ptr<realm_legacy::SyncUser> OfflineAppSession::make_user() const
 {
     return get_fake_user(*m_app->sync_manager(), "test user");
 }

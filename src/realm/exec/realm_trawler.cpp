@@ -123,11 +123,11 @@ struct FreeListEntry : public Entry {
 class Node {
 public:
     Node() {}
-    Node(realm::Allocator& alloc, uint64_t ref)
+    Node(realm_legacy::Allocator& alloc, uint64_t ref)
     {
         init(alloc, ref);
     }
-    void init(realm::Allocator& alloc, uint64_t ref);
+    void init(realm_legacy::Allocator& alloc, uint64_t ref);
     bool valid() const
     {
         return m_valid;
@@ -159,7 +159,7 @@ public:
     }
     char* data()
     {
-        return realm::Array::get_data_from_header(m_header);
+        return realm_legacy::Array::get_data_from_header(m_header);
     }
 
 protected:
@@ -194,16 +194,16 @@ protected:
 class Array : public Node {
 public:
     Array() {}
-    Array(realm::Allocator& alloc, uint64_t ref)
+    Array(realm_legacy::Allocator& alloc, uint64_t ref)
         : Node(alloc, ref)
     {
         init(alloc, ref);
     }
     bool is_inner_bptree_node() const
     {
-        return realm::NodeHeader::get_is_inner_bptree_node_from_header(m_header);
+        return realm_legacy::NodeHeader::get_is_inner_bptree_node_from_header(m_header);
     }
-    void init(realm::Allocator& alloc, uint64_t ref)
+    void init(realm_legacy::Allocator& alloc, uint64_t ref)
     {
         Node::init(alloc, ref);
         m_data = data();
@@ -211,7 +211,7 @@ public:
     }
     int64_t get_val(size_t ndx) const
     {
-        int64_t val = realm::get_direct(m_data, width(), ndx);
+        int64_t val = realm_legacy::get_direct(m_data, width(), ndx);
 
         if (m_has_refs) {
             if (val & 1) {
@@ -223,7 +223,7 @@ public:
     uint64_t get_ref(size_t ndx) const
     {
         REALM_ASSERT(m_has_refs);
-        int64_t val = realm::get_direct(m_data, width(), ndx);
+        int64_t val = realm_legacy::get_direct(m_data, width(), ndx);
 
         if (val & 1)
             return 0;
@@ -248,7 +248,7 @@ public:
         return str;
     }
 
-    uint64_t mem_usage(realm::Allocator& alloc) const
+    uint64_t mem_usage(realm_legacy::Allocator& alloc) const
     {
         uint64_t mem = 0;
         _mem_usage(alloc, mem);
@@ -259,7 +259,7 @@ private:
     char* m_data;
     bool m_has_refs = false;
 
-    void _mem_usage(realm::Allocator& alloc, uint64_t& mem) const
+    void _mem_usage(realm_legacy::Allocator& alloc, uint64_t& mem) const
     {
         if (m_has_refs) {
             for (size_t i = 0; i < m_size; ++i) {
@@ -277,7 +277,7 @@ class Group;
 class Table : public Array {
 public:
     Table() = default;
-    Table(realm::Allocator& alloc, uint64_t ref)
+    Table(realm_legacy::Allocator& alloc, uint64_t ref)
         : Array(alloc, ref)
     {
         if (valid()) {
@@ -293,7 +293,7 @@ public:
                 size_t num_spec_cols = m_column_types.size();
 
                 for (size_t spec_ndx = 0; spec_ndx < num_spec_cols; ++spec_ndx) {
-                    realm::ColKey col_key{m_column_colkeys.get_val(spec_ndx)};
+                    realm_legacy::ColKey col_key{m_column_colkeys.get_val(spec_ndx)};
                     unsigned leaf_ndx = col_key.get_index().val;
                     if (leaf_ndx >= m_leaf_ndx2spec_ndx.size()) {
                         m_leaf_ndx2spec_ndx.resize(leaf_ndx + 1, -1);
@@ -314,20 +314,20 @@ public:
             if (size() > 11) {
                 auto pk_col = get_val(11);
                 if (pk_col)
-                    m_pk_col = realm::ColKey(pk_col);
+                    m_pk_col = realm_legacy::ColKey(pk_col);
             }
             if (size() > 12) {
                 auto flags = get_val(12);
-                m_table_type = static_cast<realm::Table::Type>(flags & 0x3);
+                m_table_type = static_cast<realm_legacy::Table::Type>(flags & 0x3);
             }
         }
     }
-    std::string get_column_name(realm::ColKey col_key) const
+    std::string get_column_name(realm_legacy::ColKey col_key) const
     {
         return m_column_names.get_string(m_leaf_ndx2spec_ndx[col_key.get_index().val]);
     }
     void print_columns(const Group&) const;
-    size_t get_size(realm::Allocator& alloc) const
+    size_t get_size(realm_legacy::Allocator& alloc) const
     {
         size_t ret = 0;
         if (m_clusters.valid()) {
@@ -336,8 +336,8 @@ public:
             }
             else {
                 if (uint64_t key_ref = m_clusters.get_ref(0)) {
-                    auto header = alloc.translate(realm::to_ref(key_ref));
-                    ret = realm::NodeHeader::get_size_from_header(header);
+                    auto header = alloc.translate(realm_legacy::to_ref(key_ref));
+                    ret = realm_legacy::NodeHeader::get_size_from_header(header);
                 }
                 else {
                     ret = (size_t)m_clusters.get_val(0);
@@ -355,11 +355,11 @@ private:
         // count up to it's position
         size_t subspec_ndx = 0;
         for (size_t i = 0; i != column_ndx; ++i) {
-            auto type = realm::ColumnType(m_column_types.get_val(i));
-            if (type == realm::col_type_Link || type == realm::col_type_LinkList) {
+            auto type = realm_legacy::ColumnType(m_column_types.get_val(i));
+            if (type == realm_legacy::col_type_Link || type == realm_legacy::col_type_LinkList) {
                 subspec_ndx += 1; // index of dest column
             }
-            else if (type == realm::col_type_BackLink) {
+            else if (type == realm_legacy::col_type_BackLink) {
                 subspec_ndx += 2; // index of table and index of linked column
             }
         }
@@ -374,14 +374,14 @@ private:
     Array m_column_colkeys;
     Array m_opposite_table;
     Array m_clusters;
-    realm::ColKey m_pk_col;
-    realm::Table::Type m_table_type = realm::Table::Type::TopLevel;
+    realm_legacy::ColKey m_pk_col;
+    realm_legacy::Table::Type m_table_type = realm_legacy::Table::Type::TopLevel;
     std::vector<size_t> m_leaf_ndx2spec_ndx;
 };
 
 class Group : public Array {
 public:
-    Group(realm::Allocator& alloc, uint64_t ref)
+    Group(realm_legacy::Allocator& alloc, uint64_t ref)
         : Array(alloc, ref)
         , m_alloc(alloc)
     {
@@ -438,9 +438,9 @@ public:
         }
         return "Unknown";
     }
-    std::vector<realm::BinaryData> get_changesets()
+    std::vector<realm_legacy::BinaryData> get_changesets()
     {
-        std::vector<realm::BinaryData> ret;
+        std::vector<realm_legacy::BinaryData> ret;
         if (int(get_val(7)) == 2) {
             for (size_t n = 0; n < m_history.size(); n++) {
                 auto ref = m_history.get_ref(n);
@@ -507,7 +507,7 @@ public:
 
 private:
     friend std::ostream& operator<<(std::ostream& ostr, const Group& g);
-    realm::Allocator& m_alloc;
+    realm_legacy::Allocator& m_alloc;
     uint64_t m_file_size;
     Array m_table_names;
     Array m_table_refs;
@@ -534,7 +534,7 @@ private:
     uint64_t m_start_pos;
     int m_file_format_version;
     std::unique_ptr<Group> m_group;
-    realm::SlabAlloc m_alloc;
+    realm_legacy::SlabAlloc m_alloc;
 };
 
 static std::string human_readable(uint64_t val)
@@ -596,32 +596,32 @@ void Table::print_columns(const Group& group) const
 {
     std::cout << "        <" << m_table_type << ">" << std::endl;
     for (unsigned i = 0; i < m_column_names.size(); i++) {
-        auto type = realm::ColumnType(m_column_types.get_val(i) & 0xFFFF);
-        auto attr = realm::ColumnAttr(m_column_attributes.get_val(i));
+        auto type = realm_legacy::ColumnType(m_column_types.get_val(i) & 0xFFFF);
+        auto attr = realm_legacy::ColumnAttr(m_column_attributes.get_val(i));
         std::string type_str;
-        realm::ColKey col_key;
+        realm_legacy::ColKey col_key;
         if (this->m_column_colkeys.valid()) {
             // core6
-            col_key = realm::ColKey(m_column_colkeys.get_val(i));
+            col_key = realm_legacy::ColKey(m_column_colkeys.get_val(i));
         }
 
-        if (type == realm::col_type_Link || type == realm::col_type_LinkList) {
+        if (type == realm_legacy::col_type_Link || type == realm_legacy::col_type_LinkList) {
             size_t target_table_ndx;
             if (col_key) {
                 // core6
-                realm::TableKey opposite_table_key(uint32_t(m_opposite_table.get_val(col_key.get_index().val)));
+                realm_legacy::TableKey opposite_table_key(uint32_t(m_opposite_table.get_val(col_key.get_index().val)));
                 target_table_ndx = opposite_table_key.value & 0xFFFF;
             }
             else {
                 target_table_ndx = size_t(m_column_subspecs.get_val(get_subspec_ndx_after(i)));
             }
             type_str += group.get_table_name(target_table_ndx);
-            if (!col_key && type == realm::col_type_LinkList) {
+            if (!col_key && type == realm_legacy::col_type_LinkList) {
                 type_str += "[]";
             }
         }
         else {
-            type_str = get_data_type_name(realm::DataType(type));
+            type_str = get_data_type_name(realm_legacy::DataType(type));
         }
         if (col_key) {
             if (col_key.is_list())
@@ -629,13 +629,13 @@ void Table::print_columns(const Group& group) const
             if (col_key.is_set())
                 type_str += "{}";
             if (col_key.is_dictionary()) {
-                auto key_type = realm::DataType(int(m_column_types.get_val(i)) >> 16);
+                auto key_type = realm_legacy::DataType(int(m_column_types.get_val(i)) >> 16);
                 type_str = std::string("{") + get_data_type_name(key_type) + ", " + type_str + "}";
             }
         }
-        if (attr & realm::col_attr_Nullable)
+        if (attr & realm_legacy::col_attr_Nullable)
             type_str += "?";
-        if (attr & realm::col_attr_Indexed)
+        if (attr & realm_legacy::col_attr_Indexed)
             type_str += " (indexed)";
         if (m_enum_keys.valid() && m_enum_keys.get_val(i)) {
             type_str += " (enumerated)";
@@ -659,10 +659,10 @@ void Group::print_schema() const
     }
 }
 
-void Node::init(realm::Allocator& alloc, uint64_t ref)
+void Node::init(realm_legacy::Allocator& alloc, uint64_t ref)
 {
     m_ref = ref;
-    m_header = alloc.translate(realm::to_ref(ref));
+    m_header = alloc.translate(realm_legacy::to_ref(ref));
 
     if (memcmp(m_header, &signature, 4)) {
     }
@@ -685,7 +685,7 @@ static std::string print_path()
     return ret + "]";
 }
 
-static std::vector<Entry> get_nodes(realm::Allocator& alloc, uint64_t ref)
+static std::vector<Entry> get_nodes(realm_legacy::Allocator& alloc, uint64_t ref)
 {
     std::vector<Entry> nodes;
     if (ref != 0) {
@@ -778,7 +778,7 @@ std::vector<FreeListEntry> Group::get_free_list() const
 
 RealmFile::RealmFile(const std::string& file_path, const char* encryption_key, uint64_t top_ref)
 {
-    realm::SlabAlloc::Config config;
+    realm_legacy::SlabAlloc::Config config;
     config.encryption_key = encryption_key;
     config.read_only = true;
     config.no_create = true;
@@ -931,42 +931,42 @@ public:
         : m_group(g)
     {
     }
-    bool select_table(realm::TableKey key)
+    bool select_table(realm_legacy::TableKey key)
     {
         std::cout << "Select table: " << m_group->get_table_name(key.value) << std::endl;
         m_table = m_group->get_table(key.value);
         return true;
     }
 
-    bool insert_group_level_table(realm::TableKey key)
+    bool insert_group_level_table(realm_legacy::TableKey key)
     {
         std::cout << "Create table: " << m_group->get_table_name(key.value) << std::endl;
         return true;
     }
 
-    bool erase_class(realm::TableKey)
+    bool erase_class(realm_legacy::TableKey)
     {
         return true;
     }
 
-    bool rename_class(realm::TableKey)
+    bool rename_class(realm_legacy::TableKey)
     {
         return true;
     }
 
-    bool create_object(realm::ObjKey key)
+    bool create_object(realm_legacy::ObjKey key)
     {
         std::cout << "Create object: " << key << std::endl;
         return true;
     }
 
-    bool remove_object(realm::ObjKey key)
+    bool remove_object(realm_legacy::ObjKey key)
     {
         std::cout << "Remove object: " << key << std::endl;
         return true;
     }
 
-    bool modify_object(realm::ColKey col_key, realm::ObjKey key)
+    bool modify_object(realm_legacy::ColKey col_key, realm_legacy::ObjKey key)
     {
         std::cout << "Modify object: " << m_table->get_column_name(col_key) << " on " << key << std::endl;
         return true;
@@ -984,28 +984,28 @@ public:
         return true;
     }
 
-    bool set_link_type(realm::ColKey)
+    bool set_link_type(realm_legacy::ColKey)
     {
         return true;
     }
 
-    bool insert_column(realm::ColKey col_key)
+    bool insert_column(realm_legacy::ColKey col_key)
     {
         std::cout << "Add column: " << m_table->get_column_name(col_key) << std::endl;
         return true;
     }
 
-    bool erase_column(realm::ColKey)
+    bool erase_column(realm_legacy::ColKey)
     {
         return true;
     }
 
-    bool rename_column(realm::ColKey)
+    bool rename_column(realm_legacy::ColKey)
     {
         return true;
     }
 
-    bool select_collection(realm::ColKey col_key, realm::ObjKey key)
+    bool select_collection(realm_legacy::ColKey col_key, realm_legacy::ObjKey key)
     {
         std::cout << "Select collection: " << m_table->get_column_name(col_key) << " on " << key << std::endl;
         return true;
@@ -1029,7 +1029,7 @@ public:
         return true;
     }
 
-    bool typed_link_change(realm::ColKey, realm::TableKey)
+    bool typed_link_change(realm_legacy::ColKey, realm_legacy::TableKey)
     {
         return true;
     }
@@ -1041,13 +1041,13 @@ private:
 
 void RealmFile::changes() const
 {
-    realm::_impl::TransactLogParser parser;
+    realm_legacy::_impl::TransactLogParser parser;
     HistoryLogger logger(m_group.get());
 
     auto changesets = m_group->get_changesets();
 
     for (auto c : changesets) {
-        realm::util::SimpleInputStream stream(c);
+        realm_legacy::util::SimpleInputStream stream(c);
         parser.parse(stream, logger);
         std::cout << "--------------------------------------------" << std::endl;
     }

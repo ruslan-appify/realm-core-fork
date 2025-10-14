@@ -25,7 +25,7 @@
 
 #include <cmath>
 
-namespace realm {
+namespace realm_legacy {
 
 template <class T>
 class QueryStateSum : public QueryStateBase {
@@ -257,6 +257,6 @@ private:
     }
 };
 
-} // namespace realm
+} // namespace realm_legacy
 
 #endif /* REALM_QUERY_CONDITIONS_TPL_HPP */

@@ -22,8 +22,8 @@
 
 #include <algorithm>
 
-using namespace realm;
-using namespace realm::_impl;
+using namespace realm_legacy;
+using namespace realm_legacy::_impl;
 
 CollectionChangeBuilder::CollectionChangeBuilder(IndexSet deletions, IndexSet insertions, IndexSet modifications,
                                                  std::vector<Move> moves, bool root_was_deleted,

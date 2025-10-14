@@ -26,7 +26,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 // Test independence and thread-safety
 // -----------------------------------
@@ -88,7 +88,7 @@ TEST(Util_Logger_LevelToFromString)
 
 TEST(Util_Logger_LevelThreshold)
 {
-    using namespace realm::util;
+    using namespace realm_legacy::util;
     auto base_logger = std::make_shared<StderrLogger>();
     auto threadsafe_logger = std::make_shared<ThreadSafeLogger>(base_logger);
     auto prefix_logger = PrefixLogger("test", threadsafe_logger); // created using Logger shared_ptr
@@ -143,7 +143,7 @@ TEST(Util_Logger_LevelThreshold)
 
 TEST(Util_Logger_LocalThresholdLogger)
 {
-    using namespace realm::util;
+    using namespace realm_legacy::util;
     // Save the original level
     auto orig_level = Logger::get_default_level_threshold();
 

@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace realm {
+namespace realm_legacy {
 namespace util {
 
 // FIXME: These functions ought to be moved to <realm/util/file.hpp> in the
@@ -12,6 +12,6 @@ std::string load_file(const std::string& path);
 std::string load_file_and_chomp(const std::string& path);
 
 } // namespace util
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_UTIL_LOAD_FILE_HPP

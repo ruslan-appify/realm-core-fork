@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-namespace realm {
+namespace realm_legacy {
 
 Status::ErrorInfo::ErrorInfo(ErrorCodes::Error code, std::string&& reason)
     : m_refs(0)
@@ -44,4 +44,4 @@ std::ostream& operator<<(std::ostream& out, const Status& val)
     return out;
 }
 
-} // namespace realm
+} // namespace realm_legacy

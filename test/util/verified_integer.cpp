@@ -20,8 +20,8 @@
 
 #include "verified_integer.hpp"
 
-using namespace realm;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::test_util;
 
 
 void VerifiedInteger::verify_neighbours(size_t ndx)

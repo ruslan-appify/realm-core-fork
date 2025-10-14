@@ -35,9 +35,9 @@
 #include "test_table_helper.hpp"
 #include "test_types_helper.hpp"
 
-using namespace realm;
-using namespace realm::util;
-using namespace realm::test_util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
+using namespace realm_legacy::test_util;
 
 
 // Test independence and thread-safety
@@ -1362,21 +1362,21 @@ TEST(Query_NullStrings)
 
     // Short strings
     auto k0 = table.create_object().set<String>(col, "Albertslund").get_key(); // Normal non-empty string
-    auto k1 = table.create_object().set<String>(col, realm::null()).get_key(); // NULL string
+    auto k1 = table.create_object().set<String>(col, realm_legacy::null()).get_key(); // NULL string
     auto k2 = table.create_object().set<String>(col, "").get_key();            // Empty string
 
-    q = table.column<StringData>(col) == realm::null();
+    q = table.column<StringData>(col) == realm_legacy::null();
     v = q.find_all();
     CHECK_EQUAL(1, v.size());
     CHECK_EQUAL(k1, v.get_key(0));
 
-    q = table.column<StringData>(col) != realm::null();
+    q = table.column<StringData>(col) != realm_legacy::null();
     v = q.find_all();
     CHECK_EQUAL(2, v.size());
     CHECK_EQUAL(k0, v.get_key(0));
     CHECK_EQUAL(k2, v.get_key(1));
 
-    // contrary to SQL, comparisons with realm::null() can be true in Realm (todo, discuss if we want this behaviour)
+    // contrary to SQL, comparisons with realm_legacy::null() can be true in Realm (todo, discuss if we want this behaviour)
     q = table.column<StringData>(col) != StringData("Albertslund");
     v = q.find_all();
     CHECK_EQUAL(2, v.size());
@@ -1391,7 +1391,7 @@ TEST(Query_NullStrings)
     // Medium strings (16+)
     table.get_object(k0).set<String>(col, "AlbertslundAlbertslundAlbert");
 
-    q = table.column<StringData>(col) == realm::null();
+    q = table.column<StringData>(col) == realm_legacy::null();
     v = q.find_all();
     CHECK_EQUAL(1, v.size());
     CHECK_EQUAL(k1, v.get_key(0));
@@ -1404,7 +1404,7 @@ TEST(Query_NullStrings)
     // Long strings (64+)
     table.get_object(k0).set<String>(col,
                                      "AlbertslundAlbertslundAlbertslundAlbertslundAlbertslundAlbertslundAlbertslund");
-    q = table.column<StringData>(col) == realm::null();
+    q = table.column<StringData>(col) == realm_legacy::null();
     v = q.find_all();
     CHECK_EQUAL(1, v.size());
     CHECK_EQUAL(k1, v.get_key(0));
@@ -1465,7 +1465,7 @@ TEST(Query_Nulls_Fuzzy)
 
                     if (fastrand(1) == 0) {
                         // null string
-                        sd = realm::null();
+                        sd = realm_legacy::null();
                         st = "null";
                     }
                     else {
@@ -2357,11 +2357,11 @@ TEST(Query_Null_BetweenMinMax_Nullable)
         // int
         match = ObjKey(123);
         tv.max(col_price, &match);
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         match = ObjKey(123);
         tv.min(col_price, &match);
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         CHECK_EQUAL(tv.sum(col_price), 0);
         count = 123;
@@ -2371,11 +2371,11 @@ TEST(Query_Null_BetweenMinMax_Nullable)
         // float
         match = ObjKey(123);
         CHECK(tv.max(col_shipping, &match)->is_null());
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         match = ObjKey(123);
         CHECK(tv.min(col_shipping, &match)->is_null());
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         CHECK_EQUAL(tv.sum(col_shipping), 0.);
         count = 123;
@@ -2385,11 +2385,11 @@ TEST(Query_Null_BetweenMinMax_Nullable)
         // double
         match = ObjKey(123);
         CHECK(tv.max(col_rating, &match)->is_null());
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         match = ObjKey(123);
         CHECK(tv.min(col_rating, &match)->is_null());
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         CHECK_EQUAL(tv.sum(col_rating), 0.);
         count = 123;
@@ -2399,11 +2399,11 @@ TEST(Query_Null_BetweenMinMax_Nullable)
         // date
         match = ObjKey(123);
         tv.max(col_date, &match);
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
 
         match = ObjKey(123);
         tv.min(col_date, &match);
-        CHECK_EQUAL(match, realm::null_key);
+        CHECK_EQUAL(match, realm_legacy::null_key);
     };
 
     // There are rows in TableView but they all point to null
@@ -4870,7 +4870,7 @@ TEST(Query_Group_bug)
     person_table->create_object().set(col_person_id, "person_4").get_linklist(col_person_link).add(sk0);
     person_table->create_object().set(col_person_id, "person_5").get_linklist(col_person_link).add(sk0);
 
-    realm::Query q0 =
+    realm_legacy::Query q0 =
         person_table->where()
             .group()
 
@@ -4988,7 +4988,7 @@ TEST_IF(Query_IntOrQueryPerformance, TEST_DURATION > 0)
         // std::cout << "num_matches: " << num_matches << std::endl;
         Query q_ints = table->column<Int>(ints_col_key) == -1;
         Query q_nullables =
-            (table->column<Int>(nullable_ints_col_key) == -1).Or().equal(nullable_ints_col_key, realm::null());
+            (table->column<Int>(nullable_ints_col_key) == -1).Or().equal(nullable_ints_col_key, realm_legacy::null());
         for (int i = 0; i < num_matches; ++i) {
             q_ints = q_ints.Or().equal(ints_col_key, i);
             q_nullables = q_nullables.Or().equal(nullable_ints_col_key, i);
@@ -5181,7 +5181,7 @@ TEST(Query_LinkListIntPastOneIsNull)
         list.add(obj.get_key());
     }
 
-    Query q = table_bar->link(col_list).column<Int>(col_int) == realm::null();
+    Query q = table_bar->link(col_list).column<Int>(col_int) == realm_legacy::null();
 
     CHECK_EQUAL(q.count(), 1);
 }

@@ -185,8 +185,8 @@
 // a size_t, which is 2^31-1 on a 32-bit platform, and 2^63-1 on a 64 bit
 // platform.
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 void QueryStateBase::dyncast() {}
 
@@ -344,7 +344,7 @@ void Array::move(size_t begin, size_t end, size_t dest_begin)
     const char* begin_2 = m_data + begin * bytes_per_elem;
     const char* end_2 = m_data + end * bytes_per_elem;
     char* dest_begin_2 = m_data + dest_begin * bytes_per_elem;
-    realm::safe_copy_n(begin_2, end_2 - begin_2, dest_begin_2);
+    realm_legacy::safe_copy_n(begin_2, end_2 - begin_2, dest_begin_2);
 }
 
 void Array::move(Array& dst, size_t ndx)
@@ -939,7 +939,7 @@ MemRef Array::clone(MemRef mem, Allocator& alloc, Allocator& target_alloc)
         const char* src_begin = header;
         const char* src_end = header + size;
         char* dst_begin = clone_header;
-        realm::safe_copy_n(src_begin, src_end - src_begin, dst_begin);
+        realm_legacy::safe_copy_n(src_begin, src_end - src_begin, dst_begin);
 
         // Update with correct capacity
         set_capacity_in_header(size, clone_header);

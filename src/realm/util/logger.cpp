@@ -21,7 +21,7 @@
 #include <iostream>
 #include <mutex>
 
-namespace realm::util {
+namespace realm_legacy::util {
 
 namespace {
 auto& s_logger_mutex = *new std::mutex;
@@ -138,4 +138,4 @@ void LocalThresholdLogger::do_log(Logger::Level level, std::string const& messag
 {
     Logger::do_log(*m_chained_logger, level, message); // Throws
 }
-} // namespace realm::util
+} // namespace realm_legacy::util

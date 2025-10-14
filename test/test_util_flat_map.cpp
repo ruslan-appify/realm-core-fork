@@ -25,7 +25,7 @@
 
 #include "test.hpp"
 
-using namespace realm;
+using namespace realm_legacy;
 
 TEST(Util_FlatMap_Basic)
 {

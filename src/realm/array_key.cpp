@@ -19,7 +19,7 @@
 #include <realm/array_key.hpp>
 #include <realm/table.hpp>
 
-namespace realm {
+namespace realm_legacy {
 
 // This is used for linklists
 template <>
@@ -110,4 +110,4 @@ void ArrayKeyBase<1>::verify() const
 #endif
 }
 
-} // namespace realm
+} // namespace realm_legacy

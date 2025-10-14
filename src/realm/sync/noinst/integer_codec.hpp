@@ -10,7 +10,7 @@
 #include <realm/util/assert.hpp>
 
 
-namespace realm {
+namespace realm_legacy {
 namespace _impl {
 
 struct Bid128 {
@@ -233,6 +233,6 @@ std::size_t decode_int(const char* buffer, std::size_t size, T& value) noexcept
 }
 
 } // namespace _impl
-} // namespace realm
+} // namespace realm_legacy
 
 #endif // REALM_NOINST_INTEGER_CODEC_HPP

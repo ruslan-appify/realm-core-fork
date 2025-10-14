@@ -27,7 +27,7 @@
 #include <istream>
 
 using namespace fuzzer;
-using namespace realm;
+using namespace realm_legacy;
 
 #if 0
 #define log(...) fprintf(stderr, __VA_ARGS__)

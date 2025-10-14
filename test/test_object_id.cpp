@@ -24,7 +24,7 @@
 #include "test.hpp"
 
 
-using namespace realm;
+using namespace realm_legacy;
 
 struct WithIndex {
     constexpr static bool do_add_index = true;
@@ -381,10 +381,10 @@ TEST_TYPES(ObjectId_Query, WithIndex, WithoutIndex)
         Query q2 = table->column<ObjectId>(col_id) == alternative_id;
         // std::cout << q2.get_description() << std::endl;
         CHECK_EQUAL(q2.count(), 34);
-        q2 = table->column<ObjectId>(col_id) == realm::null();
+        q2 = table->column<ObjectId>(col_id) == realm_legacy::null();
         // std::cout << q2.get_description() << std::endl;
         CHECK_EQUAL(q2.count(), 1000 - 34);
-        q2 = table->where().equal(col_id, realm::null());
+        q2 = table->where().equal(col_id, realm_legacy::null());
         CHECK_EQUAL(q2.count(), 1000 - 34);
 
         // Test query over links

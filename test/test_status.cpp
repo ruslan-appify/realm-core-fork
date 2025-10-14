@@ -21,7 +21,7 @@
 #include "realm/status.hpp"
 #include "realm/status_with.hpp"
 
-namespace realm {
+namespace realm_legacy {
 namespace {
 
 TEST(Status)

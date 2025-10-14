@@ -105,7 +105,7 @@ blank   [ \t\r]
 <<EOF>>    return yy::parser::make_END ();
 %%
 
-void realm::query_parser::ParserDriver::scan_begin (yyscan_t yyscanner, bool trace_scanning)
+void realm_legacy::query_parser::ParserDriver::scan_begin (yyscan_t yyscanner, bool trace_scanning)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
     yy_flex_debug = trace_scanning;

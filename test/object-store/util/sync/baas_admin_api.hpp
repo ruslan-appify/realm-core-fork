@@ -35,7 +35,7 @@
 #include <external/json/json.hpp>
 #include <external/mpark/variant.hpp>
 
-namespace realm {
+namespace realm_legacy {
 app::Response do_http_request(const app::Request& request);
 
 class AdminAPIEndpoint {
@@ -248,7 +248,7 @@ struct AppCreateConfig {
     std::shared_ptr<util::Logger> logger;
 };
 
-realm::Schema get_default_schema();
+realm_legacy::Schema get_default_schema();
 AppCreateConfig default_app_config();
 AppCreateConfig minimal_app_config(const std::string& name, const Schema& schema);
 

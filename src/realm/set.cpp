@@ -32,7 +32,7 @@
 
 #include <numeric> // std::iota
 
-namespace realm {
+namespace realm_legacy {
 
 template <typename T>
 UpdateStatus Set<T>::update_if_needed() const
@@ -568,4 +568,4 @@ void Set<Mixed>::sort(std::vector<size_t>& indices, bool ascending) const
     }
 }
 
-} // namespace realm
+} // namespace realm_legacy

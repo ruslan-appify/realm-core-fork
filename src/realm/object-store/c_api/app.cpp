@@ -24,8 +24,8 @@
 #include <realm/object-store/sync/mongo_client.hpp>
 #include <realm/object-store/sync/mongo_database.hpp>
 
-namespace realm::c_api {
-using namespace realm::app;
+namespace realm_legacy::c_api {
+using namespace realm_legacy::app;
 
 static_assert(realm_user_state_e(SyncUser::State::LoggedOut) == RLM_USER_STATE_LOGGED_OUT);
 static_assert(realm_user_state_e(SyncUser::State::LoggedIn) == RLM_USER_STATE_LOGGED_IN);
@@ -1046,4 +1046,4 @@ RLM_API bool realm_mongo_collection_find_one_and_delete(realm_mongodb_collection
     });
 }
 
-} // namespace realm::c_api
+} // namespace realm_legacy::c_api

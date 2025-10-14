@@ -27,7 +27,7 @@
 #include <realm/object-store/shared_realm.hpp>
 #include <realm/exceptions.hpp>
 
-namespace realm::object_store {
+namespace realm_legacy::object_store {
 
 Set::Set(const Set&) = default;
 Set::Set(Set&&) = default;
@@ -294,10 +294,10 @@ void Set::assign_symmetric_difference(const Collection& rhs)
     set_base().assign_symmetric_difference(rhs.get_impl());
 }
 
-} // namespace realm::object_store
+} // namespace realm_legacy::object_store
 
 namespace std {
-size_t hash<realm::object_store::Set>::operator()(realm::object_store::Set const& set) const
+size_t hash<realm_legacy::object_store::Set>::operator()(realm_legacy::object_store::Set const& set) const
 {
     return set.hash();
 }

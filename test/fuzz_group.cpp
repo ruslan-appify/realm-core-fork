@@ -28,8 +28,8 @@
 
 #include "util/test_path.hpp"
 
-using namespace realm;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::util;
 
 #define TEST_FUZZ
 #ifdef TEST_FUZZ
@@ -795,7 +795,7 @@ int run_fuzzy(int argc, const char* argv[])
             }
             else {
                 std::cout << file_name << std::endl;
-                realm::test_util::RealmPathInfo test_context{name};
+                realm_legacy::test_util::RealmPathInfo test_context{name};
                 SHARED_GROUP_TEST_PATH(path);
 
                 std::string contents((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
@@ -812,7 +812,7 @@ int run_fuzzy(int argc, const char* argv[])
             exit(1);
         }
 
-        realm::test_util::RealmPathInfo test_context{name};
+        realm_legacy::test_util::RealmPathInfo test_context{name};
         SHARED_GROUP_TEST_PATH(path);
 
         std::string contents((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));

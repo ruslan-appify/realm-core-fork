@@ -35,7 +35,7 @@
 #include "realm/util/logger.hpp"
 #include <stdexcept>
 
-namespace realm::sync {
+namespace realm_legacy::sync {
 namespace {
 constexpr static int c_schema_version = 1;
 constexpr static std::string_view c_progress_table("flx_pending_bootstrap_progress");
@@ -323,4 +323,4 @@ void PendingBootstrapStore::pop_front_pending(const TransactionRef& tr, size_t c
     m_has_pending = (bootstrap_table->is_empty() == false);
 }
 
-} // namespace realm::sync
+} // namespace realm_legacy::sync

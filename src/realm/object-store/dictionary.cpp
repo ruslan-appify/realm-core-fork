@@ -21,7 +21,7 @@
 #include <realm/object-store/results.hpp>
 #include <realm/table.hpp>
 
-namespace realm {
+namespace realm_legacy {
 namespace {
 class DictionaryKeyAdapter : public CollectionBase {
 public:
@@ -270,7 +270,7 @@ Results Dictionary::get_keys() const
 {
     verify_attached();
     return Results(m_realm,
-                   std::make_shared<DictionaryKeyAdapter>(std::dynamic_pointer_cast<realm::Dictionary>(m_coll_base)));
+                   std::make_shared<DictionaryKeyAdapter>(std::dynamic_pointer_cast<realm_legacy::Dictionary>(m_coll_base)));
 }
 
 Results Dictionary::get_values() const
@@ -291,10 +291,10 @@ Dictionary::Iterator Dictionary::end() const
 namespace {
 class NotificationHandler {
 public:
-    NotificationHandler(realm::Dictionary& dict, Dictionary::CBFunc cb)
+    NotificationHandler(realm_legacy::Dictionary& dict, Dictionary::CBFunc cb)
         : m_dict(dict)
         , m_prev_rt(static_cast<Transaction*>(dict.get_table()->get_parent_group())->duplicate())
-        , m_prev_dict(static_cast<realm::Dictionary*>(m_prev_rt->import_copy_of(dict).release()))
+        , m_prev_dict(static_cast<realm_legacy::Dictionary*>(m_prev_rt->import_copy_of(dict).release()))
         , m_cb(std::move(cb))
     {
     }
@@ -330,9 +330,9 @@ public:
     }
 
 private:
-    realm::Dictionary& m_dict;
+    realm_legacy::Dictionary& m_dict;
     TransactionRef m_prev_rt;
-    std::unique_ptr<realm::Dictionary> m_prev_dict;
+    std::unique_ptr<realm_legacy::Dictionary> m_prev_dict;
     Dictionary::CBFunc m_cb;
 };
 } // namespace
@@ -355,4 +355,4 @@ Dictionary Dictionary::freeze(const std::shared_ptr<Realm>& frozen_realm) const
 }
 
 } // namespace object_store
-} // namespace realm
+} // namespace realm_legacy

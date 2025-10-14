@@ -51,8 +51,8 @@ int main(int argc, char** argv)
 #endif
 
 #if TEST_SCHEDULER_UV
-    realm::util::Scheduler::set_default_factory([]() {
-        return std::make_shared<realm::util::UvMainLoopScheduler>();
+    realm_legacy::util::Scheduler::set_default_factory([]() {
+        return std::make_shared<realm_legacy::util::UvMainLoopScheduler>();
     });
 #endif
 

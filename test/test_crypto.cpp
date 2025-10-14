@@ -4,8 +4,8 @@
 
 #include "test.hpp"
 
-using namespace realm;
-using namespace realm::sync;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
 
 // testing sync server features on mobile is not supported
 #if !REALM_MOBILE

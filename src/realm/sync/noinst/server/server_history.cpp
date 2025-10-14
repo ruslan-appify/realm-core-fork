@@ -14,9 +14,9 @@
 #include <realm/util/value_reset_guard.hpp>
 #include <realm/version.hpp>
 
-using namespace realm;
-using namespace realm::sync;
-using namespace realm::util;
+using namespace realm_legacy;
+using namespace realm_legacy::sync;
+using namespace realm_legacy::util;
 using namespace _impl;
 
 
@@ -647,14 +647,14 @@ void ServerHistory::add_client_file(salt_type file_ident_salt, file_ident_type p
     if (is_direct_client(client_type)) {
         last_seen_timestamp = 1;
     }
-    m_acc->cf_ident_salts.insert(realm::npos, std::int_fast64_t(file_ident_salt));  // Throws
-    m_acc->cf_client_versions.insert(realm::npos, client_version);                  // Throws
-    m_acc->cf_rh_base_versions.insert(realm::npos, recip_hist_base_version);        // Throws
-    m_acc->cf_recip_hist_refs.insert(realm::npos, recip_hist_ref);                  // Throws
-    m_acc->cf_proxy_files.insert(realm::npos, std::int_fast64_t(proxy_file_ident)); // Throws
-    m_acc->cf_client_types.insert(realm::npos, std::int_fast64_t(client_type));     // Throws
-    m_acc->cf_last_seen_timestamps.insert(realm::npos, last_seen_timestamp);        // Throws
-    m_acc->cf_locked_server_versions.insert(realm::npos, locked_server_version);    // Throws
+    m_acc->cf_ident_salts.insert(realm_legacy::npos, std::int_fast64_t(file_ident_salt));  // Throws
+    m_acc->cf_client_versions.insert(realm_legacy::npos, client_version);                  // Throws
+    m_acc->cf_rh_base_versions.insert(realm_legacy::npos, recip_hist_base_version);        // Throws
+    m_acc->cf_recip_hist_refs.insert(realm_legacy::npos, recip_hist_ref);                  // Throws
+    m_acc->cf_proxy_files.insert(realm_legacy::npos, std::int_fast64_t(proxy_file_ident)); // Throws
+    m_acc->cf_client_types.insert(realm_legacy::npos, std::int_fast64_t(client_type));     // Throws
+    m_acc->cf_last_seen_timestamps.insert(realm_legacy::npos, last_seen_timestamp);        // Throws
+    m_acc->cf_locked_server_versions.insert(realm_legacy::npos, locked_server_version);    // Throws
     std::size_t max_size = std::numeric_limits<std::size_t>::max();
     if (m_num_client_files == max_size)
         throw util::overflow_error{"Client file index"};
@@ -1796,14 +1796,14 @@ void ServerHistory::create_empty_history()
     static_assert(g_root_node_file_ident == 1, "");
     REALM_ASSERT(m_num_client_files == 0);
     for (int i = 0; i < 2; ++i) {
-        m_acc->cf_ident_salts.insert(realm::npos, 0);            // Throws
-        m_acc->cf_client_versions.insert(realm::npos, 0);        // Throws
-        m_acc->cf_rh_base_versions.insert(realm::npos, 0);       // Throws
-        m_acc->cf_recip_hist_refs.insert(realm::npos, 0);        // Throws
-        m_acc->cf_proxy_files.insert(realm::npos, 0);            // Throws
-        m_acc->cf_client_types.insert(realm::npos, 0);           // Throws
-        m_acc->cf_last_seen_timestamps.insert(realm::npos, 0);   // Throws
-        m_acc->cf_locked_server_versions.insert(realm::npos, 0); // Throws
+        m_acc->cf_ident_salts.insert(realm_legacy::npos, 0);            // Throws
+        m_acc->cf_client_versions.insert(realm_legacy::npos, 0);        // Throws
+        m_acc->cf_rh_base_versions.insert(realm_legacy::npos, 0);       // Throws
+        m_acc->cf_recip_hist_refs.insert(realm_legacy::npos, 0);        // Throws
+        m_acc->cf_proxy_files.insert(realm_legacy::npos, 0);            // Throws
+        m_acc->cf_client_types.insert(realm_legacy::npos, 0);           // Throws
+        m_acc->cf_last_seen_timestamps.insert(realm_legacy::npos, 0);   // Throws
+        m_acc->cf_locked_server_versions.insert(realm_legacy::npos, 0); // Throws
         ++m_num_client_files;
     }
 }
@@ -1916,17 +1916,17 @@ void ServerHistory::add_sync_history_entry(const HistoryEntry& entry)
     if (!entry.changeset.is_null())
         changeset = entry.changeset.get_first_chunk();
 
-    m_acc->sh_version_salts.insert(realm::npos, m_salt_for_new_server_versions); // Throws
-    m_acc->sh_origin_files.insert(realm::npos, client_file);                     // Throws
-    m_acc->sh_client_versions.insert(realm::npos, client_version);               // Throws
-    m_acc->sh_timestamps.insert(realm::npos, timestamp);                         // Throws
+    m_acc->sh_version_salts.insert(realm_legacy::npos, m_salt_for_new_server_versions); // Throws
+    m_acc->sh_origin_files.insert(realm_legacy::npos, client_file);                     // Throws
+    m_acc->sh_client_versions.insert(realm_legacy::npos, client_version);               // Throws
+    m_acc->sh_timestamps.insert(realm_legacy::npos, timestamp);                         // Throws
     m_acc->sh_changesets.add(changeset);                                         // Throws
 
     // Update the cumulative byte size.
     std::int_fast64_t previous_history_byte_size =
         (m_history_size == 0 ? 0 : m_acc->sh_cumul_byte_sizes.get(m_history_size - 1));
     std::int_fast64_t history_byte_size = previous_history_byte_size + changeset.size();
-    m_acc->sh_cumul_byte_sizes.insert(realm::npos, history_byte_size);
+    m_acc->sh_cumul_byte_sizes.insert(realm_legacy::npos, history_byte_size);
 
     ++m_history_size;
     m_server_version_salt = m_salt_for_new_server_versions;
@@ -2116,7 +2116,7 @@ void ServerHistory::fixup_state_and_changesets_for_assigned_file_ident(Transacti
     REALM_ASSERT(file_ident != g_root_node_file_ident);
     REALM_ASSERT(m_acc->upstream_status.is_attached());
     REALM_ASSERT(m_local_file_ident == g_root_node_file_ident);
-    using Instruction = realm::sync::Instruction;
+    using Instruction = realm_legacy::sync::Instruction;
 
     auto promote_global_key = [&](GlobalKey& oid) {
         REALM_ASSERT(oid.hi() == 0); // client_file_ident == 0
