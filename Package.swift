@@ -376,13 +376,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Bid",
+            name: "BidLegacy",
             path: "src/external/IntelRDFPMathLib20U2/LIBRARY/src",
             exclude: bidExcludes,
             publicHeadersPath: "."
         ),
         .target(
-            name: "s2geometry",
+            name: "s2geometry_legacy",
             path: "src/external/s2",
             exclude: [
                 "s2cellunion.cc",
@@ -397,7 +397,7 @@ let package = Package(
             ] + cxxSettings) as [CXXSetting]),
         .target(
             name: "RealmCoreLegacy",
-            dependencies: ["Bid", "s2geometry"],
+            dependencies: ["BidLegacy", "s2geometry_legacy"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
@@ -443,7 +443,7 @@ let package = Package(
                 .headerSearchPath("realm/parser/generated")
             ] + cxxSettings),
         .target(
-            name: "SyncServer",
+            name: "SyncServerLegacy",
             dependencies: ["RealmCoreLegacy"],
             path: "src",
             exclude: ([
@@ -479,15 +479,15 @@ let package = Package(
             dependencies: ["CapiLegacy"],
             path: "src/swift"),
         .target(
-            name: "Catch2Generated",
+            name: "Catch2GeneratedLegacy",
             path: "external/generated",
             // this file was manually generated with catch v3.0.1
             // and should be regenerated when catch is upgraded
             resources: [.copy("catch2/catch_user_config.hpp")],
             publicHeadersPath: "."),
         .target(
-            name: "Catch2",
-            dependencies: ["Catch2Generated"],
+            name: "Catch2Legacy",
+            dependencies: ["Catch2GeneratedLegacy"],
             path: "external/catch/src",
             exclude: [
                 "CMakeLists.txt",
@@ -500,7 +500,7 @@ let package = Package(
                 .define("CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS")
             ] + cxxSettings) as [CXXSetting]),
         .target(
-            name: "CoreTestUtils",
+            name: "CoreTestUtilsLegacy",
             dependencies: ["RealmCoreLegacy"],
             path: "test/util",
             exclude: [
@@ -509,8 +509,8 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
-            name: "ObjectStoreTestUtils",
-            dependencies: ["RealmCoreLegacy", "SyncServer", "Catch2", "CoreTestUtils"],
+            name: "ObjectStoreTestUtilsLegacy",
+            dependencies: ["RealmCoreLegacy", "SyncServerLegacy", "Catch2Legacy", "CoreTestUtilsLegacy"],
             path: "test/object-store/util",
             publicHeadersPath: ".",
             cxxSettings: ([
@@ -518,8 +518,8 @@ let package = Package(
                 .define("_LIBCPP_DISABLE_AVAILABILITY")
             ] + cxxSettings) as [CXXSetting]),
         .executableTarget(
-            name: "ObjectStoreTests",
-            dependencies: ["RealmQueryParserLegacy", "ObjectStoreTestUtils"],
+            name: "ObjectStoreTestsLegacy",
+            dependencies: ["RealmQueryParserLegacy", "ObjectStoreTestUtilsLegacy"],
             path: "test/object-store",
             exclude: [
                 "CMakeLists.txt",
@@ -540,8 +540,8 @@ let package = Package(
                 .define("_LIBCPP_DISABLE_AVAILABILITY")
             ] + cxxSettings) as [CXXSetting]),
         .executableTarget(
-            name: "CapiTests",
-            dependencies: ["Capi", "ObjectStoreTestUtils"],
+            name: "CapiTestsLegacy",
+            dependencies: ["CapiLegacy", "ObjectStoreTestUtilsLegacy"],
             path: "test/object-store/c_api",
             cxxSettings: ([
                 .headerSearchPath("../"),
