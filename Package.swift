@@ -363,16 +363,16 @@ let package = Package(
     products: [
         .library(
             name: "RealmCoreLegacy",
-            targets: ["RealmCore"]),
+            targets: ["RealmCoreLegacy"]),
         .library(
             name: "RealmQueryParserLegacy",
-            targets: ["RealmQueryParser"]),
+            targets: ["RealmQueryParserLegacy"]),
         .library(
             name: "RealmCapiLegacy",
-            targets: ["Capi"]),
+            targets: ["CapiLegacy"]),
         .library(
             name: "RealmFFILegacy",
-            targets: ["RealmFFI"]),
+            targets: ["RealmFFILegacy"]),
     ],
     targets: [
         .target(
@@ -396,7 +396,7 @@ let package = Package(
                 .headerSearchPath("../.."),
             ] + cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmCore",
+            name: "RealmCoreLegacy",
             dependencies: ["Bid", "s2geometry"],
             path: "src",
             exclude: ([
@@ -430,8 +430,8 @@ let package = Package(
                 .linkedFramework("Security", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .macCatalyst])),
             ]),
         .target(
-            name: "RealmQueryParser",
-            dependencies: ["RealmCore"],
+            name: "RealmQueryParserLegacy",
+            dependencies: ["RealmCoreLegacy"],
             path: "src/realm/parser",
             exclude: [
                 "CMakeLists.txt",
@@ -444,7 +444,7 @@ let package = Package(
             ] + cxxSettings),
         .target(
             name: "SyncServer",
-            dependencies: ["RealmCore"],
+            dependencies: ["RealmCoreLegacy"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
@@ -465,8 +465,8 @@ let package = Package(
             publicHeadersPath: "realm/sync/impl", // hack
             cxxSettings: cxxSettings),
         .target(
-            name: "Capi",
-            dependencies: ["RealmCore", "RealmQueryParser"],
+            name: "CapiLegacy",
+            dependencies: ["RealmCoreLegacy", "RealmQueryParserLegacy"],
             path: "src/realm/object-store/c_api",
             exclude: [
                 "CMakeLists.txt",
@@ -475,8 +475,8 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmFFI",
-            dependencies: ["Capi"],
+            name: "RealmFFILegacy",
+            dependencies: ["CapiLegacy"],
             path: "src/swift"),
         .target(
             name: "Catch2Generated",
@@ -501,7 +501,7 @@ let package = Package(
             ] + cxxSettings) as [CXXSetting]),
         .target(
             name: "CoreTestUtils",
-            dependencies: ["RealmCore"],
+            dependencies: ["RealmCoreLegacy"],
             path: "test/util",
             exclude: [
                 "CMakeLists.txt"
@@ -510,7 +510,7 @@ let package = Package(
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
             name: "ObjectStoreTestUtils",
-            dependencies: ["RealmCore", "SyncServer", "Catch2", "CoreTestUtils"],
+            dependencies: ["RealmCoreLegacy", "SyncServer", "Catch2", "CoreTestUtils"],
             path: "test/object-store/util",
             publicHeadersPath: ".",
             cxxSettings: ([
@@ -519,7 +519,7 @@ let package = Package(
             ] + cxxSettings) as [CXXSetting]),
         .executableTarget(
             name: "ObjectStoreTests",
-            dependencies: ["RealmQueryParser", "ObjectStoreTestUtils"],
+            dependencies: ["RealmQueryParserLegacy", "ObjectStoreTestUtils"],
             path: "test/object-store",
             exclude: [
                 "CMakeLists.txt",
