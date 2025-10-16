@@ -358,20 +358,20 @@ let platforms: [SupportedPlatform] = [
 ]
 
 let package = Package(
-    name: "RealmDatabase",
+    name: "RealmDatabaseLegacy",
     platforms: platforms,
     products: [
         .library(
-            name: "RealmCore",
+            name: "RealmCoreLegacy",
             targets: ["RealmCore"]),
         .library(
-            name: "RealmQueryParser",
+            name: "RealmQueryParserLegacy",
             targets: ["RealmQueryParser"]),
         .library(
-            name: "RealmCapi",
+            name: "RealmCapiLegacy",
             targets: ["Capi"]),
         .library(
-            name: "RealmFFI",
+            name: "RealmFFILegacy",
             targets: ["RealmFFI"]),
     ],
     targets: [
